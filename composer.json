@@ -22,7 +22,7 @@
         "psr-4": {
             "Appzcoder\\CrudGenerator\\": "src/"
         }
-    }
+    },
     "minimum-stability": "dev",
     "prefer-stable": true    
 }
