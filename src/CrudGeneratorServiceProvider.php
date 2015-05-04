@@ -19,11 +19,11 @@ class CrudGeneratorServiceProvider extends ServiceProvider {
 	public function register()
 	{
         $this->commands(
-        	'Appzcoder\CrudGenerator\Commands\CrudCommand',
-			'Appzcoder\CrudGenerator\Commands\CrudControllerCommand',
-			'Appzcoder\CrudGenerator\Commands\CrudModelCommand',
-			'Appzcoder\CrudGenerator\Commands\CrudMigrationCommand',
-			'Appzcoder\CrudGenerator\Commands\CrudViewCommand'
+        	'Appzcoder\CrudGenerator\CrudCommand',
+			'Appzcoder\CrudGenerator\CrudControllerCommand',
+			'Appzcoder\CrudGenerator\CrudModelCommand',
+			'Appzcoder\CrudGenerator\CrudMigrationCommand',
+			'Appzcoder\CrudGenerator\CrudViewCommand'
         );
 	}
 
