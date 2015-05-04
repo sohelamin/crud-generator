@@ -3,7 +3,6 @@
     "type": "library",
     "license": "MIT",
     "description": "Laravel5 CRUD Generator",
-    "homepage": "http://www.appzcoder.com",
     "keywords": [
         "laravel",
         "crud",
