@@ -3,15 +3,18 @@ Laravel CRUD Generator
 
 ## Installation
 
-1. Run the command on your project dir ***composer require "appzcoder/crud-generator":"dev-master"***
-  or add ***"appzcoder/crud-generator": "dev-master" on your composer require section.
+1. Run 
+```
+composer require "appzcoder/crud-generator":"dev-master"
+```
+or add ***"appzcoder/crud-generator": "dev-master" on your composer require section.
   
 2. Add service provider into **/config/app.php** file.
-  ```php
-	'Appzcoder\CrudGenerator\CrudGeneratorServiceProvider',
-	```
+```php
+'Appzcoder\CrudGenerator\CrudGeneratorServiceProvider',
+```
 
-3. Run command **composer update**
+3. Run **composer update**
 
 ## Commands
 
@@ -22,8 +25,10 @@ php artisan crud:generate crud-name --fields="name:string, email:string, phone:i
 ```
 
 -----------
+-----------
 
-#### Others individual command (optional):
+
+#### Others command (optional):
 
 For controller generator: 
 
@@ -46,7 +51,7 @@ php artisan crud:migration migration-name --schema="name:string, email:string, p
 For view generator: 
 
 ```
-php artisan crud:view view-crud-name --fields="name:string, email:string, phone:integer, message:text"
+php artisan crud:view crud-name --fields="name:string, email:string, phone:integer, message:text"
 ```
 
 ##Author
