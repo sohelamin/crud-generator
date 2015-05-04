@@ -4,15 +4,15 @@ Laravel CRUD Generator
 ## Installation
 
 1. Run 
-```
-composer require "appzcoder/crud-generator":"dev-master"
-```
-or add ***"appzcoder/crud-generator": "dev-master" on your composer require section.
+    ```
+    composer require "appzcoder/crud-generator":"dev-master"
+    ```
+    or add ***"appzcoder/crud-generator": "dev-master"*** on your composer require section.
   
 2. Add service provider into **/config/app.php** file.
-```php
-'Appzcoder\CrudGenerator\CrudGeneratorServiceProvider',
-```
+    ```php
+    'Appzcoder\CrudGenerator\CrudGeneratorServiceProvider',
+    ```
 
 3. Run **composer update**
 
