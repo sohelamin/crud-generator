@@ -1,0 +1,95 @@
+<?php namespace {{namespace}};
+
+use {{rootNamespace}}Http\Requests;
+use {{rootNamespace}}Http\Controllers\Controller;
+
+use {{rootNamespace}}{{crudNamePluralCap}};
+use Illuminate\Http\Request;
+use Carbon\Carbon;
+
+class {{class}} extends Controller {
+
+	/**
+	 * Display a listing of the resource.
+	 *
+	 * @return Response
+	 */
+	public function index()
+	{
+		${{crudNamePlural}} = {{crudNamePluralCap}}::latest()->get();
+		return view('{{crudName}}.index', compact('{{crudNamePlural}}'));
+	}
+
+	/**
+	 * Show the form for creating a new resource.
+	 *
+	 * @return Response
+	 */
+	public function create()
+	{
+		return view('{{crudName}}.create');
+	}
+
+	/**
+	 * Store a newly created resource in storage.
+	 *
+	 * @return Response
+	 */
+	public function store(Request $request)
+	{
+		//$this->validate($request, ['name' => 'required']); // Uncomment and modify if needed.
+		{{crudNamePluralCap}}::create($request->all());
+		return redirect('{{crudName}}');
+	}
+
+	/**
+	 * Display the specified resource.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function show($id)
+	{
+		${{crudNameSingular}} = {{crudNamePluralCap}}::findOrFail($id);
+		return view('{{crudName}}.show', compact('{{crudNameSingular}}'));
+	}
+
+	/**
+	 * Show the form for editing the specified resource.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function edit($id)
+	{
+		${{crudNameSingular}} = {{crudNamePluralCap}}::findOrFail($id);
+		return view('{{crudName}}.edit', compact('{{crudNameSingular}}'));
+	}
+
+	/**
+	 * Update the specified resource in storage.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function update($id, Request $request)
+	{
+		//$this->validate($request, ['name' => 'required']); // Uncomment and modify if needed.
+		${{crudNameSingular}} = {{crudNamePluralCap}}::findOrFail($id);
+		${{crudNameSingular}}->update($request->all());
+		return redirect('{{crudName}}');
+	}
+
+	/**
+	 * Remove the specified resource from storage.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function destroy($id)
+	{
+		{{crudNamePluralCap}}::destroy($id);
+		return redirect('{{crudName}}');
+	}
+
+}
