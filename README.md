@@ -7,8 +7,15 @@ Laravel CRUD Generator
     ```
     composer require "appzcoder/crud-generator":"dev-master"
     ```
-    or add ***"appzcoder/crud-generator": "dev-master"*** on your composer require section.
-  
+    or add the bellow lines to your **composer.json**.
+    ```
+    {
+        "require": {
+            "appzcoder/crud-generator": "dev-master"
+        }
+    }    
+    ```
+    
 2. Add service provider into **/config/app.php** file.
     ```php
     'Appzcoder\CrudGenerator\CrudGeneratorServiceProvider',
