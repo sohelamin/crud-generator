@@ -7,7 +7,7 @@ Laravel CRUD Generator
     ```
     composer require "appzcoder/crud-generator":"dev-master"
     ```
-    or add the bellow lines to your **composer.json**.
+    or add the bellow lines to your **composer.json**
     ```
     {
         "require": {
