@@ -23,6 +23,8 @@ Laravel CRUD Generator
 
 3. Run **composer update**
 
+Note: If you've not installed **illuminate/html** package yet then you should need to install it. For this you can follow <a href="https://gist.github.com/sohelamin/3f652c86c440791e2fa9">here.</a>
+
 ## Commands
 
 #### Crud command:
