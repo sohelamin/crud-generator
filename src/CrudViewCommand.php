@@ -40,7 +40,9 @@ class CrudViewCommand extends Command {
         $crudName = strtolower($this->argument('name'));        
         $crudNameCap = ucwords($crudName);
         $crudNameSingular = str_singular($crudName);
+        $crudNameSingularCap = ucwords($crudNameSingular);
         $crudNamePlural = str_plural($crudName);
+        $crudNamePluralCap = ucwords($crudNamePlural);
         $viewDirectory = $this->laravel['path'].'/../resources/views/';        
         $path = $viewDirectory.$crudName.'/'; 
         if(!is_dir($path)) {
@@ -66,32 +68,42 @@ class CrudViewCommand extends Command {
             if( $item['type']=='string' ) {
                 $formFields .= 
                     "<div class=\"form-group\">
-                        {!! Form::label('".$item['name']."', '".$label.": ') !!}
-                        {!! Form::text('".$item['name']."', null, ['class' => 'form-control']) !!}
+                        {!! Form::label('".$item['name']."', '".$label.": ', ['class' => 'col-sm-3 control-label']) !!}
+                        <div class=\"col-sm-6\"> 
+                            {!! Form::text('".$item['name']."', null, ['class' => 'form-control']) !!}
+                        </div>    
                     </div>";
             } elseif( $item['type']=='text' ) {
                 $formFields .= 
                     "<div class=\"form-group\">
-                        {!! Form::label('".$item['name']."', '".$label.": ') !!}
-                        {!! Form::textarea('".$item['name']."', null, ['class' => 'form-control']) !!}
+                        {!! Form::label('".$item['name']."', '".$label.": ', ['class' => 'col-sm-3 control-label']) !!}
+                        <div class=\"col-sm-6\"> 
+                            {!! Form::textarea('".$item['name']."', null, ['class' => 'form-control']) !!}
+                        </div>    
                     </div>";
             } elseif( $item['type']=='password' ) {
                 $formFields .= 
                     "<div class=\"form-group\">
-                        {!! Form::label('".$item['name']."', '".$label.": ') !!}
-                        {!! Form::password('".$item['name']."', null, ['class' => 'form-control']) !!}
+                        {!! Form::label('".$item['name']."', '".$label.": ', ['class' => 'col-sm-3 control-label']) !!}
+                        <div class=\"col-sm-6\"> 
+                            {!! Form::password('".$item['name']."', null, ['class' => 'form-control']) !!}
+                        </div>    
                     </div>";
             } elseif( $item['type']=='email' ) {
                 $formFields .= 
                     "<div class=\"form-group\">
-                        {!! Form::label('".$item['name']."', '".$label.": ') !!}
-                        {!! Form::email('".$item['name']."', null, ['class' => 'form-control']) !!}
-                    </div>";                             
+                        {!! Form::label('".$item['name']."', '".$label.": ', ['class' => 'col-sm-3 control-label']) !!}
+                        <div class=\"col-sm-6\"> 
+                            {!! Form::email('".$item['name']."', null, ['class' => 'form-control']) !!}
+                        </div>    
+                    </div>";                          
             } else {
                 $formFields .= 
                     "<div class=\"form-group\">
-                        {!! Form::label('".$item['name']."', '".$label.": ') !!}
-                        {!! Form::text('".$item['name']."', null, ['class' => 'form-control']) !!}
+                        {!! Form::label('".$item['name']."', '".$label.": ', ['class' => 'col-sm-3 control-label']) !!}
+                        <div class=\"col-sm-6\"> 
+                            {!! Form::text('".$item['name']."', null, ['class' => 'form-control']) !!}
+                        </div>    
                     </div>";
             }       
         }
@@ -105,8 +117,8 @@ class CrudViewCommand extends Command {
         } else {
             file_put_contents($newIndexFile,str_replace('%%crudName%%',$crudName,file_get_contents($newIndexFile)));
             file_put_contents($newIndexFile,str_replace('%%crudNameCap%%',$crudNameCap,file_get_contents($newIndexFile)));
-            file_put_contents($newIndexFile,str_replace('%%crudNameSingular%%',$crudNameSingular,file_get_contents($newIndexFile)));
             file_put_contents($newIndexFile,str_replace('%%crudNamePlural%%',$crudNamePlural,file_get_contents($newIndexFile)));
+            file_put_contents($newIndexFile,str_replace('%%crudNamePluralCap%%',$crudNamePluralCap,file_get_contents($newIndexFile)));            
         }
 
         // For create.blade.php file
@@ -116,9 +128,7 @@ class CrudViewCommand extends Command {
             echo "failed to copy $createFile...\n";
         } else {
             file_put_contents($newCreateFile,str_replace('%%crudName%%',$crudName,file_get_contents($newCreateFile)));
-            file_put_contents($newCreateFile,str_replace('%%crudNameCap%%',$crudNameCap,file_get_contents($newCreateFile)));
-            file_put_contents($newCreateFile,str_replace('%%crudNameSingular%%',$crudNameSingular,file_get_contents($newCreateFile)));
-            file_put_contents($newCreateFile,str_replace('%%crudNamePlural%%',$crudNamePlural,file_get_contents($newCreateFile)));
+            file_put_contents($newCreateFile,str_replace('%%crudNameSingularCap%%',$crudNameSingularCap,file_get_contents($newCreateFile)));
             file_put_contents($newCreateFile,str_replace('%%formFields%%',$formFields,file_get_contents($newCreateFile)));
         }
 
@@ -128,10 +138,9 @@ class CrudViewCommand extends Command {
         if (!copy($editFile, $newEditFile)) {
             echo "failed to copy $editFile...\n";
         } else {
-            file_put_contents($newEditFile,str_replace('%%crudName%%',$crudName,file_get_contents($newEditFile)));
             file_put_contents($newEditFile,str_replace('%%crudNameCap%%',$crudNameCap,file_get_contents($newEditFile)));
             file_put_contents($newEditFile,str_replace('%%crudNameSingular%%',$crudNameSingular,file_get_contents($newEditFile)));
-            file_put_contents($newEditFile,str_replace('%%crudNamePlural%%',$crudNamePlural,file_get_contents($newEditFile)));
+            file_put_contents($newEditFile,str_replace('%%crudNameSingularCap%%',$crudNameSingularCap,file_get_contents($newEditFile)));
             file_put_contents($newEditFile,str_replace('%%formFields%%',$formFields,file_get_contents($newEditFile)));
         }        
 
@@ -141,11 +150,21 @@ class CrudViewCommand extends Command {
         if (!copy($showFile, $newShowFile)) {
             echo "failed to copy $showFile...\n";
         } else {
-            file_put_contents($newShowFile,str_replace('%%crudName%%',$crudName,file_get_contents($newShowFile)));
-            file_put_contents($newShowFile,str_replace('%%crudNameCap%%',$crudNameCap,file_get_contents($newShowFile)));
             file_put_contents($newShowFile,str_replace('%%crudNameSingular%%',$crudNameSingular,file_get_contents($newShowFile)));
-            file_put_contents($newShowFile,str_replace('%%crudNamePlural%%',$crudNamePlural,file_get_contents($newShowFile)));
+            file_put_contents($newShowFile,str_replace('%%crudNameSingularCap%%',$crudNameSingularCap,file_get_contents($newShowFile)));
         }  
+
+        // For layouts/master.blade.php file
+        $layoutsDirPath = $this->laravel['path'].'/../resources/views/layouts/';        
+        if(!is_dir($layoutsDirPath)) {
+            mkdir($layoutsDirPath);   
+        } 
+
+        $layoutsFile = __DIR__.'/stubs/master.blade.stub';
+        $newLayoutsFile = $path.'master.blade.php';
+        if (!copy($layoutsFile, $newLayoutsFile)) {
+            echo "failed to copy $layoutsFile...\n";
+        }
 
         $this->info('View created successfully.');        
 
