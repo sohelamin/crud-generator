@@ -7,23 +7,36 @@ Laravel CRUD Generator
     ```
     composer require "appzcoder/crud-generator":"dev-master"
     ```
-    or add the bellow lines to your **composer.json**
-    ```
-    {
-        "require": {
-            "appzcoder/crud-generator": "dev-master"
-        }
-    }    
-    ```
     
 2. Add service provider into **/config/app.php** file.
     ```php
-    'Appzcoder\CrudGenerator\CrudGeneratorServiceProvider',
+    'providers' => [
+        ...
+    
+        'Appzcoder\CrudGenerator\CrudGeneratorServiceProvider',
+    ],
     ```
+    
+    Add bellow lines for "illuminate/html" package if you've not done yet.
 
+    ```php
+    'providers' => [
+        ...
+    
+        'Illuminate\Html\HtmlServiceProvider',
+    ],
+    
+    'aliases' => [
+    
+        ...
+    
+        'Form'=> 'Illuminate\Html\FormFacade', 
+        'HTML'=> 'Illuminate\Html\HtmlFacade',
+    ],
+    ```
 3. Run **composer update**
 
-Note: If you've not installed **illuminate/html** package yet then you should need to install it. For this you can follow <a href="https://gist.github.com/sohelamin/3f652c86c440791e2fa9">here.</a>
+Note: You should have configured database as well for this operation.
 
 ## Commands
 
