@@ -13,7 +13,7 @@ Laravel CRUD Generator
     'providers' => [
         ...
     
-        'Appzcoder\CrudGenerator\CrudGeneratorServiceProvider',
+        Appzcoder\CrudGenerator\CrudGeneratorServiceProvider::class,
     ],
     ```
     
@@ -23,15 +23,15 @@ Laravel CRUD Generator
     'providers' => [
         ...
     
-        'Illuminate\Html\HtmlServiceProvider',
+        Illuminate\Html\HtmlServiceProvider::class,
     ],
     
     'aliases' => [
     
         ...
     
-        'Form'=> 'Illuminate\Html\FormFacade', 
-        'HTML'=> 'Illuminate\Html\HtmlFacade',
+        'Form'		=> Illuminate\Html\FormFacade::class, 
+    	'HTML'		=> Illuminate\Html\HtmlFacade::class,
     ],
     ```
 3. Run **composer update**
