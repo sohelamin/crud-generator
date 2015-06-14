@@ -1,13 +1,13 @@
-<?php namespace {{namespace}};
+<?php namespace DummyNamespace;
 
-use {{rootNamespace}}Http\Requests;
-use {{rootNamespace}}Http\Controllers\Controller;
+use DummyRootNamespaceHttp\Requests;
+use DummyRootNamespaceHttp\Controllers\Controller;
 
-use {{rootNamespace}}{{crudNamePluralCap}};
+use DummyRootNamespace{{crudNamePluralCap}};
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
-class {{class}} extends Controller {
+class DummyClass extends Controller {
 
 	/**
 	 * Display a listing of the resource.
