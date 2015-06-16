@@ -162,10 +162,13 @@ class CrudViewCommand extends Command {
 
         $layoutsFile = __DIR__.'/stubs/master.blade.stub';
         $newLayoutsFile = $layoutsDirPath.'master.blade.php';
-        if (!copy($layoutsFile, $newLayoutsFile)) {
-            echo "failed to copy $layoutsFile...\n";
-        } else {
-            file_get_contents($newLayoutsFile);
+        
+        if ( !file_exists($newLayoutsFile) ) {
+            if (!copy($layoutsFile, $newLayoutsFile)) {
+                echo "failed to copy $layoutsFile...\n";
+            } else {
+                file_get_contents($newLayoutsFile);
+            }
         }
 
         $this->info('View created successfully.');        
