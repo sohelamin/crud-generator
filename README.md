@@ -1,5 +1,9 @@
-# Laravel5 Crud Generator
+# Laravel 5 Crud Generator
 Laravel CRUD Generator
+
+### Requirements
+    Laravel >=5.1
+    PHP >= 5.5.9 
 
 ## Installation
 
