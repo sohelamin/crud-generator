@@ -1,9 +1,12 @@
-<?php namespace Appzcoder\CrudGenerator;
+<?php
+
+namespace Appzcoder\CrudGenerator;
 
 use Illuminate\Console\GeneratorCommand;
 use Symfony\Component\Console\Input\InputOption;
 
-class CrudControllerCommand extends GeneratorCommand {
+class CrudControllerCommand extends GeneratorCommand
+{
 
 	/**
 	 * The console command name.
