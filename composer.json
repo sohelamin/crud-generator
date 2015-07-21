@@ -16,8 +16,8 @@
     ],
     "require": {
         "php": ">=5.5.9",
-        "illuminate/support": "~5.0",
-        "illuminate/html": "5.0.*"
+        "illuminate/support": "5.1.*",
+        "laravelcollective/html": "5.1.*"
     },
     "autoload": {
         "psr-4": {
