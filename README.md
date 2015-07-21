@@ -21,21 +21,21 @@ Laravel CRUD Generator
     ],
     ```
     
-    Add bellow lines for "illuminate/html" package if you've not done yet.
+    Add bellow lines for "laravelcollective/html" package if you've not done yet.
 
     ```php
     'providers' => [
         ...
     
-        Illuminate\Html\HtmlServiceProvider::class,
+        Collective\Html\HtmlServiceProvider::class,
     ],
     
     'aliases' => [
     
         ...
     
-        'Form'		=> Illuminate\Html\FormFacade::class, 
-    	'HTML'		=> Illuminate\Html\HtmlFacade::class,
+        'Form'		=> Collective\Html\FormFacade::class, 
+    	'HTML'		=> Collective\Html\HtmlFacade::class,
     ],
     ```
 3. Run **composer update**
