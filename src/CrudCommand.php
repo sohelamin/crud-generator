@@ -58,11 +58,7 @@ class CrudCommand extends Command
 
             $this->call('crud:controller', ['name' => $name . 'Controller', '--crud-name' => $name]);
             $this->call('crud:model', ['name' => str_plural($name), '--fillable' => $fillable]);
-
-            $datePrefix = date('Y_m_d_His');
-            $migrationName = $datePrefix . '_create_' . str_plural(strtolower($name)) . '_table';
-
-            $this->call('crud:migration', ['name' => $migrationName, '--schema' => $fields]);
+            $this->call('crud:migration', ['name' => str_plural(strtolower($name)), '--schema' => $fields]);
             $this->call('crud:view', ['name' => $name, '--fields' => $fields]);
         } else {
             $this->call('make:controller', ['name' => $name . 'Controller']);
