@@ -80,10 +80,10 @@ For view generator:
 php artisan crud:view Person --fields="name:string, email:string, phone:integer, message:text"
 ```
 
-### After creating all resources run migrate command and include the route for your crud as well.
+#### After creating all resources run migrate command and include the route for your crud as well.
 
 ```
-php artisan migrate**
+php artisan migrate
 ```
 
 ```php
