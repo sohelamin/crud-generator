@@ -4,7 +4,6 @@ namespace Appzcoder\CrudGenerator;
 
 use Illuminate\Console\GeneratorCommand;
 use Symfony\Component\Console\Input\InputOption;
-use Schema;
 
 class CrudModelCommand extends GeneratorCommand
 {
@@ -44,7 +43,7 @@ class CrudModelCommand extends GeneratorCommand
      */
     protected function getStub()
     {
-        return __DIR__.'/stubs/model.stub';
+        return __DIR__ . '/stubs/model.stub';
     }
 
     /**
@@ -56,7 +55,7 @@ class CrudModelCommand extends GeneratorCommand
     protected function getDefaultNamespace($rootNamespace)
     {
         return $rootNamespace;
-    }    
+    }
 
     /**
      * Build the model class with the given name.
@@ -68,7 +67,7 @@ class CrudModelCommand extends GeneratorCommand
     {
         $stub = $this->files->get($this->getStub());
 
-        $table = $this->option('table')? : strtolower($this->getNameInput());
+        $table = $this->option('table') ?: strtolower($this->getNameInput());
         $fillable = $this->option('fillable');
 
         return $this->replaceNamespace($stub, $name)->replaceTable($stub, $table)->replaceFillable($stub, $fillable)->replaceClass($stub, $name);
@@ -113,7 +112,7 @@ class CrudModelCommand extends GeneratorCommand
     {
         return [
             ['table', null, InputOption::VALUE_OPTIONAL, 'The table name.', null],
-            ['fillable', null, InputOption::VALUE_NONE, 'The fillable columns.', null]
+            ['fillable', null, InputOption::VALUE_NONE, 'The fillable columns.', null],
         ];
     }
 

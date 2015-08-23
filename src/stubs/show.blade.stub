@@ -6,10 +6,10 @@
     <div class="table-responsive">
         <table class="table table-bordered table-striped table-hover">
             <tr>
-                <th>ID.</th><th>Name</th>
+                <th>ID.</th> %%formHeadingHtml%%
             </tr>
             <tr>
-                <td>{{ $%%crudNameSingular%%->id }}</td><td>{{ $%%crudNameSingular%%->name }}</td>
+                <td>{{ $%%crudNameSingular%%->id }}</td> %%formBodyHtml%%
             </tr>
         </table>
     </div>

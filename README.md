@@ -1,4 +1,4 @@
-# Laravel 5 Crud Generator
+# Laravel 5 CRUD Generator
 Laravel CRUD Generator
 
 ### Requirements
@@ -47,7 +47,7 @@ Note: You should have configured database as well for this operation.
 #### Crud command:
 
 ```
-php artisan crud:generate crud-name --fields="name:string, email:string, phone:integer, message:text"
+php artisan crud:generate Person --fields="name:string, email:string, phone:integer, message:text"
 ```
 
 -----------
@@ -59,25 +59,35 @@ php artisan crud:generate crud-name --fields="name:string, email:string, phone:i
 For controller generator: 
 
 ```
-php artisan crud:controller NameController --crud-name="Name"
+php artisan crud:controller PersonController --crud-name="Person"
 ```
 
 For model generator: 
 
 ```
-php artisan crud:model Name --fillable="['name', 'email', 'message']"
+php artisan crud:model Person --fillable="['name', 'email', 'message']"
 ```
 
 For migration generator: 
 
 ```
-php artisan crud:migration migration-name --schema="name:string, email:string, phone:integer, message:text"
+php artisan crud:migration create_person_table --schema="name:string, email:string, phone:integer, message:text"
 ```
 
 For view generator: 
 
 ```
-php artisan crud:view crud-name --fields="name:string, email:string, phone:integer, message:text"
+php artisan crud:view Person --fields="name:string, email:string, phone:integer, message:text"
+```
+
+### After creating all resources run migrate command and include the route for your crud as well.
+
+```
+php artisan migrate**
+```
+
+```php
+Route::resource('person', 'PersonController');
 ```
 
 ##Author

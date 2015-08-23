@@ -48,8 +48,8 @@ class CrudMigrationCommand extends GeneratorCommand
     protected function getPath($name)
     {
         $name = str_replace($this->laravel->getNamespace(), '', $name);
-        $datePrefix = date('Y_m_d_His');
-        return $this->laravel['path'] . '/../database/migrations/' . $datePrefix . '_create_' . $name . '_table.php';
+
+        return database_path('/migrations/') . $name . '.php';
     }
 
     /**
@@ -62,7 +62,8 @@ class CrudMigrationCommand extends GeneratorCommand
     {
         $stub = $this->files->get($this->getStub());
         $tableName = strtolower($this->getNameInput());
-        $className = 'Create' . ucwords($tableName) . 'Table';
+        $tableName = substr(str_replace(' ', '', ucwords(str_replace('_', ' ', $tableName))), 14);
+        $className = $tableName;
 
         $schema = $this->option('schema');
         $fields = explode(',', $schema);

@@ -6,14 +6,14 @@
     <div class="table">
         <table class="table table-bordered table-striped table-hover">
             <tr>
-                <th>SL.</th><th>Name</th><th>Actions</th>
+                <th>SL.</th>%%formHeadingHtml%%<th>Actions</th>
             </tr>
             {{-- */$x=0;/* --}}
             @foreach($%%crudNamePlural%% as $item)
                 {{-- */$x++;/* --}}
                 <tr>
                     <td>{{ $x }}</td>
-                    <td><a href="{{ url('/%%crudName%%', $item->id) }}">{{ $item->name }}</a></td>
+                    %%formBodyHtml%%
                     <td><a href="{{ url('/%%crudName%%/'.$item->id.'/edit') }}"><button type="submit" class="btn btn-primary btn-xs">Update</button></a> / {!! Form::open(['method'=>'delete','action'=>['%%crudNameCap%%Controller@destroy',$item->id], 'style' => 'display:inline']) !!}<button type="submit" class="btn btn-danger btn-xs">Delete</button>{!! Form::close() !!}</td>
                 </tr>
             @endforeach
