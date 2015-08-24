@@ -71,7 +71,7 @@ php artisan crud:model Person --fillable="['name', 'email', 'message']"
 For migration generator: 
 
 ```
-php artisan crud:migration create_person_table --schema="name:string, email:string, phone:integer, message:text"
+php artisan crud:migration Person --schema="name:string, email:string, phone:integer, message:text"
 ```
 
 For view generator: 
