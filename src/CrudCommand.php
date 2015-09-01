@@ -6,6 +6,8 @@ use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
+use File;
+
 class CrudCommand extends Command
 {
 
@@ -64,6 +66,9 @@ class CrudCommand extends Command
             $this->call('make:controller', ['name' => $name . 'Controller']);
             $this->call('make:model', ['name' => $name]);
         }
+        
+        // update the routes file
+        File::append( app_path('Http/routes.php') , "\nRoute::resource('" . strtolower($name) . "','" . $name . "Controller');" );
     }
 
     /**
