@@ -68,7 +68,14 @@ class CrudCommand extends Command
         }
         
         // update the routes file
-        File::append( app_path('Http/routes.php') , "\nRoute::resource('" . strtolower($name) . "','" . $name . "Controller');" );
+		$routes_file = app_path('Http/routes.php');
+		if ( file_exists($routes_file) && ( strtolower( $this->option('makeroutes') )=== 'yes') )  {
+        	if ( File::append($routes_file, "\nRoute::resource('". strtolower($name) ."','". $name ."Controller');" ) ) {
+				$this->info('Routes added to '. $routes_file .'.');
+			} else {
+				$this->info('Unable to add routes to '. $routes_file .'.');
+			}			
+		}
     }
 
     /**
@@ -93,6 +100,7 @@ class CrudCommand extends Command
     {
         return [
             ['fields', null, InputOption::VALUE_OPTIONAL, 'Fields of form & model.', null],
+            ['makeroutes', null, InputOption::VALUE_OPTIONAL, 'Add the new routes to your routes.php file? yes/no', 'yes'],
         ];
     }
 
