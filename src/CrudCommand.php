@@ -100,7 +100,7 @@ class CrudCommand extends Command
     {
         return [
             ['fields', null, InputOption::VALUE_OPTIONAL, 'Fields of form & model.', null],
-            ['makeroutes', null, InputOption::VALUE_OPTIONAL, 'Add the new routes to your routes.php file? yes/no', 'yes'],
+            ['makeroutes', '-m', InputOption::VALUE_OPTIONAL, 'Add the new routes to your routes.php file? yes/no', 'yes'],
         ];
     }
 
