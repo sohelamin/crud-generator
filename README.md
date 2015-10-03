@@ -80,12 +80,15 @@ For view generator:
 php artisan crud:view Person --fields="name:string, email:string, phone:integer, message:text"
 ```
 
-#### After creating all resources run migrate command and include the route for your crud as well.
+By default, the generator will attempt to append the routes for your new resource to your *routes.php* file. If you don't want the routes added, you can use the option ```--makeroutes=no```.
+
+#### After creating all resources run migrate command *(and, if necessary, include the route for your crud as well)*.
 
 ```
 php artisan migrate
 ```
 
+If you chose not to add the routes in automatically (see above), you will need to include the routes manually.
 ```php
 Route::resource('person', 'PersonController');
 ```
