@@ -2,11 +2,10 @@
 
 namespace Appzcoder\CrudGenerator;
 
+use File;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
-
-use File;
 
 class CrudCommand extends Command
 {
@@ -66,16 +65,17 @@ class CrudCommand extends Command
             $this->call('make:controller', ['name' => $name . 'Controller']);
             $this->call('make:model', ['name' => $name]);
         }
-        
-        // update the routes file
-		$routes_file = app_path('Http/routes.php');
-		if ( file_exists($routes_file) && ( strtolower( $this->option('makeroutes') )=== 'yes') )  {
-        	if ( File::append($routes_file, "\nRoute::resource('". strtolower($name) ."','". $name ."Controller');" ) ) {
-				$this->info('Routes added to '. $routes_file .'.');
-			} else {
-				$this->info('Unable to add routes to '. $routes_file .'.');
-			}			
-		}
+
+        // Updating the Http/routes.php file
+        $routeFile = app_path('Http/routes.php');
+        if (file_exists($routeFile) && (strtolower($this->option('route')) === 'yes')) {
+            $isAdded = File::append($routeFile, "\nRoute::resource('" . strtolower($name) . "', '" . $name . "Controller');");
+            if ($isAdded) {
+                $this->info('Crud/Resource route added to ' . $routeFile);
+            } else {
+                $this->info('Unable to add the route to ' . $routeFile);
+            }
+        }
     }
 
     /**
@@ -100,7 +100,7 @@ class CrudCommand extends Command
     {
         return [
             ['fields', null, InputOption::VALUE_OPTIONAL, 'Fields of form & model.', null],
-            ['makeroutes', '-m', InputOption::VALUE_OPTIONAL, 'Add the new routes to your routes.php file? yes/no', 'yes'],
+            ['route', '-r', InputOption::VALUE_OPTIONAL, 'Do you want to add the crud route to routes.php file? yes/no', 'yes'],
         ];
     }
 
