@@ -5,12 +5,16 @@
     <h1>%%crudNameSingularCap%%</h1>
     <div class="table-responsive">
         <table class="table table-bordered table-striped table-hover">
-            <tr>
-                <th>ID.</th> %%formHeadingHtml%%
-            </tr>
-            <tr>
-                <td>{{ $%%crudNameSingular%%->id }}</td> %%formBodyHtml%%
-            </tr>
+            <thead>
+                <tr>
+                    <th>ID.</th> %%formHeadingHtml%%
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ $%%crudNameSingular%%->id }}</td> %%formBodyHtml%%
+                </tr>
+            </tbody>    
         </table>
     </div>
 
