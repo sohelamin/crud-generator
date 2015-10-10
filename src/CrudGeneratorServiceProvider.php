@@ -40,4 +40,16 @@ class CrudGeneratorServiceProvider extends ServiceProvider
         return [];
     }
 
+    /**
+     * Perform post-registration booting of services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        $this->publishes([
+            __DIR__.'/config/crud.php' => config_path('crud.php'),
+        ]);
+    }
+
 }

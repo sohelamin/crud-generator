@@ -46,7 +46,7 @@ class CrudViewCommand extends Command
         $crudNameSingularCap = ucwords($crudNameSingular);
         $crudNamePlural = str_plural($crudName);
         $crudNamePluralCap = ucwords($crudNamePlural);
-        $viewDirectory = base_path('resources/views/');
+        $viewDirectory = base_path('resources/views/') . config('crud.view_path') . '/';
         $path = $viewDirectory . $crudName . '/';
         if (!is_dir($path)) {
             mkdir($path);

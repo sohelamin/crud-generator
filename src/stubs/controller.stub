@@ -42,7 +42,7 @@ class DummyClass extends Controller
 	{
 		//$this->validate($request, ['name' => 'required']); // Uncomment and modify if needed.
 		{{crudNamePluralCap}}::create($request->all());
-		return redirect('{{crudName}}');
+		return redirect(config('crud.url_prefix', '') . '/' . '{{crudName}}');
 	}
 
 	/**
@@ -80,7 +80,7 @@ class DummyClass extends Controller
 		//$this->validate($request, ['name' => 'required']); // Uncomment and modify if needed.
 		${{crudNameSingular}} = {{crudNamePluralCap}}::findOrFail($id);
 		${{crudNameSingular}}->update($request->all());
-		return redirect('{{crudName}}');
+		return redirect(config('crud.url_prefix', '') . '/' . '{{crudName}}');
 	}
 
 	/**
@@ -92,7 +92,7 @@ class DummyClass extends Controller
 	public function destroy($id)
 	{
 		{{crudNamePluralCap}}::destroy($id);
-		return redirect('{{crudName}}');
+		return redirect('crud.url_prefix', '') . '/' . '{{crudName}}');
 	}
 
 }
