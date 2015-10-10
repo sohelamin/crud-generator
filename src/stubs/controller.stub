@@ -92,7 +92,7 @@ class DummyClass extends Controller
 	public function destroy($id)
 	{
 		{{crudNamePluralCap}}::destroy($id);
-		return redirect('crud.url_prefix', '') . '/' . '{{crudName}}');
+		return redirect(config('crud.url_prefix', '') . '/' . '{{crudName}}');
 	}
 
 }
