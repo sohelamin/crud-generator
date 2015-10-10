@@ -5,7 +5,7 @@ namespace DummyNamespace;
 use DummyRootNamespaceHttp\Requests;
 use DummyRootNamespaceHttp\Controllers\Controller;
 
-use DummyRootNamespace{{crudNamePluralCap}};
+use DummyRootNamespace{{crudNameCap}};
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
