@@ -28,6 +28,10 @@ class CrudGeneratorServiceProvider extends ServiceProvider
             'Appzcoder\CrudGenerator\CrudMigrationCommand',
             'Appzcoder\CrudGenerator\CrudViewCommand'
         );
+
+        $this->mergeConfigFrom(__DIR__ . '/config/crud.php');
+
+        
     }
 
     /**
