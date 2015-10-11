@@ -29,7 +29,7 @@ class CrudGeneratorServiceProvider extends ServiceProvider
             'Appzcoder\CrudGenerator\CrudViewCommand'
         );
 
-        $this->mergeConfigFrom(__DIR__ . '/config/crud.php');
+        $this->mergeConfigFrom(__DIR__ . '/config/crud.php' , 'crud.php');
     }
 
     /**
