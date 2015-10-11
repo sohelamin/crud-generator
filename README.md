@@ -50,6 +50,12 @@ Note: You should have configured database as well for this operation.
 php artisan crud:generate Person --fields="name:string, email:string, phone:integer, message:text"
 ```
 
+You can also easily include route, set primary key, set view directory etc through options **--route**, **--pk**, **--view-path** as bellows:
+
+```
+php artisan crud:generate Person --fields="name:string, email:string, phone:integer, message:text" --route=yes --pk=id --view-path=admin"
+```
+
 -----------
 -----------
 
