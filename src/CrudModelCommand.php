@@ -115,7 +115,7 @@ class CrudModelCommand extends GeneratorCommand
     {
         return [
             ['table', null, InputOption::VALUE_OPTIONAL, 'The table name.', null],
-            ['fillable', null, InputOption::VALUE_NONE, 'The fillable columns.', null],
+            ['fillable', null, InputOption::VALUE_OPTIONAL, 'The fillable columns.', null],
         ];
     }
 

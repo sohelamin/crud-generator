@@ -2,6 +2,7 @@
 
 namespace Appzcoder\CrudGenerator;
 
+use File;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
@@ -64,6 +65,17 @@ class CrudCommand extends Command
             $this->call('make:controller', ['name' => $name . 'Controller']);
             $this->call('make:model', ['name' => $name]);
         }
+
+        // Updating the Http/routes.php file
+        $routeFile = app_path('Http/routes.php');
+        if (file_exists($routeFile) && (strtolower($this->option('route')) === 'yes')) {
+            $isAdded = File::append($routeFile, "\nRoute::resource('" . strtolower($name) . "', '" . $name . "Controller');");
+            if ($isAdded) {
+                $this->info('Crud/Resource route added to ' . $routeFile);
+            } else {
+                $this->info('Unable to add the route to ' . $routeFile);
+            }
+        }
     }
 
     /**
@@ -88,6 +100,7 @@ class CrudCommand extends Command
     {
         return [
             ['fields', null, InputOption::VALUE_OPTIONAL, 'Fields of form & model.', null],
+            ['route', '-r', InputOption::VALUE_OPTIONAL, 'Do you want to add the crud route to routes.php file? yes/no', 'yes'],
         ];
     }
 
