@@ -20,7 +20,7 @@ class DummyClass extends Controller
 	public function index()
 	{
 		${{crudNamePlural}} = {{crudNamePluralCap}}::latest()->get();
-		return view('{{crudName}}.index', compact('{{crudNamePlural}}'));
+		return view('{{viewPath}}{{crudName}}.index', compact('{{crudNamePlural}}'));
 	}
 
 	/**
@@ -30,7 +30,7 @@ class DummyClass extends Controller
 	 */
 	public function create()
 	{
-		return view('{{crudName}}.create');
+		return view('{{viewPath}}{{crudName}}.create');
 	}
 
 	/**
@@ -40,7 +40,7 @@ class DummyClass extends Controller
 	 */
 	public function store(Request $request)
 	{
-		//$this->validate($request, ['name' => 'required']); // Uncomment and modify if needed.
+		//$this->validate($request, ['name' => 'required']); // Uncomment and modify if you need to validate any input.
 		{{crudNamePluralCap}}::create($request->all());
 		return redirect('{{crudName}}');
 	}
@@ -54,7 +54,7 @@ class DummyClass extends Controller
 	public function show($id)
 	{
 		${{crudNameSingular}} = {{crudNamePluralCap}}::findOrFail($id);
-		return view('{{crudName}}.show', compact('{{crudNameSingular}}'));
+		return view('{{viewPath}}{{crudName}}.show', compact('{{crudNameSingular}}'));
 	}
 
 	/**
@@ -66,7 +66,7 @@ class DummyClass extends Controller
 	public function edit($id)
 	{
 		${{crudNameSingular}} = {{crudNamePluralCap}}::findOrFail($id);
-		return view('{{crudName}}.edit', compact('{{crudNameSingular}}'));
+		return view('{{viewPath}}{{crudName}}.edit', compact('{{crudNameSingular}}'));
 	}
 
 	/**
@@ -77,7 +77,7 @@ class DummyClass extends Controller
 	 */
 	public function update($id, Request $request)
 	{
-		//$this->validate($request, ['name' => 'required']); // Uncomment and modify if needed.
+		//$this->validate($request, ['name' => 'required']); // Uncomment and modify if you need to validate any input.
 		${{crudNameSingular}} = {{crudNamePluralCap}}::findOrFail($id);
 		${{crudNameSingular}}->update($request->all());
 		return redirect('{{crudName}}');
