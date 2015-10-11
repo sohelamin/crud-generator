@@ -30,8 +30,6 @@ class CrudGeneratorServiceProvider extends ServiceProvider
         );
 
         $this->mergeConfigFrom(__DIR__ . '/config/crud.php');
-
-        
     }
 
     /**
