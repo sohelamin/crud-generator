@@ -1,8 +1,11 @@
-<?php namespace DummyNamespace;
+<?php 
+
+namespace DummyNamespace;
 
 use Illuminate\Database\Eloquent\Model;
 
-class DummyClass extends Model  {
+class DummyClass extends Model
+{
 
     /**
      * The database table used by the model.
