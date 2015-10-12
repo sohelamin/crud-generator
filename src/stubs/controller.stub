@@ -53,7 +53,7 @@ class DummyClass extends Controller
 	 */
 	public function show($id)
 	{
-		${{crudNameSingular}} = {{crudNamePluralCap}}::findOrFail($id);
+		${{crudNameSingular}} = {{crudNameCap}}::findOrFail($id);
 		return view('{{viewPath}}{{crudName}}.show', compact('{{crudNameSingular}}'));
 	}
 
@@ -65,7 +65,7 @@ class DummyClass extends Controller
 	 */
 	public function edit($id)
 	{
-		${{crudNameSingular}} = {{crudNamePluralCap}}::findOrFail($id);
+		${{crudNameSingular}} = {{crudNameCap}}::findOrFail($id);
 		return view('{{viewPath}}{{crudName}}.edit', compact('{{crudNameSingular}}'));
 	}
 
@@ -79,7 +79,7 @@ class DummyClass extends Controller
 	{
 
 		//$this->validate($request, ['name' => 'required']); // Uncomment and modify if you need to validate any input.
-		${{crudNameSingular}} = {{crudNamePluralCap}}::findOrFail($id);
+		${{crudNameSingular}} = {{crudNameCap}}::findOrFail($id);
 		${{crudNameSingular}}->update($request->all());
 		return redirect('{{urlPrefix}}{{crudName}}');
 	}
