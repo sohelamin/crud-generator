@@ -22,16 +22,17 @@ class CrudGeneratorServiceProvider extends ServiceProvider
     public function register()
     {
         $this->commands(
-            'Appzcoder\CrudGenerator\CrudCommand',
-            'Appzcoder\CrudGenerator\CrudControllerCommand',
-            'Appzcoder\CrudGenerator\CrudModelCommand',
-            'Appzcoder\CrudGenerator\CrudMigrationCommand',
-            'Appzcoder\CrudGenerator\CrudViewCommand'
+            'Appzcoder\CrudGenerator\Commands\CrudCommand',
+            'Appzcoder\CrudGenerator\Commands\CrudControllerCommand',
+            'Appzcoder\CrudGenerator\Commands\CrudModelCommand',
+            'Appzcoder\CrudGenerator\Commands\CrudMigrationCommand',
+            'Appzcoder\CrudGenerator\Commands\CrudViewCommand'
         );
 
         // $this->mergeConfigFrom(__DIR__ . '/config/crud.php' , 'crud.php');
     }
 
+<<<<<<< HEAD
     /**
      * Get the services provided by the provider.
      *
@@ -54,4 +55,6 @@ class CrudGeneratorServiceProvider extends ServiceProvider
         ]);
     }
 
+=======
+>>>>>>> appzcoder/1.0
 }

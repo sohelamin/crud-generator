@@ -1,26 +1,27 @@
 <?php
 
-namespace Appzcoder\CrudGenerator;
+namespace Appzcoder\CrudGenerator\Commands;
 
 use Illuminate\Console\GeneratorCommand;
-use Symfony\Component\Console\Input\InputOption;
 
 class CrudModelCommand extends GeneratorCommand
 {
-
     /**
-     * The console command name.
+     * The name and signature of the console command.
      *
      * @var string
      */
-    protected $name = 'crud:model';
+    protected $signature = 'crud:model
+                            {name : The name of the model.}
+                            {--table= : The name of the table.}
+                            {--fillable= : The names of the fillable columns.}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Create a new model class';
+    protected $description = 'Create a new model.';
 
     /**
      * The type of class being generated.
@@ -30,20 +31,13 @@ class CrudModelCommand extends GeneratorCommand
     protected $type = 'Model';
 
     /**
-     * The excluded columns for fillable.
-     *
-     * @var array
-     */
-    protected $exclude = ['id', 'password'];
-
-    /**
      * Get the stub file for the generator.
      *
      * @return string
      */
     protected function getStub()
     {
-        return __DIR__ . '/stubs/model.stub';
+        return __DIR__ . '/../stubs/model.stub';
     }
 
     /**
@@ -67,7 +61,7 @@ class CrudModelCommand extends GeneratorCommand
     {
         $stub = $this->files->get($this->getStub());
 
-        $table = $this->option('table') ?: strtolower($this->getNameInput());
+        $table = $this->option('table') ?: strtolower($this->argument('name'));
         $fillable = $this->option('fillable');
 
         return $this->replaceNamespace($stub, $name)
@@ -105,18 +99,4 @@ class CrudModelCommand extends GeneratorCommand
 
         return $this;
     }
-
-    /**
-     * Get the console command options.
-     *
-     * @return array
-     */
-    protected function getOptions()
-    {
-        return [
-            ['table', null, InputOption::VALUE_OPTIONAL, 'The table name.', null],
-            ['fillable', null, InputOption::VALUE_OPTIONAL, 'The fillable columns.', null],
-        ];
-    }
-
 }

@@ -1,26 +1,27 @@
 <?php
 
-namespace Appzcoder\CrudGenerator;
+namespace Appzcoder\CrudGenerator\Commands;
 
 use Illuminate\Console\GeneratorCommand;
-use Symfony\Component\Console\Input\InputOption;
 
 class CrudMigrationCommand extends GeneratorCommand
 {
-
     /**
-     * The console command name.
+     * The name and signature of the console command.
      *
      * @var string
      */
-    protected $name = 'crud:migration';
+    protected $signature = 'crud:migration
+                            {name : The name of the migration.}
+                            {--schema= : The name of the schema.}
+                            {--pk=id : The name of the primary key.}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Create a new migration file';
+    protected $description = 'Create a new migration.';
 
     /**
      * The type of class being generated.
@@ -36,7 +37,7 @@ class CrudMigrationCommand extends GeneratorCommand
      */
     protected function getStub()
     {
-        return __DIR__ . '/stubs/migration.stub';
+        return __DIR__ . '/../stubs/migration.stub';
     }
 
     /**
@@ -47,8 +48,9 @@ class CrudMigrationCommand extends GeneratorCommand
      */
     protected function getPath($name)
     {
-        $name = str_replace($this->laravel->getNamespace(), '', $name);
+        $name = strtolower(str_replace($this->laravel->getNamespace(), '', $name));
         $datePrefix = date('Y_m_d_His');
+
         return database_path('/migrations/') . $datePrefix . '_create_' . $name . '_table.php';
     }
 
@@ -61,7 +63,8 @@ class CrudMigrationCommand extends GeneratorCommand
     protected function buildClass($name)
     {
         $stub = $this->files->get($this->getStub());
-        $tableName = strtolower($this->getNameInput());
+
+        $tableName = strtolower($this->argument('name'));
         $className = 'Create' . ucwords($tableName) . 'Table';
 
         $schema = $this->option('schema');
@@ -70,40 +73,46 @@ class CrudMigrationCommand extends GeneratorCommand
         $data = array();
         $x = 0;
         foreach ($fields as $field) {
-            $array = explode(':', $field);
-            $data[$x]['name'] = trim($array[0]);
-            $data[$x]['type'] = trim($array[1]);
+            $fieldArray = explode(':', $field);
+            $data[$x]['name'] = trim($fieldArray[0]);
+            $data[$x]['type'] = trim($fieldArray[1]);
             $x++;
         }
 
         $schemaFields = '';
         foreach ($data as $item) {
             if ($item['type'] == 'string') {
-                $schemaFields .= "\$table->string('" . $item['name'] . "');";
+                $schemaFields .= "\$table->string('" . $item['name'] . "');\n";
             } elseif ($item['type'] == 'text') {
-                $schemaFields .= "\$table->text('" . $item['name'] . "');";
+                $schemaFields .= "\$table->text('" . $item['name'] . "');\n";
             } elseif ($item['type'] == 'integer') {
-                $schemaFields .= "\$table->integer('" . $item['name'] . "');";
+                $schemaFields .= "\$table->integer('" . $item['name'] . "');\n";
             } elseif ($item['type'] == 'date') {
-                $schemaFields .= "\$table->date('" . $item['name'] . "');";
+                $schemaFields .= "\$table->date('" . $item['name'] . "');\n";
             } else {
-                $schemaFields .= "\$table->string('" . $item['name'] . "');";
+                $schemaFields .= "\$table->string('" . $item['name'] . "');\n";
             }
         }
 
+        $primaryKey = strtolower($this->option('pk'));
+
         $schemaUp = "
-            Schema::create('" . $tableName . "', function(Blueprint \$table)
-            {
-            \$table->increments('id');
-            " . $schemaFields . "
-            \$table->timestamps();
+            Schema::create('" . $tableName . "', function(Blueprint \$table) {
+                \$table->increments('" . $primaryKey . "');
+                " . $schemaFields . "
+                \$table->timestamps();
             });
             ";
 
         $schemaDown = "Schema::drop('" . $tableName . "');";
+<<<<<<< HEAD:src/CrudMigrationCommand.php
         return $this->replaceSchemaUp($stub, $schemaUp)
                     ->replaceSchemaDown($stub, $schemaDown)
                     ->replaceClass($stub, $className);
+=======
+
+        return $this->replaceSchemaUp($stub, $schemaUp)->replaceSchemaDown($stub, $schemaDown)->replaceClass($stub, $className);
+>>>>>>> appzcoder/1.0:src/Commands/CrudMigrationCommand.php
     }
 
     /**
@@ -135,17 +144,4 @@ class CrudMigrationCommand extends GeneratorCommand
 
         return $this;
     }
-
-    /**
-     * Get the console command options.
-     *
-     * @return array
-     */
-    protected function getOptions()
-    {
-        return [
-            ['schema', null, InputOption::VALUE_REQUIRED, 'The schema name.', null],
-        ];
-    }
-
 }

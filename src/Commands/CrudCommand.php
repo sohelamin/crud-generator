@@ -1,28 +1,30 @@
 <?php
 
-namespace Appzcoder\CrudGenerator;
+namespace Appzcoder\CrudGenerator\Commands;
 
 use File;
 use Illuminate\Console\Command;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 
 class CrudCommand extends Command
 {
-
     /**
-     * The console command name.
+     * The name and signature of the console command.
      *
      * @var string
      */
-    protected $name = 'crud:generate';
+    protected $signature = 'crud:generate
+                            {name : The name of the Crud.}
+                            {--fields= : Fields name for the form & model.}
+                            {--route=yes : Include Crud route to routes.php? yes|no.}
+                            {--pk=id : The name of the primary key.}
+                            {--view-path= : The name of the view path.}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Crud Generator including controller, model, view';
+    protected $description = 'Generate Crud including controller, model, views & migrations.';
 
     /**
      * Create a new command instance.
@@ -39,28 +41,27 @@ class CrudCommand extends Command
      *
      * @return mixed
      */
-    public function fire()
+    public function handle()
     {
-
         $name = ucwords(strtolower($this->argument('name')));
 
         if ($this->option('fields')) {
             $fields = $this->option('fields');
+            $primaryKey = $this->option('pk');
+            $viewPath = $this->option('view-path');
 
-            $fillable_array = explode(',', $fields);
-            foreach ($fillable_array as $value) {
+            $fillableArray = explode(',', $fields);
+            foreach ($fillableArray as $value) {
                 $data[] = preg_replace("/(.*?):(.*)/", "$1", trim($value));
             }
 
-            $comma_separeted_str = implode("', '", $data);
-            $fillable = "['";
-            $fillable .= $comma_separeted_str;
-            $fillable .= "']";
+            $commaSeparetedString = implode("', '", $data);
+            $fillable = "['" . $commaSeparetedString . "']";
 
-            $this->call('crud:controller', ['name' => $name . 'Controller', '--crud-name' => $name]);
+            $this->call('crud:controller', ['name' => $name . 'Controller', '--crud-name' => $name, '--view-path' => $viewPath]);
             $this->call('crud:model', ['name' => str_plural($name), '--fillable' => $fillable]);
-            $this->call('crud:migration', ['name' => str_plural(strtolower($name)), '--schema' => $fields]);
-            $this->call('crud:view', ['name' => $name, '--fields' => $fields]);
+            $this->call('crud:migration', ['name' => str_plural(strtolower($name)), '--schema' => $fields, '--pk' => $primaryKey]);
+            $this->call('crud:view', ['name' => $name, '--fields' => $fields, '--path' => $viewPath]);
         } else {
             $this->call('make:controller', ['name' => $name . 'Controller']);
             $this->call('make:model', ['name' => $name]);
@@ -77,31 +78,4 @@ class CrudCommand extends Command
             }
         }
     }
-
-    /**
-     * Get the console command arguments.
-     *
-     * @return array
-     */
-    protected function getArguments()
-    {
-        return [
-            ['name', InputArgument::REQUIRED, 'Name of the Crud.'],
-        ];
-    }
-
-    /*
-     * Get the console command options.
-     *
-     * @return array
-     */
-
-    protected function getOptions()
-    {
-        return [
-            ['fields', null, InputOption::VALUE_OPTIONAL, 'Fields of form & model.', null],
-            ['route', '-r', InputOption::VALUE_OPTIONAL, 'Do you want to add the crud route to routes.php file? yes/no', 'yes'],
-        ];
-    }
-
 }

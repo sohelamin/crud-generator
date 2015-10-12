@@ -1,44 +1,34 @@
 <?php
 
-namespace Appzcoder\CrudGenerator;
+namespace Appzcoder\CrudGenerator\Commands;
 
 use Illuminate\Console\Command;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 
 class CrudViewCommand extends Command
 {
-
     /**
-     * The console command name.
+     * The name and signature of the console command.
      *
      * @var string
      */
-    protected $name = 'crud:view';
+    protected $signature = 'crud:view
+                            {name : The name of the Crud.}
+                            {--fields= : The fields name for the form.}
+                            {--path= : The name of the view path.}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Create view files for crud operation';
-
-    /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
+    protected $description = 'Create views for the Crud.';
 
     /**
      * Execute the console command.
      *
      * @return mixed
      */
-    public function fire()
+    public function handle()
     {
         $crudName = strtolower($this->argument('name'));
         $crudNameCap = ucwords($crudName);
@@ -46,10 +36,22 @@ class CrudViewCommand extends Command
         $crudNameSingularCap = ucwords($crudNameSingular);
         $crudNamePlural = str_plural($crudName);
         $crudNamePluralCap = ucwords($crudNamePlural);
+<<<<<<< HEAD:src/CrudViewCommand.php
         $viewDirectory = base_path('resources/views/') . config('crud.view_path') . '/';
         $path = $viewDirectory . $crudName . '/';
+=======
+
+        $viewDirectory = base_path('resources/views/');
+        if ($this->option('path')) {
+            $userPath = $this->option('path');
+            $path = $viewDirectory . $userPath . '/' . $crudName . '/';
+        } else {
+            $path = $viewDirectory . $crudName . '/';
+        }
+
+>>>>>>> appzcoder/1.0:src/Commands/CrudViewCommand.php
         if (!is_dir($path)) {
-            mkdir($path);
+            mkdir($path, 0755, true);
         }
 
         $fields = $this->option('fields');
@@ -58,9 +60,9 @@ class CrudViewCommand extends Command
         $formFields = array();
         $x = 0;
         foreach ($fieldsArray as $item) {
-            $array = explode(':', $item);
-            $formFields[$x]['name'] = trim($array[0]);
-            $formFields[$x]['type'] = trim($array[1]);
+            $itemArray = explode(':', $item);
+            $formFields[$x]['name'] = trim($itemArray[0]);
+            $formFields[$x]['type'] = trim($itemArray[1]);
             $x++;
         }
 
@@ -115,6 +117,7 @@ class CrudViewCommand extends Command
         $formHeadingHtml = '';
         $formBodyHtml = '';
         $formBodyHtmlForShowView = '';
+
         $i = 0;
         foreach ($formFields as $key => $value) {
             if ($i == 3) {
@@ -136,7 +139,7 @@ class CrudViewCommand extends Command
         }
 
         // For index.blade.php file
-        $indexFile = __DIR__ . '/stubs/index.blade.stub';
+        $indexFile = __DIR__ . '/../stubs/index.blade.stub';
         $newIndexFile = $path . 'index.blade.php';
         if (!copy($indexFile, $newIndexFile)) {
             echo "failed to copy $indexFile...\n";
@@ -150,7 +153,7 @@ class CrudViewCommand extends Command
         }
 
         // For create.blade.php file
-        $createFile = __DIR__ . '/stubs/create.blade.stub';
+        $createFile = __DIR__ . '/../stubs/create.blade.stub';
         $newCreateFile = $path . 'create.blade.php';
         if (!copy($createFile, $newCreateFile)) {
             echo "failed to copy $createFile...\n";
@@ -161,7 +164,7 @@ class CrudViewCommand extends Command
         }
 
         // For edit.blade.php file
-        $editFile = __DIR__ . '/stubs/edit.blade.stub';
+        $editFile = __DIR__ . '/../stubs/edit.blade.stub';
         $newEditFile = $path . 'edit.blade.php';
         if (!copy($editFile, $newEditFile)) {
             echo "failed to copy $editFile...\n";
@@ -173,7 +176,7 @@ class CrudViewCommand extends Command
         }
 
         // For show.blade.php file
-        $showFile = __DIR__ . '/stubs/show.blade.stub';
+        $showFile = __DIR__ . '/../stubs/show.blade.stub';
         $newShowFile = $path . 'show.blade.php';
         if (!copy($showFile, $newShowFile)) {
             echo "failed to copy $showFile...\n";
@@ -190,7 +193,7 @@ class CrudViewCommand extends Command
             mkdir($layoutsDirPath);
         }
 
-        $layoutsFile = __DIR__ . '/stubs/master.blade.stub';
+        $layoutsFile = __DIR__ . '/../stubs/master.blade.stub';
         $newLayoutsFile = $layoutsDirPath . 'master.blade.php';
 
         if (!file_exists($newLayoutsFile)) {
@@ -204,30 +207,4 @@ class CrudViewCommand extends Command
         $this->info('View created successfully.');
 
     }
-
-    /**
-     * Get the console command arguments.
-     *
-     * @return array
-     */
-    protected function getArguments()
-    {
-        return [
-            ['name', InputArgument::REQUIRED, 'Name of the Crud.'],
-        ];
-    }
-
-    /*
-     * Get the console command options.
-     *
-     * @return array
-     */
-
-    protected function getOptions()
-    {
-        return [
-            ['fields', null, InputOption::VALUE_OPTIONAL, 'The fields of the form.', null],
-        ];
-    }
-
 }
