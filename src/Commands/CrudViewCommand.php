@@ -133,7 +133,7 @@ class CrudViewCommand extends Command
             $formHeadingHtml .= '<th>' . $label . '</th>';
 
             if ($i == 0) {
-                $formBodyHtml .= '<td><a href="{{ url(\'%%urlPrefix%%/%%crudName%%\', $item->id) }}">{{ $item->' . $field . ' }}</a></td>';
+                $formBodyHtml .= '<td><a href="{{ url(\'%%urlPrefix%%%%crudName%%\', $item->id) }}">{{ $item->' . $field . ' }}</a></td>';
             } else {
                 $formBodyHtml .= '<td>{{ $item->' . $field . ' }}</td>';
             }
