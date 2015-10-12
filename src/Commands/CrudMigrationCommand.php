@@ -81,16 +81,21 @@ class CrudMigrationCommand extends GeneratorCommand
 
         $schemaFields = '';
         foreach ($data as $item) {
-            if ($item['type'] == 'string') {
-                $schemaFields .= "\$table->string('" . $item['name'] . "');\n";
-            } elseif ($item['type'] == 'text') {
-                $schemaFields .= "\$table->text('" . $item['name'] . "');\n";
-            } elseif ($item['type'] == 'integer') {
-                $schemaFields .= "\$table->integer('" . $item['name'] . "');\n";
-            } elseif ($item['type'] == 'date') {
-                $schemaFields .= "\$table->date('" . $item['name'] . "');\n";
-            } else {
-                $schemaFields .= "\$table->string('" . $item['name'] . "');\n";
+            switch ($item['type']) {
+                case ('string'):
+                    $schemaFields .= "\$table->string('" . $item['name'] . "');\n";
+                    break;
+                case ('text'):
+                    $schemaFields .= "\$table->text('" . $item['name'] . "');\n";
+                    break;
+                case ('integer'):
+                    $schemaFields .= "\$table->integer('" . $item['name'] . "');\n";
+                    break;
+                case('date'):
+                    $schemaFields .= "\$table->date('" . $item['name'] . "');\n";
+                    break;
+                default:
+                    $schemaFields .= "\$table->string('" . $item['name'] . "');\n";
             }
         }
 
@@ -105,14 +110,9 @@ class CrudMigrationCommand extends GeneratorCommand
             ";
 
         $schemaDown = "Schema::drop('" . $tableName . "');";
-<<<<<<< HEAD:src/CrudMigrationCommand.php
         return $this->replaceSchemaUp($stub, $schemaUp)
                     ->replaceSchemaDown($stub, $schemaDown)
                     ->replaceClass($stub, $className);
-=======
-
-        return $this->replaceSchemaUp($stub, $schemaUp)->replaceSchemaDown($stub, $schemaDown)->replaceClass($stub, $className);
->>>>>>> appzcoder/1.0:src/Commands/CrudMigrationCommand.php
     }
 
     /**

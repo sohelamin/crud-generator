@@ -19,13 +19,8 @@ class DummyClass extends Controller
 	 */
 	public function index()
 	{
-<<<<<<< HEAD
 		${{crudNamePlural}} = {{crudNameCap}}::latest()->get();
-		return view('{{crudName}}.index', compact('{{crudNamePlural}}'));
-=======
-		${{crudNamePlural}} = {{crudNamePluralCap}}::latest()->get();
 		return view('{{viewPath}}{{crudName}}.index', compact('{{crudNamePlural}}'));
->>>>>>> appzcoder/1.0
 	}
 
 	/**
@@ -45,15 +40,9 @@ class DummyClass extends Controller
 	 */
 	public function store(Request $request)
 	{
-<<<<<<< HEAD
-		//$this->validate($request, ['name' => 'required']); // Uncomment and modify if needed.
 		{{crudNameCap}}::create($request->all());
-		return redirect(config('crud.url_prefix', '') . '/' . '{{crudName}}');
-=======
-		//$this->validate($request, ['name' => 'required']); // Uncomment and modify if you need to validate any input.
-		{{crudNamePluralCap}}::create($request->all());
+		return redirect('{{urlPrefix}}{{crudName}}');
 		return redirect('{{crudName}}');
->>>>>>> appzcoder/1.0
 	}
 
 	/**
@@ -64,13 +53,8 @@ class DummyClass extends Controller
 	 */
 	public function show($id)
 	{
-<<<<<<< HEAD
-		${{crudNameSingular}} = {{crudNameCap}}::findOrFail($id);
-		return view('{{crudName}}.show', compact('{{crudNameSingular}}'));
-=======
 		${{crudNameSingular}} = {{crudNamePluralCap}}::findOrFail($id);
 		return view('{{viewPath}}{{crudName}}.show', compact('{{crudNameSingular}}'));
->>>>>>> appzcoder/1.0
 	}
 
 	/**
@@ -81,13 +65,8 @@ class DummyClass extends Controller
 	 */
 	public function edit($id)
 	{
-<<<<<<< HEAD
-		${{crudNameSingular}} = {{crudNameCap}}::findOrFail($id);
-		return view('{{crudName}}.edit', compact('{{crudNameSingular}}'));
-=======
 		${{crudNameSingular}} = {{crudNamePluralCap}}::findOrFail($id);
 		return view('{{viewPath}}{{crudName}}.edit', compact('{{crudNameSingular}}'));
->>>>>>> appzcoder/1.0
 	}
 
 	/**
@@ -98,15 +77,11 @@ class DummyClass extends Controller
 	 */
 	public function update($id, Request $request)
 	{
-<<<<<<< HEAD
-		//$this->validate($request, ['name' => 'required']); // Uncomment and modify if needed.
-		${{crudNameSingular}} = {{crudNameCap}}::findOrFail($id);
-=======
+
 		//$this->validate($request, ['name' => 'required']); // Uncomment and modify if you need to validate any input.
 		${{crudNameSingular}} = {{crudNamePluralCap}}::findOrFail($id);
->>>>>>> appzcoder/1.0
 		${{crudNameSingular}}->update($request->all());
-		return redirect(config('crud.url_prefix', '') . '/' . '{{crudName}}');
+		return redirect('{{urlPrefix}}{{crudName}}');
 	}
 
 	/**
@@ -118,7 +93,7 @@ class DummyClass extends Controller
 	public function destroy($id)
 	{
 		{{crudNameCap}}::destroy($id);
-		return redirect(config('crud.url_prefix', '') . '/' . '{{crudName}}');
+		return redirect('{{urlPrefix}}{{crudName}}');
 	}
 
 }

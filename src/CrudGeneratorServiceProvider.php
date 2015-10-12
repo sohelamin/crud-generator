@@ -32,7 +32,6 @@ class CrudGeneratorServiceProvider extends ServiceProvider
         // $this->mergeConfigFrom(__DIR__ . '/config/crud.php' , 'crud.php');
     }
 
-<<<<<<< HEAD
     /**
      * Get the services provided by the provider.
      *
@@ -54,7 +53,4 @@ class CrudGeneratorServiceProvider extends ServiceProvider
             __DIR__.'/config/crud.php' => config_path('crud.php'),
         ]);
     }
-
-=======
->>>>>>> appzcoder/1.0
 }

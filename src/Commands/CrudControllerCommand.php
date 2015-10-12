@@ -14,7 +14,8 @@ class CrudControllerCommand extends GeneratorCommand
     protected $signature = 'crud:controller
                             {name : The name of the controler.}
                             {--crud-name= : The name of the Crud.}
-                            {--view-path= : The name of the view path.}';
+                            {--view-path= : The name of the view path.}
+                            {--url-prefix= : The prefix to use in urls}';
 
     /**
      * The console command description.
@@ -62,22 +63,22 @@ class CrudControllerCommand extends GeneratorCommand
         $stub = $this->files->get($this->getStub());
 
         $viewPath = $this->option('view-path') ? strtolower($this->option('view-path')) . '.' : '';
+        $urlPrefix = $this->option('url-prefix') ? strtolower($this->option('url-prefix')) . '/' : '';
         $crudName = strtolower($this->option('crud-name'));
         $crudNameCap = ucwords($crudName);
         $crudNamePlural = str_plural($crudName);
         $crudNamePluralCap = str_plural($crudNameCap);
         $crudNameSingular = str_singular($crudName);
 
-<<<<<<< HEAD:src/CrudControllerCommand.php
         return $this->replaceNamespace($stub, $name)
+                    ->replaceViewPath($stub, $viewPath)
+                    ->replaceUrlPrefix($stub, $urlPrefix)
                     ->replaceCrudName($stub, $crudName)
                     ->replaceCrudNameCap($stub, $crudNameCap)
                     ->replaceCrudNamePlural($stub, $crudNamePlural)
                     ->replaceCrudNamePluralCap($stub, $crudNamePluralCap)
                     ->replaceCrudNameSingular($stub, $crudNameSingular)
                     ->replaceClass($stub, $name);
-=======
-        return $this->replaceNamespace($stub, $name)->replaceViewPath($stub, $viewPath)->replaceCrudName($stub, $crudName)->replaceCrudNameCap($stub, $crudNameCap)->replaceCrudNamePlural($stub, $crudNamePlural)->replaceCrudNamePluralCap($stub, $crudNamePluralCap)->replaceCrudNameSingular($stub, $crudNameSingular)->replaceClass($stub, $name);
     }
 
     /**
@@ -93,7 +94,21 @@ class CrudControllerCommand extends GeneratorCommand
         );
 
         return $this;
->>>>>>> appzcoder/1.0:src/Commands/CrudControllerCommand.php
+    }
+
+    /**
+     * Replace the viewPath for the given stub.
+     *
+     * @param  string  $stub
+     * @return $this
+     */
+    protected function replaceUrlPrefix(&$stub, $urlPrefix)
+    {
+        $stub = str_replace(
+            '{{urlPrefix}}', $urlPrefix, $stub
+        );
+
+        return $this;
     }
 
     /**

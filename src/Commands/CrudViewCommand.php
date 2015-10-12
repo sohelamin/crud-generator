@@ -14,7 +14,8 @@ class CrudViewCommand extends Command
     protected $signature = 'crud:view
                             {name : The name of the Crud.}
                             {--fields= : The fields name for the form.}
-                            {--path= : The name of the view path.}';
+                            {--path= : The name of the view path.}
+                            {--url-prefix= : The url prefix.}';
 
     /**
      * The console command description.
@@ -36,11 +37,6 @@ class CrudViewCommand extends Command
         $crudNameSingularCap = ucwords($crudNameSingular);
         $crudNamePlural = str_plural($crudName);
         $crudNamePluralCap = ucwords($crudNamePlural);
-<<<<<<< HEAD:src/CrudViewCommand.php
-        $viewDirectory = base_path('resources/views/') . config('crud.view_path') . '/';
-        $path = $viewDirectory . $crudName . '/';
-=======
-
         $viewDirectory = base_path('resources/views/');
         if ($this->option('path')) {
             $userPath = $this->option('path');
@@ -49,10 +45,11 @@ class CrudViewCommand extends Command
             $path = $viewDirectory . $crudName . '/';
         }
 
->>>>>>> appzcoder/1.0:src/Commands/CrudViewCommand.php
         if (!is_dir($path)) {
             mkdir($path, 0755, true);
         }
+
+        $urlPrefix = $this->option('url-prefix') ? strtolower($this->option('url-prefix')) . '/' : '';
 
         $fields = $this->option('fields');
         $fieldsArray = explode(',', $fields);
@@ -70,48 +67,55 @@ class CrudViewCommand extends Command
         foreach ($formFields as $item) {
             $label = ucwords(strtolower(str_replace('_', ' ', $item['name'])));
 
-            if ($item['type'] == 'string') {
-                $formFieldsHtml .=
-                "<div class=\"form-group\">
-                        {!! Form::label('" . $item['name'] . "', '" . $label . ": ', ['class' => 'col-sm-3 control-label']) !!}
-                        <div class=\"col-sm-6\">
-                            {!! Form::text('" . $item['name'] . "', null, ['class' => 'form-control']) !!}
-                        </div>
-                    </div>";
-            } elseif ($item['type'] == 'text') {
-                $formFieldsHtml .=
-                "<div class=\"form-group\">
-                        {!! Form::label('" . $item['name'] . "', '" . $label . ": ', ['class' => 'col-sm-3 control-label']) !!}
-                        <div class=\"col-sm-6\">
-                            {!! Form::textarea('" . $item['name'] . "', null, ['class' => 'form-control']) !!}
-                        </div>
-                    </div>";
-            } elseif ($item['type'] == 'password') {
-                $formFieldsHtml .=
-                "<div class=\"form-group\">
-                        {!! Form::label('" . $item['name'] . "', '" . $label . ": ', ['class' => 'col-sm-3 control-label']) !!}
-                        <div class=\"col-sm-6\">
-                            {!! Form::password('" . $item['name'] . "', null, ['class' => 'form-control']) !!}
-                        </div>
-                    </div>";
-            } elseif ($item['type'] == 'email') {
-                $formFieldsHtml .=
-                "<div class=\"form-group\">
-                        {!! Form::label('" . $item['name'] . "', '" . $label . ": ', ['class' => 'col-sm-3 control-label']) !!}
-                        <div class=\"col-sm-6\">
-                            {!! Form::email('" . $item['name'] . "', null, ['class' => 'form-control']) !!}
-                        </div>
-                    </div>";
-            } else {
-                $formFieldsHtml .=
-                "<div class=\"form-group\">
-                        {!! Form::label('" . $item['name'] . "', '" . $label . ": ', ['class' => 'col-sm-3 control-label']) !!}
-                        <div class=\"col-sm-6\">
-                            {!! Form::text('" . $item['name'] . "', null, ['class' => 'form-control']) !!}
-                        </div>
-                    </div>";
-            }
-        }
+            switch ($item['type']) {
+                case ('string'):
+                    $formFieldsHtml .=
+                    "<div class=\"form-group\">
+                            {!! Form::label('" . $item['name'] . "', '" . $label . ": ', ['class' => 'col-sm-3 control-label']) !!}
+                            <div class=\"col-sm-6\">
+                                {!! Form::text('" . $item['name'] . "', null, ['class' => 'form-control']) !!}
+                            </div>
+                        </div>";
+                break;
+
+                case ('text'):
+                    $formFieldsHtml .=
+                    "<div class=\"form-group\">
+                            {!! Form::label('" . $item['name'] . "', '" . $label . ": ', ['class' => 'col-sm-3 control-label']) !!}
+                            <div class=\"col-sm-6\">
+                                {!! Form::textarea('" . $item['name'] . "', null, ['class' => 'form-control']) !!}
+                            </div>
+                        </div>";
+                case ('password'):
+                    $formFieldsHtml .=
+                    "<div class=\"form-group\">
+                            {!! Form::label('" . $item['name'] . "', '" . $label . ": ', ['class' => 'col-sm-3 control-label']) !!}
+                            <div class=\"col-sm-6\">
+                                {!! Form::password('" . $item['name'] . "', null, ['class' => 'form-control']) !!}
+                            </div>
+                        </div>";
+                break;
+
+                case ('email'):
+                    $formFieldsHtml .=
+                    "<div class=\"form-group\">
+                            {!! Form::label('" . $item['name'] . "', '" . $label . ": ', ['class' => 'col-sm-3 control-label']) !!}
+                            <div class=\"col-sm-6\">
+                                {!! Form::email('" . $item['name'] . "', null, ['class' => 'form-control']) !!}
+                            </div>
+                        </div>";
+                break;
+
+                default:
+                    $formFieldsHtml .=
+                    "<div class=\"form-group\">
+                            {!! Form::label('" . $item['name'] . "', '" . $label . ": ', ['class' => 'col-sm-3 control-label']) !!}
+                            <div class=\"col-sm-6\">
+                                {!! Form::text('" . $item['name'] . "', null, ['class' => 'form-control']) !!}
+                            </div>
+                        </div>";
+            } // switch
+        } // foreach
 
         // Form fields and label
         $formHeadingHtml = '';
@@ -129,7 +133,7 @@ class CrudViewCommand extends Command
             $formHeadingHtml .= '<th>' . $label . '</th>';
 
             if ($i == 0) {
-                $formBodyHtml .= '<td><a href="{{ url(\'' . config('crud.url_prefix', '') . '/%%crudName%%\', $item->id) }}">{{ $item->' . $field . ' }}</a></td>';
+                $formBodyHtml .= '<td><a href="{{ url(\'%%urlPrefix%%/%%crudName%%\', $item->id) }}">{{ $item->' . $field . ' }}</a></td>';
             } else {
                 $formBodyHtml .= '<td>{{ $item->' . $field . ' }}</td>';
             }
@@ -150,6 +154,7 @@ class CrudViewCommand extends Command
             file_put_contents($newIndexFile, str_replace('%%crudNameCap%%', $crudNameCap, file_get_contents($newIndexFile)));
             file_put_contents($newIndexFile, str_replace('%%crudNamePlural%%', $crudNamePlural, file_get_contents($newIndexFile)));
             file_put_contents($newIndexFile, str_replace('%%crudNamePluralCap%%', $crudNamePluralCap, file_get_contents($newIndexFile)));
+            file_put_contents($newIndexFile, str_replace('%%urlPrefix%%', $urlPrefix, file_get_contents($newIndexFile)));
         }
 
         // For create.blade.php file
@@ -161,6 +166,7 @@ class CrudViewCommand extends Command
             file_put_contents($newCreateFile, str_replace('%%crudName%%', $crudName, file_get_contents($newCreateFile)));
             file_put_contents($newCreateFile, str_replace('%%crudNameSingularCap%%', $crudNameSingularCap, file_get_contents($newCreateFile)));
             file_put_contents($newCreateFile, str_replace('%%formFieldsHtml%%', $formFieldsHtml, file_get_contents($newCreateFile)));
+            file_put_contents($newCreateFile, str_replace('%%urlPrefix%%', $urlPrefix, file_get_contents($newCreateFile)));
         }
 
         // For edit.blade.php file
@@ -173,6 +179,7 @@ class CrudViewCommand extends Command
             file_put_contents($newEditFile, str_replace('%%crudNameSingular%%', $crudNameSingular, file_get_contents($newEditFile)));
             file_put_contents($newEditFile, str_replace('%%crudNameSingularCap%%', $crudNameSingularCap, file_get_contents($newEditFile)));
             file_put_contents($newEditFile, str_replace('%%formFieldsHtml%%', $formFieldsHtml, file_get_contents($newEditFile)));
+            file_put_contents($newEditFile, str_replace('%%urlPrefix%%', $urlPrefix, file_get_contents($newEditFile)));
         }
 
         // For show.blade.php file
@@ -185,6 +192,7 @@ class CrudViewCommand extends Command
             file_put_contents($newShowFile, str_replace('%%formBodyHtml%%', $formBodyHtmlForShowView, file_get_contents($newShowFile)));
             file_put_contents($newShowFile, str_replace('%%crudNameSingular%%', $crudNameSingular, file_get_contents($newShowFile)));
             file_put_contents($newShowFile, str_replace('%%crudNameSingularCap%%', $crudNameSingularCap, file_get_contents($newShowFile)));
+            file_put_contents($newShowFile, str_replace('%%urlPrefix%%', $urlPrefix, file_get_contents($newShowFile)));
         }
 
         // For layouts/master.blade.php file
