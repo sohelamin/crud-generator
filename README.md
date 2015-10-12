@@ -12,7 +12,7 @@ Laravel CRUD Generator
     composer require appzcoder/crud-generator
     ```
 
-2. Add service provider into **/config/app.php** file.
+2. Add service provider to **/config/app.php** file.
     ```php
     'providers' => [
         ...
@@ -21,7 +21,7 @@ Laravel CRUD Generator
     ],
     ```
 
-    Add bellow lines for "laravelcollective/html" package if you've not done yet.
+    Add the lines below for "laravelcollective/html" package if you haven't done it yet.
 
     ```php
     'providers' => [
@@ -50,7 +50,7 @@ Note: You should have configured database as well for this operation.
 php artisan crud:generate Person --fields="name:string, email:string, phone:integer, message:text"
 ```
 
-You can also easily include route, set primary key, set view directory etc through options **--route**, **--pk**, **--view-path** as bellows:
+You can also easily include route, set primary key, set views directory etc through options **--route**, **--pk**, **--view-path** as bellows:
 
 ```
 php artisan crud:generate Person --fields="name:string, email:string, phone:integer, message:text" --route=yes --pk=id --view-path=admin
@@ -60,7 +60,7 @@ php artisan crud:generate Person --fields="name:string, email:string, phone:inte
 -----------
 
 
-#### Others command (optional):
+#### Other commands (optional):
 
 For controller generator:
 
