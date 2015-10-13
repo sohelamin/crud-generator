@@ -64,7 +64,10 @@ class CrudModelCommand extends GeneratorCommand
         $table = $this->option('table') ?: strtolower($this->argument('name'));
         $fillable = $this->option('fillable');
 
-        return $this->replaceNamespace($stub, $name)->replaceTable($stub, $table)->replaceFillable($stub, $fillable)->replaceClass($stub, $name);
+        return $this->replaceNamespace($stub, $name)
+                    ->replaceTable($stub, $table)
+                    ->replaceFillable($stub, $fillable)
+                    ->replaceClass($stub, $name);
     }
 
     /**
