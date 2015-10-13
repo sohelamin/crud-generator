@@ -28,8 +28,6 @@ class CrudGeneratorServiceProvider extends ServiceProvider
             'Appzcoder\CrudGenerator\Commands\CrudMigrationCommand',
             'Appzcoder\CrudGenerator\Commands\CrudViewCommand'
         );
-
-        // $this->mergeConfigFrom(__DIR__ . '/config/crud.php' , 'crud.php');
     }
 
     /**
@@ -40,17 +38,5 @@ class CrudGeneratorServiceProvider extends ServiceProvider
     public function provides()
     {
         return [];
-    }
-
-    /**
-     * Perform post-registration booting of services.
-     *
-     * @return void
-     */
-    public function boot()
-    {
-        $this->publishes([
-            __DIR__.'/config/crud.php' => config_path('crud.php'),
-        ]);
     }
 }
