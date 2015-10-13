@@ -14,7 +14,7 @@ class CrudViewCommand extends Command
     protected $signature = 'crud:view
                             {name : The name of the Crud.}
                             {--fields= : The fields name for the form.}
-                            {--path= : The name of the view path.}';
+                            {--view-path= : The name of the view path.}';
 
     /**
      * The console command description.
@@ -38,8 +38,8 @@ class CrudViewCommand extends Command
         $crudNamePluralCap = ucwords($crudNamePlural);
 
         $viewDirectory = base_path('resources/views/');
-        if ($this->option('path')) {
-            $userPath = $this->option('path');
+        if ($this->option('view-path')) {
+            $userPath = $this->option('view-path');
             $path = $viewDirectory . $userPath . '/' . $crudName . '/';
         } else {
             $path = $viewDirectory . $crudName . '/';
@@ -200,6 +200,5 @@ class CrudViewCommand extends Command
         }
 
         $this->info('View created successfully.');
-
     }
 }

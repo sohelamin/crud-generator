@@ -59,9 +59,9 @@ class CrudCommand extends Command
             $fillable = "['" . $commaSeparetedString . "']";
 
             $this->call('crud:controller', ['name' => $name . 'Controller', '--crud-name' => $name, '--view-path' => $viewPath]);
-            $this->call('crud:model', ['name' => str_plural($name), '--fillable' => $fillable]);
+            $this->call('crud:model', ['name' => $name, '--fillable' => $fillable]);
             $this->call('crud:migration', ['name' => str_plural(strtolower($name)), '--schema' => $fields, '--pk' => $primaryKey]);
-            $this->call('crud:view', ['name' => $name, '--fields' => $fields, '--path' => $viewPath]);
+            $this->call('crud:view', ['name' => $name, '--fields' => $fields, '--view-path' => $viewPath]);
         } else {
             $this->call('make:controller', ['name' => $name . 'Controller']);
             $this->call('make:model', ['name' => $name]);

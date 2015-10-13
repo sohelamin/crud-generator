@@ -6,7 +6,7 @@
         "laravel",
         "crud",
         "crud generator"
-    ],    
+    ],
     "authors": [
         {
             "name": "Sohel Amin",
@@ -25,5 +25,5 @@
         }
     },
     "minimum-stability": "stable",
-    "prefer-stable": true    
+    "prefer-stable": true
 }

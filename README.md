@@ -12,7 +12,7 @@ Laravel CRUD Generator
     composer require appzcoder/crud-generator
     ```
     
-2. Add service provider into **/config/app.php** file.
+2. Add service provider to **/config/app.php** file.
     ```php
     'providers' => [
         ...
@@ -21,7 +21,7 @@ Laravel CRUD Generator
     ],
     ```
     
-    Add bellow lines for "laravelcollective/html" package if you've not done yet.
+    Add the lines bellow for "laravelcollective/html" package if you haven't done it yet.
 
     ```php
     'providers' => [
@@ -50,22 +50,22 @@ Note: You should have configured database as well for this operation.
 php artisan crud:generate Person --fields="name:string, email:string, phone:integer, message:text"
 ```
 
-You can also easily include route, set primary key, set view directory etc through options **--route**, **--pk**, **--view-path** as bellows:
+You can also easily include route, set primary key, set views directory etc through options **--route**, **--pk**, **--view-path** as bellows:
 
 ```
-php artisan crud:generate Person --fields="name:string, email:string, phone:integer, message:text" --route=yes --pk=id --view-path=admin
+php artisan crud:generate Person --fields="name:string, email:string, phone:integer, message:text" --route="yes" --pk="id" --view-path="admin"
 ```
 
 -----------
 -----------
 
 
-#### Others command (optional):
+#### Other commands (optional):
 
 For controller generator: 
 
 ```
-php artisan crud:controller PersonController --crud-name="Person"
+php artisan crud:controller PersonController --crud-name="Person" --view-path="directory"
 ```
 
 For model generator: 
@@ -83,7 +83,7 @@ php artisan crud:migration person --schema="name:string, email:string, phone:int
 For view generator: 
 
 ```
-php artisan crud:view Person --fields="name:string, email:string, phone:integer, message:text"
+php artisan crud:view Person --fields="name:string, email:string, phone:integer, message:text" --view-path="directory"
 ```
 
 By default, the generator will attempt to append the crud route to your *routes.php* file. If you don't want the route added, you can use the option ```--route=no```.

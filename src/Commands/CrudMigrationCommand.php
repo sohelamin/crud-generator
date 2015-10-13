@@ -106,7 +106,9 @@ class CrudMigrationCommand extends GeneratorCommand
 
         $schemaDown = "Schema::drop('" . $tableName . "');";
 
-        return $this->replaceSchemaUp($stub, $schemaUp)->replaceSchemaDown($stub, $schemaDown)->replaceClass($stub, $className);
+        return $this->replaceSchemaUp($stub, $schemaUp)
+            ->replaceSchemaDown($stub, $schemaDown)
+            ->replaceClass($stub, $className);
     }
 
     /**
