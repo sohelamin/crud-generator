@@ -80,7 +80,7 @@ php artisan crud:view Person --fields="name:string, email:string, age:number, me
 
 By default, the generator will attempt to append the crud route to your *routes.php* file. If you don't want the route added, you can use the option ```--route=no```.
 
-#### After creating all resources run migrate command *(and, if necessary, include the route for your crud as well)*.
+After creating all resources run migrate command *(and, if necessary, include the route for your crud as well)*.
 
 ```
 php artisan migrate
@@ -91,8 +91,35 @@ If you chose not to add the crud route in automatically (see above), you will ne
 Route::resource('person', 'PersonController');
 ```
 
-### Supported crud fields for migration and views
-string, char, varchar, password, email, date, datetime, time, timestamp, text, mediumtext, longtext, json, jsonb, binary, number, integer, bigint, mediumint, tinyint, smallint, boolean, decimal, double, float
+### Supported Field Types
+
+These fields are supported for migration and view's form:
+
+* string
+* char
+* varchar
+* password
+* email
+* date
+* datetime
+* time
+* timestamp
+* text
+* mediumtext
+* longtext
+* json
+* jsonb
+* binary
+* number
+* integer
+* bigint
+* mediumint
+* tinyint
+* smallint
+* boolean
+* decimal
+* double
+* float
 
 ##Author
 
