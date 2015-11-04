@@ -23,7 +23,5 @@
         "psr-4": {
             "Appzcoder\\CrudGenerator\\": "src/"
         }
-    },
-    "minimum-stability": "stable",
-    "prefer-stable": true
+    }
 }
