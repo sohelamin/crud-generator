@@ -22,6 +22,7 @@
             @endforeach
             </tbody>
         </table>
+        <div class="pagination"> {!! $%%crudNamePlural%%->render() !!} </div>
     </div>
 
 @endsection
