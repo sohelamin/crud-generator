@@ -46,7 +46,7 @@ class CrudCommand extends Command
     {
         $name = $this->argument('name');
 
-        $controllerNamespace = ($this->option('namespace')) ? $this->option('namespace') . '\\' : '';
+        $controllerNamespace = ($this->option('namespace')) ? $this->option('namespace') . "\\" : '';
 
         if ($this->option('fields')) {
             $fields = $this->option('fields');

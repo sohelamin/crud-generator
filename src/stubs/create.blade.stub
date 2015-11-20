@@ -5,14 +5,14 @@
     <h1>Create New %%crudNameSingularCap%%</h1>
     <hr/>
 
-    {!! Form::open(['url' => '%%crudName%%', 'class' => 'form-horizontal']) !!}
-    
+    {!! Form::open(['route' => '%%crudName%%.store', 'class' => 'form-horizontal']) !!}
+
     %%formFieldsHtml%%
 
     <div class="form-group">
         <div class="col-sm-offset-3 col-sm-3">
             {!! Form::submit('Create', ['class' => 'btn btn-primary form-control']) !!}
-        </div>    
+        </div>
     </div>
     {!! Form::close() !!}
 

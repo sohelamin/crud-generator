@@ -7,9 +7,9 @@
         <table class="table table-bordered table-striped table-hover">
             <thead>
                 <tr>
-                    <th>SL.</th>%%formHeadingHtml%%<th>Actions</th>
+                    <th>S.No</th>%%formHeadingHtml%%<th>Actions</th>
                 </tr>
-            </thead>                
+            </thead>
             <tbody>
             {{-- */$x=0;/* --}}
             @foreach($%%crudNamePlural%% as $item)
@@ -17,7 +17,18 @@
                 <tr>
                     <td>{{ $x }}</td>
                     %%formBodyHtml%%
-                    <td><a href="{{ url('/%%crudName%%/'.$item->id.'/edit') }}"><button type="submit" class="btn btn-primary btn-xs">Update</button></a> / {!! Form::open(['method'=>'delete','action'=>['%%crudNameCap%%Controller@destroy',$item->id], 'style' => 'display:inline']) !!}<button type="submit" class="btn btn-danger btn-xs">Delete</button>{!! Form::close() !!}</td>
+                    <td>
+                        <a href="{{ route('%%crudName%%.show', $item->id') }}">
+                            <button type="submit" class="btn btn-primary btn-xs">Update</button>
+                        </a> /
+                        {!! Form::open([
+                            'method'=>'DELETE',
+                            'route' => ['%%crudName%%.destroy', $item->id],
+                            'style' => 'display:inline'
+                        ]) !!}
+                            {!! Form::submit('Delete', ['class' => 'btn btn-danger btn-xs']) !!}
+                        {!! Form::close() !!}
+                    </td>
                 </tr>
             @endforeach
             </tbody>

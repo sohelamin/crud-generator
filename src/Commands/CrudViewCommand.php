@@ -32,7 +32,7 @@ class CrudViewCommand extends Command
     public function handle()
     {
         $crudName = strtolower($this->argument('name'));
-        $crudNameCap = $this->argument('name');
+        $crudNameCap = ucwords($crudName);
         $crudNameSingular = str_singular($crudName);
         $crudNameSingularCap = ucwords($crudNameSingular);
         $crudNamePlural = str_plural($crudName);
@@ -224,7 +224,7 @@ class CrudViewCommand extends Command
         if (!File::copy($editFile, $newEditFile)) {
             echo "failed to copy $editFile...\n";
         } else {
-            File::put($newEditFile, str_replace('%%crudNameCap%%', $crudNameCap, File::get($newEditFile)));
+            File::put($newEditFile, str_replace('%%crudName%%', $crudName, File::get($newEditFile)));
             File::put($newEditFile, str_replace('%%crudNameSingular%%', $crudNameSingular, File::get($newEditFile)));
             File::put($newEditFile, str_replace('%%crudNameSingularCap%%', $crudNameSingularCap, File::get($newEditFile)));
             File::put($newEditFile, str_replace('%%formFieldsHtml%%', $formFieldsHtml, File::get($newEditFile)));
