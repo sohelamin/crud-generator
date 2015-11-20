@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <h1>%%crudNamePluralCap%% <a href="{{ url('/%%crudName%%/create') }}" class="btn btn-primary pull-right btn-sm">Add New %%crudNameCap%%</a></h1>
+    <h1>%%crudNamePluralCap%% <a href="{{ route('%%crudName%%.create') }}" class="btn btn-primary pull-right btn-sm">Add New %%crudNameCap%%</a></h1>
     <div class="table">
         <table class="table table-bordered table-striped table-hover">
             <thead>
@@ -18,7 +18,7 @@
                     <td>{{ $x }}</td>
                     %%formBodyHtml%%
                     <td>
-                        <a href="{{ route('%%crudName%%.show', $item->id') }}">
+                        <a href="{{ route('%%crudName%%.edit', $item->id) }}">
                             <button type="submit" class="btn btn-primary btn-xs">Update</button>
                         </a> /
                         {!! Form::open([
