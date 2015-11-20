@@ -32,7 +32,7 @@ class CrudViewCommand extends Command
     public function handle()
     {
         $crudName = strtolower($this->argument('name'));
-        $crudNameCap = ucwords($crudName);
+        $crudNameCap = $this->argument('name');
         $crudNameSingular = str_singular($crudName);
         $crudNameSingularCap = ucwords($crudNameSingular);
         $crudNamePlural = str_plural($crudName);

@@ -63,7 +63,7 @@ class CrudControllerCommand extends GeneratorCommand
 
         $viewPath = $this->option('view-path') ? strtolower($this->option('view-path')) . '.' : '';
         $crudName = strtolower($this->option('crud-name'));
-        $crudNameCap = ucwords($crudName);
+        $crudNameCap = $this->option('crud-name');
         $crudNamePlural = str_plural($crudName);
         $crudNamePluralCap = str_plural($crudNameCap);
         $crudNameSingular = str_singular($crudName);

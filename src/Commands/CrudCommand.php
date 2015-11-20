@@ -46,7 +46,7 @@ class CrudCommand extends Command
     {
         $name = $this->argument('name');
 
-        $controllerNamespace = ($this->argument('namespace')) ? $this->argument('namespace') . '\\' : '';
+        $controllerNamespace = ($this->option('namespace')) ? $this->option('namespace') . '\\' : '';
 
         if ($this->option('fields')) {
             $fields = $this->option('fields');
@@ -73,7 +73,7 @@ class CrudCommand extends Command
         // Updating the Http/routes.php file
         $routeFile = app_path('Http/routes.php');
         if (file_exists($routeFile) && (strtolower($this->option('route')) === 'yes')) {
-            $isAdded = File::append($routeFile, "\nRoute::resource('" . strtolower($name) . "', '" . $name . "Controller');");
+            $isAdded = File::append($routeFile, "\nRoute::resource('" . strtolower($name) . "', '" . $controllerNamespace . $name . "Controller');");
             if ($isAdded) {
                 $this->info('Crud/Resource route added to ' . $routeFile);
             } else {
