@@ -17,7 +17,8 @@ class CrudCommand extends Command
                             {--fields= : Fields name for the form & model.}
                             {--route=yes : Include Crud route to routes.php? yes|no.}
                             {--pk=id : The name of the primary key.}
-                            {--view-path= : The name of the view path.}';
+                            {--view-path= : The name of the view path.}
+                            {--namespace= : Namespace of the controller.}';
 
     /**
      * The console command description.
@@ -43,7 +44,9 @@ class CrudCommand extends Command
      */
     public function handle()
     {
-        $name = ucwords(strtolower($this->argument('name')));
+        $name = $this->argument('name');
+
+        $controllerNamespace = ($this->argument('namespace')) ? $this->argument('namespace') . '\\' : '';
 
         if ($this->option('fields')) {
             $fields = $this->option('fields');
@@ -58,12 +61,12 @@ class CrudCommand extends Command
             $commaSeparetedString = implode("', '", $data);
             $fillable = "['" . $commaSeparetedString . "']";
 
-            $this->call('crud:controller', ['name' => $name . 'Controller', '--crud-name' => $name, '--view-path' => $viewPath]);
+            $this->call('crud:controller', ['name' => $controllerNamespace . $name . 'Controller', '--crud-name' => $name, '--view-path' => $viewPath]);
             $this->call('crud:model', ['name' => $name, '--fillable' => $fillable, '--table' => str_plural(strtolower($name))]);
             $this->call('crud:migration', ['name' => str_plural(strtolower($name)), '--schema' => $fields, '--pk' => $primaryKey]);
             $this->call('crud:view', ['name' => $name, '--fields' => $fields, '--view-path' => $viewPath]);
         } else {
-            $this->call('make:controller', ['name' => $name . 'Controller']);
+            $this->call('make:controller', ['name' => $controllerNamespace . $name . 'Controller']);
             $this->call('make:model', ['name' => $name]);
         }
 
