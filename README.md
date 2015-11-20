@@ -45,7 +45,7 @@ php artisan crud:generate Person --fields="name:string, email:string, age:number
 You can also easily include route, set primary key, set views directory etc through options **--route**, **--pk**, **--view-path** as bellows:
 
 ```
-php artisan crud:generate Person --fields="name:string, email:string, age:number, message:text" --route="yes" --pk="id" --view-path="admin"
+php artisan crud:generate Person --fields="name:string, email:string, age:number, message:text" --route=yes --pk=id --view-path="admin" --namespace=Admin
 ```
 
 -----------
@@ -57,7 +57,7 @@ php artisan crud:generate Person --fields="name:string, email:string, age:number
 For controller generator:
 
 ```
-php artisan crud:controller PersonController --crud-name="Person" --view-path="directory"
+php artisan crud:controller PersonController --crud-name=Person --view-path="directory"
 ```
 
 For model generator:
