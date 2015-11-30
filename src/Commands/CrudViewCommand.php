@@ -96,7 +96,7 @@ class CrudViewCommand extends Command
                 "<div class=\"form-group\">
                         {!! Form::label('" . $item['name'] . "', '" . $label . ": ', ['class' => 'col-sm-3 control-label']) !!}
                         <div class=\"col-sm-6\">
-                            {!! Form::password('" . $item['name'] . "', null, ['class' => 'form-control']) !!}
+                            {!! Form::password('" . $item['name'] . "', ['class' => 'form-control']) !!}
                         </div>
                     </div>";
             } elseif ($item['type'] == 'email') {
