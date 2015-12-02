@@ -81,58 +81,91 @@ class CrudMigrationCommand extends GeneratorCommand
 
         $schemaFields = '';
         foreach ($data as $item) {
-            if ($item['type'] == 'string') {
-                $schemaFields .= "\$table->string('" . $item['name'] . "');\n";
-            } elseif ($item['type'] == 'char') {
-                $schemaFields .= "\$table->char('" . $item['name'] . "');\n";
-            } elseif ($item['type'] == 'varchar') {
-                $schemaFields .= "\$table->string('" . $item['name'] . "');\n";
-            } elseif ($item['type'] == 'password') {
-                $schemaFields .= "\$table->string('" . $item['name'] . "');\n";
-            } elseif ($item['type'] == 'email') {
-                $schemaFields .= "\$table->string('" . $item['name'] . "');\n";
-            } elseif ($item['type'] == 'date') {
-                $schemaFields .= "\$table->date('" . $item['name'] . "');\n";
-            } elseif ($item['type'] == 'datetime') {
-                $schemaFields .= "\$table->dateTime('" . $item['name'] . "');\n";
-            } elseif ($item['type'] == 'time') {
-                $schemaFields .= "\$table->time('" . $item['name'] . "');\n";
-            } elseif ($item['type'] == 'timestamp') {
-                $schemaFields .= "\$table->timestamp('" . $item['name'] . "');\n";
-            } elseif ($item['type'] == 'text') {
-                $schemaFields .= "\$table->text('" . $item['name'] . "');\n";
-            } elseif ($item['type'] == 'mediumtext') {
-                $schemaFields .= "\$table->mediumText('" . $item['name'] . "');\n";
-            } elseif ($item['type'] == 'longtext') {
-                $schemaFields .= "\$table->longText('" . $item['name'] . "');\n";
-            } elseif ($item['type'] == 'json') {
-                $schemaFields .= "\$table->json('" . $item['name'] . "');\n";
-            } elseif ($item['type'] == 'jsonb') {
-                $schemaFields .= "\$table->jsonb('" . $item['name'] . "');\n";
-            } elseif ($item['type'] == 'binary') {
-                $schemaFields .= "\$table->binary('" . $item['name'] . "');\n";
-            } elseif ($item['type'] == 'number') {
-                $schemaFields .= "\$table->integer('" . $item['name'] . "');\n";
-            } elseif ($item['type'] == 'integer') {
-                $schemaFields .= "\$table->integer('" . $item['name'] . "');\n";
-            } elseif ($item['type'] == 'bigint') {
-                $schemaFields .= "\$table->bigInteger('" . $item['name'] . "');\n";
-            } elseif ($item['type'] == 'mediumint') {
-                $schemaFields .= "\$table->mediumInteger('" . $item['name'] . "');\n";
-            } elseif ($item['type'] == 'tinyint') {
-                $schemaFields .= "\$table->tinyInteger('" . $item['name'] . "');\n";
-            } elseif ($item['type'] == 'smallint') {
-                $schemaFields .= "\$table->smallInteger('" . $item['name'] . "');\n";
-            } elseif ($item['type'] == 'boolean') {
-                $schemaFields .= "\$table->boolean('" . $item['name'] . "');\n";
-            } elseif ($item['type'] == 'decimal') {
-                $schemaFields .= "\$table->decimal('" . $item['name'] . "');\n";
-            } elseif ($item['type'] == 'double') {
-                $schemaFields .= "\$table->double('" . $item['name'] . "');\n";
-            } elseif ($item['type'] == 'float') {
-                $schemaFields .= "\$table->float('" . $item['name'] . "');\n";
-            } else {
-                $schemaFields .= "\$table->string('" . $item['name'] . "');\n";
+            switch ($item['type']) {
+                case 'char':
+                    $schemaFields .= "\$table->char('" . $item['name'] . "');\n";
+                    break;
+
+                case 'date':
+                    $schemaFields .= "\$table->date('" . $item['name'] . "');\n";
+                    break;
+
+                case 'datetime':
+                    $schemaFields .= "\$table->dateTime('" . $item['name'] . "');\n";
+                    break;
+
+                case 'time':
+                    $schemaFields .= "\$table->time('" . $item['name'] . "');\n";
+                    break;
+
+                case 'timestamp':
+                    $schemaFields .= "\$table->timestamp('" . $item['name'] . "');\n";
+                    break;
+
+                case 'text':
+                    $schemaFields .= "\$table->text('" . $item['name'] . "');\n";
+                    break;
+
+                case 'mediumtext':
+                    $schemaFields .= "\$table->mediumText('" . $item['name'] . "');\n";
+                    break;
+
+                case 'longtext':
+                    $schemaFields .= "\$table->longText('" . $item['name'] . "');\n";
+                    break;
+
+                case 'json':
+                    $schemaFields .= "\$table->json('" . $item['name'] . "');\n";
+                    break;
+
+                case 'jsonb':
+                    $schemaFields .= "\$table->jsonb('" . $item['name'] . "');\n";
+                    break;
+
+                case 'binary':
+                    $schemaFields .= "\$table->binary('" . $item['name'] . "');\n";
+                    break;
+
+                case 'number':
+                case 'integer':
+                    $schemaFields .= "\$table->integer('" . $item['name'] . "');\n";
+                    break;
+
+                case 'bigint':
+                    $schemaFields .= "\$table->bigInteger('" . $item['name'] . "');\n";
+                    break;
+
+                case 'mediumint':
+                    $schemaFields .= "\$table->mediumInteger('" . $item['name'] . "');\n";
+                    break;
+
+                case 'tinyint':
+                    $schemaFields .= "\$table->tinyInteger('" . $item['name'] . "');\n";
+                    break;
+
+                case 'smallint':
+                    $schemaFields .= "\$table->smallInteger('" . $item['name'] . "');\n";
+                    break;
+
+                case 'boolean':
+                    $schemaFields .= "\$table->boolean('" . $item['name'] . "');\n";
+                    break;
+
+                case 'decimal':
+                    $schemaFields .= "\$table->decimal('" . $item['name'] . "');\n";
+                    break;
+
+                case 'double':
+                    $schemaFields .= "\$table->double('" . $item['name'] . "');\n";
+                    break;
+
+                case 'float':
+                    $schemaFields .= "\$table->float('" . $item['name'] . "');\n";
+                    break;
+
+                default:
+                    $schemaFields .= "\$table->string('" . $item['name'] . "');\n";
+                    break;
             }
         }
 

@@ -25,33 +25,35 @@ class CrudViewCommand extends Command
     protected $description = 'Create views for the Crud.';
 
     /**
+     *  Form field types collection.
+     *
      * @var array
      */
     protected $typeLookup = [
-        'string'     => 'text',
-        'char'       => 'text',
-        'varchar'    => 'text',
-        'text'       => 'textarea',
+        'string' => 'text',
+        'char' => 'text',
+        'varchar' => 'text',
+        'text' => 'textarea',
         'mediumtext' => 'textarea',
-        'longtext'   => 'textarea',
-        'json'       => 'textarea',
-        'jsonb'      => 'textarea',
-        'binary'     => 'textarea',
-        'password'   => 'password',
-        'email'      => 'email',
-        'number'     => 'number',
-        'integer'    => 'number',
-        'bigint'     => 'number',
-        'mediumint'  => 'number',
-        'tinyint'    => 'number',
-        'smallint'   => 'number',
-        'decimal'    => 'number',
-        'double'     => 'number',
-        'float'      => 'number',
-        'date'       => 'date',
-        'datetime'   => 'datetime-local',
-        'time'       => 'time',
-        'boolean'    => 'radio',
+        'longtext' => 'textarea',
+        'json' => 'textarea',
+        'jsonb' => 'textarea',
+        'binary' => 'textarea',
+        'password' => 'password',
+        'email' => 'email',
+        'number' => 'number',
+        'integer' => 'number',
+        'bigint' => 'number',
+        'mediumint' => 'number',
+        'tinyint' => 'number',
+        'smallint' => 'number',
+        'decimal' => 'number',
+        'double' => 'number',
+        'float' => 'number',
+        'date' => 'date',
+        'datetime' => 'datetime-local',
+        'time' => 'time',
+        'boolean' => 'radio',
     ];
 
     /**
@@ -89,6 +91,8 @@ class CrudViewCommand extends Command
             $itemArray = explode(':', $item);
             $formFields[$x]['name'] = trim($itemArray[0]);
             $formFields[$x]['type'] = trim($itemArray[1]);
+            $formFields[$x]['required'] = (isset($itemArray[2]) && (trim($itemArray[2]) == 'req' || trim($itemArray[2]) == 'required')) ? true : false;
+
             $x++;
         }
 
@@ -189,25 +193,32 @@ class CrudViewCommand extends Command
         $this->info('View created successfully.');
     }
 
+    /**
+     * Form field wrapper.
+     *
+     * @param  $item
+     * @param  $field
+     *
+     * @return void
+     */
     protected function wrapField($item, $field)
     {
         $formGroup =
-<<<EOD
-<div class="form-group {{ \$errors->has('%1\$s') ? 'has-error' : ''}}">
-    {!! Form::label('%1\$s', '%2\$s: ', ['class' => 'col-sm-3 control-label']) !!}
-    <div class="col-sm-6">
-        %3\$s
-        {!! \$errors->first('%1\$s', '<p class="help-block">:message</p>') !!}
-    </div>
-</div>
-
+            <<<EOD
+            <div class="form-group {{ \$errors->has('%1\$s') ? 'has-error' : ''}}">
+                {!! Form::label('%1\$s', '%2\$s: ', ['class' => 'col-sm-3 control-label']) !!}
+                <div class="col-sm-6">
+                    %3\$s
+                    {!! \$errors->first('%1\$s', '<p class="help-block">:message</p>') !!}
+                </div>
+            </div>
 EOD;
 
         return sprintf($formGroup, $item['name'], ucwords(strtolower(str_replace('_', ' ', $item['name']))), $field);
     }
 
     /**
-     * Create field generator
+     * Form field generator.
      *
      * @param $item
      *
@@ -232,7 +243,7 @@ EOD;
     }
 
     /**
-     * Create a specific field using the form helper
+     * Create a specific field using the form helper.
      *
      * @param $item
      *
@@ -240,14 +251,16 @@ EOD;
      */
     protected function createFormField($item)
     {
+        $required = ($item['required'] === true) ? ", 'required' => 'required'" : "";
+
         return $this->wrapField(
             $item,
-            "{!! Form::". $this->typeLookup[$item['type']] . "('" . $item['name'] . "', null, ['class' => 'form-control']) !!}"
+            "{!! Form::" . $this->typeLookup[$item['type']] . "('" . $item['name'] . "', null, ['class' => 'form-control'$required]) !!}"
         );
     }
 
     /**
-     * Create a password field using the form helper
+     * Create a password field using the form helper.
      *
      * @param $item
      *
@@ -255,14 +268,16 @@ EOD;
      */
     protected function createPasswordField($item)
     {
+        $required = ($item['required'] === true) ? ", 'required' => 'required'" : "";
+
         return $this->wrapField(
             $item,
-            "{!! Form::password('" . $item['name'] . "', ['class' => 'form-control']) !!}"
+            "{!! Form::password('" . $item['name'] . "', ['class' => 'form-control'$required]) !!}"
         );
     }
 
     /**
-     * Create a generic input field using the form helper
+     * Create a generic input field using the form helper.
      *
      * @param $item
      *
@@ -270,14 +285,17 @@ EOD;
      */
     protected function createInputField($item)
     {
+        $required = ($item['required'] === true) ? ", 'required' => 'required'" : "";
+
         return $this->wrapField(
             $item,
-            "{!! Form::input('" . $this->typeLookup[$item['type']] . "', '" . $item['name'] . "', null, ['class' => 'form-control']) !!}"
+            "{!! Form::input('" . $this->typeLookup[$item['type']] . "', '" . $item['name'] . "', null, ['class' => 'form-control'$required]) !!}"
         );
     }
 
     /**
-     * Create a yes/no radio button group using the form helper
+     * Create a yes/no radio button group using the form helper.
+     *
      * @param $item
      *
      * @return string
@@ -285,15 +303,15 @@ EOD;
     protected function createRadioField($item)
     {
         $field =
-<<<EOD
-<div class="checkbox">
-    <label>{!! Form::radio('%1\$s', '1') !!} Yes</label>
-</div>
-<div class="checkbox">
-    <label>{!! Form::radio('%1\$s', '0', true) !!} No</label>
-</div>
+            <<<EOD
+            <div class="checkbox">
+                <label>{!! Form::radio('%1\$s', '1') !!} Yes</label>
+            </div>
+            <div class="checkbox">
+                <label>{!! Form::radio('%1\$s', '0', true) !!} No</label>
+            </div>
 EOD;
 
-        return$this->wrapField($item, sprintf($field, $item['name']));
+        return $this->wrapField($item, sprintf($field, $item['name']));
     }
 }
