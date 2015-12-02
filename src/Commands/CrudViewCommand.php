@@ -25,6 +25,36 @@ class CrudViewCommand extends Command
     protected $description = 'Create views for the Crud.';
 
     /**
+     * @var array
+     */
+    protected $typeLookup = [
+        'string'     => 'text',
+        'char'       => 'text',
+        'varchar'    => 'text',
+        'text'       => 'textarea',
+        'mediumtext' => 'textarea',
+        'longtext'   => 'textarea',
+        'json'       => 'textarea',
+        'jsonb'      => 'textarea',
+        'binary'     => 'textarea',
+        'password'   => 'password',
+        'email'      => 'email',
+        'number'     => 'number',
+        'integer'    => 'number',
+        'bigint'     => 'number',
+        'mediumint'  => 'number',
+        'tinyint'    => 'number',
+        'smallint'   => 'number',
+        'decimal'    => 'number',
+        'double'     => 'number',
+        'float'      => 'number',
+        'date'       => 'date',
+        'datetime'   => 'datetime-local',
+        'time'       => 'time',
+        'boolean'    => 'radio',
+    ];
+
+    /**
      * Execute the console command.
      *
      * @return mixed
@@ -64,108 +94,7 @@ class CrudViewCommand extends Command
 
         $formFieldsHtml = '';
         foreach ($formFields as $item) {
-            $label = ucwords(strtolower(str_replace('_', ' ', $item['name'])));
-
-            if ($item['type'] == 'string'
-                || $item['type'] == 'char'
-                || $item['type'] == 'varchar'
-            ) {
-                $formFieldsHtml .=
-                "<div class=\"form-group\">
-                        {!! Form::label('" . $item['name'] . "', '" . $label . ": ', ['class' => 'col-sm-3 control-label']) !!}
-                        <div class=\"col-sm-6\">
-                            {!! Form::text('" . $item['name'] . "', null, ['class' => 'form-control']) !!}
-                        </div>
-                    </div>";
-            } elseif ($item['type'] == 'text'
-                || $item['type'] == 'mediumtext'
-                || $item['type'] == 'longtext'
-                || $item['type'] == 'json'
-                || $item['type'] == 'jsonb'
-                || $item['type'] == 'binary'
-            ) {
-                $formFieldsHtml .=
-                "<div class=\"form-group\">
-                        {!! Form::label('" . $item['name'] . "', '" . $label . ": ', ['class' => 'col-sm-3 control-label']) !!}
-                        <div class=\"col-sm-6\">
-                            {!! Form::textarea('" . $item['name'] . "', null, ['class' => 'form-control']) !!}
-                        </div>
-                    </div>";
-            } elseif ($item['type'] == 'password') {
-                $formFieldsHtml .=
-                "<div class=\"form-group\">
-                        {!! Form::label('" . $item['name'] . "', '" . $label . ": ', ['class' => 'col-sm-3 control-label']) !!}
-                        <div class=\"col-sm-6\">
-                            {!! Form::password('" . $item['name'] . "', ['class' => 'form-control']) !!}
-                        </div>
-                    </div>";
-            } elseif ($item['type'] == 'email') {
-                $formFieldsHtml .=
-                "<div class=\"form-group\">
-                        {!! Form::label('" . $item['name'] . "', '" . $label . ": ', ['class' => 'col-sm-3 control-label']) !!}
-                        <div class=\"col-sm-6\">
-                            {!! Form::email('" . $item['name'] . "', null, ['class' => 'form-control']) !!}
-                        </div>
-                    </div>";
-            } elseif ($item['type'] == 'number'
-                || $item['type'] == 'integer'
-                || $item['type'] == 'bigint'
-                || $item['type'] == 'mediumint'
-                || $item['type'] == 'tinyint'
-                || $item['type'] == 'smallint'
-                || $item['type'] == 'decimal'
-                || $item['type'] == 'double'
-                || $item['type'] == 'float'
-            ) {
-                $formFieldsHtml .=
-                "<div class=\"form-group\">
-                        {!! Form::label('" . $item['name'] . "', '" . $label . ": ', ['class' => 'col-sm-3 control-label']) !!}
-                        <div class=\"col-sm-6\">
-                            {!! Form::number('" . $item['name'] . "', null, ['class' => 'form-control']) !!}
-                        </div>
-                    </div>";
-            } elseif ($item['type'] == 'date') {
-                $formFieldsHtml .=
-                "<div class=\"form-group\">
-                        {!! Form::label('" . $item['name'] . "', '" . $label . ": ', ['class' => 'col-sm-3 control-label']) !!}
-                        <div class=\"col-sm-6\">
-                            {!! Form::date('" . $item['name'] . "', null, ['class' => 'form-control']) !!}
-                        </div>
-                    </div>";
-            } elseif ($item['type'] == 'datetime') {
-                $formFieldsHtml .=
-                "<div class=\"form-group\">
-                        {!! Form::label('" . $item['name'] . "', '" . $label . ": ', ['class' => 'col-sm-3 control-label']) !!}
-                        <div class=\"col-sm-6\">
-                            {!! Form::input('datetime-local', '" . $item['name'] . "', null, ['class' => 'form-control']) !!}
-                        </div>
-                    </div>";
-            } elseif ($item['type'] == 'time') {
-                $formFieldsHtml .=
-                "<div class=\"form-group\">
-                        {!! Form::label('" . $item['name'] . "', '" . $label . ": ', ['class' => 'col-sm-3 control-label']) !!}
-                        <div class=\"col-sm-6\">
-                            {!! Form::input('time', '" . $item['name'] . "', null, ['class' => 'form-control']) !!}
-                        </div>
-                    </div>";
-            } elseif ($item['type'] == 'boolean') {
-                $formFieldsHtml .=
-                "<div class=\"form-group\">
-                        {!! Form::label('" . $item['name'] . "', '" . $label . ": ', ['class' => 'col-sm-3 control-label']) !!}
-                        <div class=\"col-sm-6\">
-                            {!! Form::radio('" . $item['name'] . "', '1', ['class' => 'form-control']) !!}Yes
-                            {!! Form::radio('" . $item['name'] . "', '0', true, ['class' => 'form-control']) !!}No
-                        </div>
-                    </div>";
-            } else {
-                $formFieldsHtml .=
-                "<div class=\"form-group\">
-                        {!! Form::label('" . $item['name'] . "', '" . $label . ": ', ['class' => 'col-sm-3 control-label']) !!}
-                        <div class=\"col-sm-6\">
-                            {!! Form::text('" . $item['name'] . "', null, ['class' => 'form-control']) !!}
-                        </div>
-                    </div>";
-            }
+            $formFieldsHtml .= $this->createField($item);
         }
 
         // Form fields and label
@@ -258,5 +187,113 @@ class CrudViewCommand extends Command
         }
 
         $this->info('View created successfully.');
+    }
+
+    protected function wrapField($item, $field)
+    {
+        $formGroup =
+<<<EOD
+<div class="form-group {{ \$errors->has('%1\$s') ? 'has-error' : ''}}">
+    {!! Form::label('%1\$s', '%2\$s: ', ['class' => 'col-sm-3 control-label']) !!}
+    <div class="col-sm-6">
+        %3\$s
+        {!! \$errors->first('%1\$s', '<p class="help-block">:message</p>') !!}
+    </div>
+</div>
+
+EOD;
+
+        return sprintf($formGroup, $item['name'], ucwords(strtolower(str_replace('_', ' ', $item['name']))), $field);
+    }
+
+    /**
+     * Create field generator
+     *
+     * @param $item
+     *
+     * @return string
+     */
+    protected function createField($item)
+    {
+        switch ($this->typeLookup[$item['type']]) {
+            case 'password':
+                return $this->createPasswordField($item);
+                break;
+            case 'datetime-local':
+            case 'time':
+                return $this->createInputField($item);
+                break;
+            case 'radio': //special
+                return $this->createRadioField($item);
+                break;
+            default: // text
+                return $this->createFormField($item);
+        }
+    }
+
+    /**
+     * Create a specific field using the form helper
+     *
+     * @param $item
+     *
+     * @return string
+     */
+    protected function createFormField($item)
+    {
+        return $this->wrapField(
+            $item,
+            "{!! Form::". $this->typeLookup[$item['type']] . "('" . $item['name'] . "', null, ['class' => 'form-control']) !!}"
+        );
+    }
+
+    /**
+     * Create a password field using the form helper
+     *
+     * @param $item
+     *
+     * @return string
+     */
+    protected function createPasswordField($item)
+    {
+        return $this->wrapField(
+            $item,
+            "{!! Form::password('" . $item['name'] . "', ['class' => 'form-control']) !!}"
+        );
+    }
+
+    /**
+     * Create a generic input field using the form helper
+     *
+     * @param $item
+     *
+     * @return string
+     */
+    protected function createInputField($item)
+    {
+        return $this->wrapField(
+            $item,
+            "{!! Form::input('" . $this->typeLookup[$item['type']] . "', '" . $item['name'] . "', null, ['class' => 'form-control']) !!}"
+        );
+    }
+
+    /**
+     * Create a yes/no radio button group using the form helper
+     * @param $item
+     *
+     * @return string
+     */
+    protected function createRadioField($item)
+    {
+        $field =
+<<<EOD
+<div class="checkbox">
+    <label>{!! Form::radio('%1\$s', '1') !!} Yes</label>
+</div>
+<div class="checkbox">
+    <label>{!! Form::radio('%1\$s', '0', true) !!} No</label>
+</div>
+EOD;
+
+        return$this->wrapField($item, sprintf($field, $item['name']));
     }
 }
