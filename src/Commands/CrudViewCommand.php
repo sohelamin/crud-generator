@@ -211,7 +211,7 @@ class CrudViewCommand extends Command
                     %3\$s
                     {!! \$errors->first('%1\$s', '<p class="help-block">:message</p>') !!}
                 </div>
-            </div>
+            </div>\n
 EOD;
 
         return sprintf($formGroup, $item['name'], ucwords(strtolower(str_replace('_', ' ', $item['name']))), $field);
@@ -314,4 +314,5 @@ EOD;
 
         return $this->wrapField($item, sprintf($field, $item['name']));
     }
+
 }

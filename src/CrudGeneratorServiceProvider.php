@@ -28,4 +28,5 @@ class CrudGeneratorServiceProvider extends ServiceProvider
             'Appzcoder\CrudGenerator\Commands\CrudViewCommand'
         );
     }
+
 }

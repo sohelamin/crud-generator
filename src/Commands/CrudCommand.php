@@ -53,15 +53,27 @@ class CrudCommand extends Command
             $primaryKey = $this->option('pk');
             $viewPath = $this->option('view-path');
 
-            $fillableArray = explode(',', $fields);
-            foreach ($fillableArray as $value) {
-                $data[] = preg_replace("/(.*?):(.*)/", "$1", trim($value));
+            $fieldsArray = explode(',', $fields);
+            $requiredFields = '';
+            $requiredFieldsStr = '';
+
+            foreach ($fieldsArray as $item) {
+                $fillableArray[] = preg_replace("/(.*?):(.*)/", "$1", trim($item));
+
+                $itemArray = explode(':', $item);
+                $currentField = trim($itemArray[0]);
+                $requiredFieldsStr .= (isset($itemArray[2])
+                    && (trim($itemArray[2]) == 'req'
+                        || trim($itemArray[2]) == 'required'))
+                ? "'$currentField' => 'required', " : '';
             }
 
-            $commaSeparetedString = implode("', '", $data);
+            $commaSeparetedString = implode("', '", $fillableArray);
             $fillable = "['" . $commaSeparetedString . "']";
 
-            $this->call('crud:controller', ['name' => $controllerNamespace . $name . 'Controller', '--crud-name' => $name, '--view-path' => $viewPath]);
+            $requiredFields = ($requiredFieldsStr != '') ? "[" . $requiredFieldsStr . "]" : '';
+
+            $this->call('crud:controller', ['name' => $controllerNamespace . $name . 'Controller', '--crud-name' => $name, '--view-path' => $viewPath, '--required-fields' => $requiredFields]);
             $this->call('crud:model', ['name' => $name, '--fillable' => $fillable, '--table' => str_plural(strtolower($name))]);
             $this->call('crud:migration', ['name' => str_plural(strtolower($name)), '--schema' => $fields, '--pk' => $primaryKey]);
             $this->call('crud:view', ['name' => $name, '--fields' => $fields, '--view-path' => $viewPath]);
@@ -83,4 +95,5 @@ class CrudCommand extends Command
             }
         }
     }
+
 }
