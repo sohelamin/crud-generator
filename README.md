@@ -18,11 +18,11 @@ Laravel CRUD Generator
         ...
 
         Appzcoder\CrudGenerator\CrudGeneratorServiceProvider::class,
-        // Use the line bellow for "laravelcollective/html" package otherwise remove it.
+        // Use the line below for "laravelcollective/html" package otherwise remove it.
         Collective\Html\HtmlServiceProvider::class,
     ],
 
-    // Use the lines bellow for "laravelcollective/html" package otherwise remove it.
+    // Use the lines below for "laravelcollective/html" package otherwise remove it.
     'aliases' => [
         ...
 
@@ -32,7 +32,7 @@ Laravel CRUD Generator
     ```
 3. Run **composer update**
 
-Note: You should have configured database as well for this operation.
+Note: You need to have a database configured for this operation.
 
 ## Commands
 
@@ -80,7 +80,7 @@ php artisan crud:view Person --fields="name:string, email:string, age:number, me
 
 By default, the generator will attempt to append the crud route to your *routes.php* file. If you don't want the route added, you can use the option ```--route=no```.
 
-After creating all resources run migrate command *(and, if necessary, include the route for your crud as well)*.
+After creating all resources, run migrate command. *If necessary, include the route for your crud as well.*
 
 ```
 php artisan migrate
