@@ -5,7 +5,8 @@
     "keywords": [
         "laravel",
         "crud",
-        "crud generator"
+        "crud generator",
+        "laravel crud generator"
     ],
     "authors": [
         {
@@ -16,8 +17,8 @@
     ],
     "require": {
         "php": ">=5.5.9",
-        "illuminate/support": "5.1.*",
-        "laravelcollective/html": "5.1.*"
+        "illuminate/support": "5.1.*|5.2.*",
+        "laravelcollective/html": "5.1.*|dev-master"
     },
     "autoload": {
         "psr-4": {
