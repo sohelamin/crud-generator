@@ -77,7 +77,8 @@ class CrudCommand extends Command
             $this->call('crud:model', ['name' => $name, '--fillable' => $fillable, '--table' => str_plural(strtolower($name))]);
             $this->call('crud:migration', ['name' => str_plural(strtolower($name)), '--schema' => $fields, '--pk' => $primaryKey]);
             $this->call('crud:view', ['name' => $name, '--fields' => $fields, '--view-path' => $viewPath]);
-        } else {
+
+        } else {        	
             $this->call('make:controller', ['name' => $controllerNamespace . $name . 'Controller']);
             $this->call('make:model', ['name' => $name]);
         }

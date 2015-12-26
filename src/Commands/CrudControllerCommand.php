@@ -15,7 +15,7 @@ class CrudControllerCommand extends GeneratorCommand
                             {name : The name of the controler.}
                             {--crud-name= : The name of the Crud.}
                             {--view-path= : The name of the view path.}
-                            {--required-fields=null : Required fields for validations.}';
+                            {--required-fields= : Required fields for validations.}';
 
     /**
      * The console command description.
@@ -38,13 +38,16 @@ class CrudControllerCommand extends GeneratorCommand
      */
     protected function getStub()
     {
-        return __DIR__ . '/../stubs/controller.stub';
+        return config('crudgenerator.custom_template')
+        ? config('crudgenerator.path') . '/controller.stub'
+        : __DIR__ . '/../stubs/controller.stub';
     }
 
     /**
      * Get the default namespace for the class.
      *
-     * @param  string  $rootNamespace
+     * @param  string $rootNamespace
+     *
      * @return string
      */
     protected function getDefaultNamespace($rootNamespace)
@@ -56,6 +59,7 @@ class CrudControllerCommand extends GeneratorCommand
      * Build the model class with the given name.
      *
      * @param  string  $name
+     *
      * @return string
      */
     protected function buildClass($name)
@@ -89,6 +93,8 @@ class CrudControllerCommand extends GeneratorCommand
      * Replace the viewPath for the given stub.
      *
      * @param  string  $stub
+     * @param  string  $viewPath
+     *
      * @return $this
      */
     protected function replaceViewPath(&$stub, $viewPath)
@@ -104,6 +110,8 @@ class CrudControllerCommand extends GeneratorCommand
      * Replace the crudName for the given stub.
      *
      * @param  string  $stub
+     * @param  string  $crudName
+     *
      * @return $this
      */
     protected function replaceCrudName(&$stub, $crudName)
@@ -119,6 +127,8 @@ class CrudControllerCommand extends GeneratorCommand
      * Replace the crudNameCap for the given stub.
      *
      * @param  string  $stub
+     * @param  string  $crudNameCap
+     *
      * @return $this
      */
     protected function replaceCrudNameCap(&$stub, $crudNameCap)
@@ -134,6 +144,8 @@ class CrudControllerCommand extends GeneratorCommand
      * Replace the crudNamePlural for the given stub.
      *
      * @param  string  $stub
+     * @param  string  $crudNamePlural
+     *
      * @return $this
      */
     protected function replaceCrudNamePlural(&$stub, $crudNamePlural)
@@ -149,6 +161,8 @@ class CrudControllerCommand extends GeneratorCommand
      * Replace the crudNamePluralCap for the given stub.
      *
      * @param  string  $stub
+     * @param  string  $crudNamePluralCap
+     *
      * @return $this
      */
     protected function replaceCrudNamePluralCap(&$stub, $crudNamePluralCap)
@@ -164,6 +178,8 @@ class CrudControllerCommand extends GeneratorCommand
      * Replace the crudNameSingular for the given stub.
      *
      * @param  string  $stub
+     * @param  string  $crudNameSingular
+     *
      * @return $this
      */
     protected function replaceCrudNameSingular(&$stub, $crudNameSingular)
@@ -179,6 +195,8 @@ class CrudControllerCommand extends GeneratorCommand
      * Replace the validationRules for the given stub.
      *
      * @param  string  $stub
+     * @param  string  $validationRules
+     *
      * @return $this
      */
     protected function replaceValidationRules(&$stub, $validationRules)

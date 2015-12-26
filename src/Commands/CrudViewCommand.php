@@ -25,6 +25,13 @@ class CrudViewCommand extends Command
     protected $description = 'Create views for the Crud.';
 
     /**
+     * View Directory Path.
+     *
+     * @var string
+     */
+    protected $viewDirectoryPath;
+
+    /**
      *  Form field types collection.
      *
      * @var array
@@ -55,6 +62,13 @@ class CrudViewCommand extends Command
         'time' => 'time',
         'boolean' => 'radio',
     ];
+
+    public function __construct()
+    {
+        $this->viewDirectoryPath = config('crudgenerator.custom_template')
+        ? config('crudgenerator.path')
+        : __DIR__ . '/../stubs/';
+    }
 
     /**
      * Execute the console command.
@@ -127,7 +141,7 @@ class CrudViewCommand extends Command
         }
 
         // For index.blade.php file
-        $indexFile = __DIR__ . '/../stubs/index.blade.stub';
+        $indexFile = $this->viewDirectoryPath . 'index.blade.stub';
         $newIndexFile = $path . 'index.blade.php';
         if (!File::copy($indexFile, $newIndexFile)) {
             echo "failed to copy $indexFile...\n";
@@ -141,7 +155,7 @@ class CrudViewCommand extends Command
         }
 
         // For create.blade.php file
-        $createFile = __DIR__ . '/../stubs/create.blade.stub';
+        $createFile = $this->viewDirectoryPath . 'create.blade.stub';
         $newCreateFile = $path . 'create.blade.php';
         if (!File::copy($createFile, $newCreateFile)) {
             echo "failed to copy $createFile...\n";
@@ -152,7 +166,7 @@ class CrudViewCommand extends Command
         }
 
         // For edit.blade.php file
-        $editFile = __DIR__ . '/../stubs/edit.blade.stub';
+        $editFile = $this->viewDirectoryPath . 'edit.blade.stub';
         $newEditFile = $path . 'edit.blade.php';
         if (!File::copy($editFile, $newEditFile)) {
             echo "failed to copy $editFile...\n";
@@ -164,7 +178,7 @@ class CrudViewCommand extends Command
         }
 
         // For show.blade.php file
-        $showFile = __DIR__ . '/../stubs/show.blade.stub';
+        $showFile = $this->viewDirectoryPath . 'show.blade.stub';
         $newShowFile = $path . 'show.blade.php';
         if (!File::copy($showFile, $newShowFile)) {
             echo "failed to copy $showFile...\n";
@@ -181,7 +195,7 @@ class CrudViewCommand extends Command
             File::makeDirectory($layoutsDirPath);
         }
 
-        $layoutsFile = __DIR__ . '/../stubs/master.blade.stub';
+        $layoutsFile = $this->viewDirectoryPath . 'master.blade.stub';
         $newLayoutsFile = $layoutsDirPath . 'master.blade.php';
 
         if (!File::exists($newLayoutsFile)) {
@@ -196,8 +210,8 @@ class CrudViewCommand extends Command
     /**
      * Form field wrapper.
      *
-     * @param  $item
-     * @param  $field
+     * @param  string  $item
+     * @param  string  $field
      *
      * @return void
      */
@@ -220,7 +234,7 @@ EOD;
     /**
      * Form field generator.
      *
-     * @param $item
+     * @param  string  $item
      *
      * @return string
      */
@@ -234,7 +248,7 @@ EOD;
             case 'time':
                 return $this->createInputField($item);
                 break;
-            case 'radio': //special
+            case 'radio':
                 return $this->createRadioField($item);
                 break;
             default: // text
@@ -245,7 +259,7 @@ EOD;
     /**
      * Create a specific field using the form helper.
      *
-     * @param $item
+     * @param  string  $item
      *
      * @return string
      */
@@ -262,7 +276,7 @@ EOD;
     /**
      * Create a password field using the form helper.
      *
-     * @param $item
+     * @param  string  $item
      *
      * @return string
      */
@@ -279,7 +293,7 @@ EOD;
     /**
      * Create a generic input field using the form helper.
      *
-     * @param $item
+     * @param  string  $item
      *
      * @return string
      */
@@ -296,7 +310,7 @@ EOD;
     /**
      * Create a yes/no radio button group using the form helper.
      *
-     * @param $item
+     * @param  string  $item
      *
      * @return string
      */

@@ -37,13 +37,16 @@ class CrudMigrationCommand extends GeneratorCommand
      */
     protected function getStub()
     {
-        return __DIR__ . '/../stubs/migration.stub';
+        return config('crudgenerator.custom_template')
+        ? config('crudgenerator.path') . '/migration.stub'
+        : __DIR__ . '/../stubs/migration.stub';
     }
 
     /**
      * Get the destination class path.
      *
      * @param  string  $name
+     *
      * @return string
      */
     protected function getPath($name)
@@ -58,6 +61,7 @@ class CrudMigrationCommand extends GeneratorCommand
      * Build the model class with the given name.
      *
      * @param  string  $name
+     *
      * @return string
      */
     protected function buildClass($name)
@@ -190,6 +194,8 @@ class CrudMigrationCommand extends GeneratorCommand
      * Replace the schema_up for the given stub.
      *
      * @param  string  $stub
+     * @param  string  $schemaUp
+     *
      * @return $this
      */
     protected function replaceSchemaUp(&$stub, $schemaUp)
@@ -205,6 +211,8 @@ class CrudMigrationCommand extends GeneratorCommand
      * Replace the schema_down for the given stub.
      *
      * @param  string  $stub
+     * @param  string  $schemaDown
+     *
      * @return $this
      */
     protected function replaceSchemaDown(&$stub, $schemaDown)
