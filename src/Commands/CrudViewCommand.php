@@ -155,6 +155,7 @@ class CrudViewCommand extends Command
             File::put($newIndexFile, str_replace('%%formBodyHtml%%', $formBodyHtml, File::get($newIndexFile)));
             File::put($newIndexFile, str_replace('%%crudName%%', $crudName, File::get($newIndexFile)));
             File::put($newIndexFile, str_replace('%%crudNameCap%%', $crudNameCap, File::get($newIndexFile)));
+            File::put($newIndexFile, str_replace('%%modelName%%', $modelName, File::get($newIndexFile)));
         }
 
         // For create.blade.php file

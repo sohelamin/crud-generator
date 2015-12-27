@@ -93,7 +93,7 @@ class CrudCommand extends Command
         if (file_exists($routeFile) && (strtolower($this->option('route')) === 'yes')) {
             $controller = ($controllerNamespace != '') ? $controllerNamespace . '\\' . $name . 'Controller' : $name . 'Controller';
 
-            if (App::VERSION() >= '5.2') {
+            if (\App::VERSION() >= '5.2') {
                 $isAdded = File::append($routeFile,
                     "\nRoute::group(['middleware' => ['web']], function () {"
                     . "\n\tRoute::resource('" . $routeName . "', '" . $controller . "');"
