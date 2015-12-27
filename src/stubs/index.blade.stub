@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <h1>%%crudNamePluralCap%% <a href="{{ route('%%crudName%%.create') }}" class="btn btn-primary pull-right btn-sm">Add New %%crudNameCap%%</a></h1>
+    <h1>%%crudNameCap%% <a href="{{ route('%%crudName%%.create') }}" class="btn btn-primary pull-right btn-sm">Add New %%modelName%%</a></h1>
     <div class="table">
         <table class="table table-bordered table-striped table-hover">
             <thead>
@@ -12,7 +12,7 @@
             </thead>
             <tbody>
             {{-- */$x=0;/* --}}
-            @foreach($%%crudNamePlural%% as $item)
+            @foreach($%%crudName%% as $item)
                 {{-- */$x++;/* --}}
                 <tr>
                     <td>{{ $x }}</td>
@@ -33,7 +33,7 @@
             @endforeach
             </tbody>
         </table>
-        <div class="pagination"> {!! $%%crudNamePlural%%->render() !!} </div>
+        <div class="pagination"> {!! $%%crudName%%->render() !!} </div>
     </div>
 
 @endsection

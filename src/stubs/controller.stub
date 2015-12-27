@@ -5,7 +5,7 @@ namespace DummyNamespace;
 use DummyRootNamespaceHttp\Requests;
 use DummyRootNamespaceHttp\Controllers\Controller;
 
-use DummyRootNamespace{{crudNameCap}};
+use DummyRootNamespace{{modelName}};
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Session;
@@ -20,9 +20,9 @@ class DummyClass extends Controller
      */
     public function index()
     {
-        ${{crudNamePlural}} = {{crudNameCap}}::paginate(15);
+        ${{crudName}} = {{modelName}}::paginate(15);
 
-        return view('{{viewPath}}{{crudName}}.index', compact('{{crudNamePlural}}'));
+        return view('{{viewPath}}{{crudName}}.index', compact('{{crudName}}'));
     }
 
     /**
@@ -43,9 +43,9 @@ class DummyClass extends Controller
     public function store(Request $request)
     {
         {{validationRules}}
-        {{crudNameCap}}::create($request->all());
+        {{modelName}}::create($request->all());
 
-        Session::flash('flash_message', '{{crudNameCap}} successfully added!');
+        Session::flash('flash_message', '{{modelName}} added!');
 
         return redirect('{{crudName}}');
     }
@@ -59,7 +59,7 @@ class DummyClass extends Controller
      */
     public function show($id)
     {
-        ${{crudNameSingular}} = {{crudNameCap}}::findOrFail($id);
+        ${{crudNameSingular}} = {{modelName}}::findOrFail($id);
 
         return view('{{viewPath}}{{crudName}}.show', compact('{{crudNameSingular}}'));
     }
@@ -73,7 +73,7 @@ class DummyClass extends Controller
      */
     public function edit($id)
     {
-        ${{crudNameSingular}} = {{crudNameCap}}::findOrFail($id);
+        ${{crudNameSingular}} = {{modelName}}::findOrFail($id);
 
         return view('{{viewPath}}{{crudName}}.edit', compact('{{crudNameSingular}}'));
     }
@@ -88,10 +88,10 @@ class DummyClass extends Controller
     public function update($id, Request $request)
     {
         {{validationRules}}
-        ${{crudNameSingular}} = {{crudNameCap}}::findOrFail($id);
+        ${{crudNameSingular}} = {{modelName}}::findOrFail($id);
         ${{crudNameSingular}}->update($request->all());
 
-        Session::flash('flash_message', '{{crudNameCap}} successfully updated!');
+        Session::flash('flash_message', '{{modelName}} updated!');
 
         return redirect('{{crudName}}');
     }
@@ -105,9 +105,9 @@ class DummyClass extends Controller
      */
     public function destroy($id)
     {
-        {{crudNameCap}}::destroy($id);
+        {{modelName}}::destroy($id);
 
-        Session::flash('flash_message', '{{crudNameCap}} successfully deleted!');
+        Session::flash('flash_message', '{{modelName}} deleted!');
 
         return redirect('{{crudName}}');
     }

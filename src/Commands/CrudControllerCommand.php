@@ -14,6 +14,7 @@ class CrudControllerCommand extends GeneratorCommand
     protected $signature = 'crud:controller
                             {name : The name of the controler.}
                             {--crud-name= : The name of the Crud.}
+                            {--model-name= : The name of the Model.}
                             {--view-path= : The name of the view path.}
                             {--required-fields= : Required fields for validations.}';
 
@@ -66,12 +67,10 @@ class CrudControllerCommand extends GeneratorCommand
     {
         $stub = $this->files->get($this->getStub());
 
-        $viewPath = $this->option('view-path') ? strtolower($this->option('view-path')) . '.' : '';
+        $viewPath = $this->option('view-path') ? $this->option('view-path') . '.' : '';
         $crudName = strtolower($this->option('crud-name'));
-        $crudNameCap = $this->option('crud-name');
-        $crudNamePlural = str_plural($crudName);
-        $crudNamePluralCap = str_plural($crudNameCap);
         $crudNameSingular = str_singular($crudName);
+        $modelName = $this->option('model-name');
 
         $validationRules = '';
         if ($this->option('required-fields') != '') {
@@ -81,10 +80,8 @@ class CrudControllerCommand extends GeneratorCommand
         return $this->replaceNamespace($stub, $name)
             ->replaceViewPath($stub, $viewPath)
             ->replaceCrudName($stub, $crudName)
-            ->replaceCrudNameCap($stub, $crudNameCap)
-            ->replaceCrudNamePlural($stub, $crudNamePlural)
-            ->replaceCrudNamePluralCap($stub, $crudNamePluralCap)
             ->replaceCrudNameSingular($stub, $crudNameSingular)
+            ->replaceModelName($stub, $modelName)
             ->replaceValidationRules($stub, $validationRules)
             ->replaceClass($stub, $name);
     }
@@ -124,57 +121,6 @@ class CrudControllerCommand extends GeneratorCommand
     }
 
     /**
-     * Replace the crudNameCap for the given stub.
-     *
-     * @param  string  $stub
-     * @param  string  $crudNameCap
-     *
-     * @return $this
-     */
-    protected function replaceCrudNameCap(&$stub, $crudNameCap)
-    {
-        $stub = str_replace(
-            '{{crudNameCap}}', $crudNameCap, $stub
-        );
-
-        return $this;
-    }
-
-    /**
-     * Replace the crudNamePlural for the given stub.
-     *
-     * @param  string  $stub
-     * @param  string  $crudNamePlural
-     *
-     * @return $this
-     */
-    protected function replaceCrudNamePlural(&$stub, $crudNamePlural)
-    {
-        $stub = str_replace(
-            '{{crudNamePlural}}', $crudNamePlural, $stub
-        );
-
-        return $this;
-    }
-
-    /**
-     * Replace the crudNamePluralCap for the given stub.
-     *
-     * @param  string  $stub
-     * @param  string  $crudNamePluralCap
-     *
-     * @return $this
-     */
-    protected function replaceCrudNamePluralCap(&$stub, $crudNamePluralCap)
-    {
-        $stub = str_replace(
-            '{{crudNamePluralCap}}', $crudNamePluralCap, $stub
-        );
-
-        return $this;
-    }
-
-    /**
      * Replace the crudNameSingular for the given stub.
      *
      * @param  string  $stub
@@ -186,6 +132,23 @@ class CrudControllerCommand extends GeneratorCommand
     {
         $stub = str_replace(
             '{{crudNameSingular}}', $crudNameSingular, $stub
+        );
+
+        return $this;
+    }
+
+    /**
+     * Replace the modelName for the given stub.
+     *
+     * @param  string  $stub
+     * @param  string  $modelName
+     *
+     * @return $this
+     */
+    protected function replaceModelName(&$stub, $modelName)
+    {
+        $stub = str_replace(
+            '{{modelName}}', $modelName, $stub
         );
 
         return $this;

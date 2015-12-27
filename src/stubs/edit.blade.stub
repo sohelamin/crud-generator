@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <h1>Edit %%crudNameSingularCap%%</h1>
+    <h1>Edit %%modelName%%</h1>
     <hr/>
 
     {!! Form::model($%%crudNameSingular%%, [

@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <h1>%%crudNameSingularCap%%</h1>
+    <h1>%%modelName%%</h1>
     <div class="table-responsive">
         <table class="table table-bordered table-striped table-hover">
             <thead>

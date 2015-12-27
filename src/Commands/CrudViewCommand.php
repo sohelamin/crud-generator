@@ -63,8 +63,15 @@ class CrudViewCommand extends Command
         'boolean' => 'radio',
     ];
 
+    /**
+     * Create a new command instance.
+     *
+     * @return void
+     */
     public function __construct()
     {
+        parent::__construct();
+
         $this->viewDirectoryPath = config('crudgenerator.custom_template')
         ? config('crudgenerator.path')
         : __DIR__ . '/../stubs/';
@@ -77,12 +84,10 @@ class CrudViewCommand extends Command
      */
     public function handle()
     {
-        $crudName = strtolower($this->argument('name'));
+        $crudName = $this->argument('name');
         $crudNameCap = ucwords($crudName);
         $crudNameSingular = str_singular($crudName);
-        $crudNameSingularCap = ucwords($crudNameSingular);
-        $crudNamePlural = str_plural($crudName);
-        $crudNamePluralCap = ucwords($crudNamePlural);
+        $modelName = ucwords($crudNameSingular);
 
         $viewDirectory = base_path('resources/views/');
         if ($this->option('view-path')) {
@@ -150,8 +155,6 @@ class CrudViewCommand extends Command
             File::put($newIndexFile, str_replace('%%formBodyHtml%%', $formBodyHtml, File::get($newIndexFile)));
             File::put($newIndexFile, str_replace('%%crudName%%', $crudName, File::get($newIndexFile)));
             File::put($newIndexFile, str_replace('%%crudNameCap%%', $crudNameCap, File::get($newIndexFile)));
-            File::put($newIndexFile, str_replace('%%crudNamePlural%%', $crudNamePlural, File::get($newIndexFile)));
-            File::put($newIndexFile, str_replace('%%crudNamePluralCap%%', $crudNamePluralCap, File::get($newIndexFile)));
         }
 
         // For create.blade.php file
@@ -161,7 +164,7 @@ class CrudViewCommand extends Command
             echo "failed to copy $createFile...\n";
         } else {
             File::put($newCreateFile, str_replace('%%crudName%%', $crudName, File::get($newCreateFile)));
-            File::put($newCreateFile, str_replace('%%crudNameSingularCap%%', $crudNameSingularCap, File::get($newCreateFile)));
+            File::put($newCreateFile, str_replace('%%modelName%%', $modelName, File::get($newCreateFile)));
             File::put($newCreateFile, str_replace('%%formFieldsHtml%%', $formFieldsHtml, File::get($newCreateFile)));
         }
 
@@ -173,7 +176,7 @@ class CrudViewCommand extends Command
         } else {
             File::put($newEditFile, str_replace('%%crudName%%', $crudName, File::get($newEditFile)));
             File::put($newEditFile, str_replace('%%crudNameSingular%%', $crudNameSingular, File::get($newEditFile)));
-            File::put($newEditFile, str_replace('%%crudNameSingularCap%%', $crudNameSingularCap, File::get($newEditFile)));
+            File::put($newEditFile, str_replace('%%modelName%%', $modelName, File::get($newEditFile)));
             File::put($newEditFile, str_replace('%%formFieldsHtml%%', $formFieldsHtml, File::get($newEditFile)));
         }
 
@@ -186,7 +189,7 @@ class CrudViewCommand extends Command
             File::put($newShowFile, str_replace('%%formHeadingHtml%%', $formHeadingHtml, File::get($newShowFile)));
             File::put($newShowFile, str_replace('%%formBodyHtml%%', $formBodyHtmlForShowView, File::get($newShowFile)));
             File::put($newShowFile, str_replace('%%crudNameSingular%%', $crudNameSingular, File::get($newShowFile)));
-            File::put($newShowFile, str_replace('%%crudNameSingularCap%%', $crudNameSingularCap, File::get($newShowFile)));
+            File::put($newShowFile, str_replace('%%modelName%%', $modelName, File::get($newShowFile)));
         }
 
         // For layouts/master.blade.php file

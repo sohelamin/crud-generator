@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <h1>Create New %%crudNameSingularCap%%</h1>
+    <h1>Create New %%modelName%%</h1>
     <hr/>
 
     {!! Form::open(['route' => '%%crudName%%.store', 'class' => 'form-horizontal']) !!}
