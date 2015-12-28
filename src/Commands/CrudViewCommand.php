@@ -89,7 +89,7 @@ class CrudViewCommand extends Command
         $crudNameCap = ucwords($crudName);
         $crudNameSingular = str_singular($crudName);
         $modelName = ucwords($crudNameSingular);
-        $routeGroup = ($this->option('route-group')) ? $this->option('route-group') . '.' : $this->option('route-group');
+        $routeGroup = ($this->option('route-group')) ? $this->option('route-group') . '/' : $this->option('route-group');
 
         $viewDirectory = base_path('resources/views/');
         if ($this->option('view-path')) {
