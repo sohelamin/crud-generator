@@ -5,7 +5,7 @@
     <h1>Create New %%modelName%%</h1>
     <hr/>
 
-    {!! Form::open(['route' => '%%crudName%%.store', 'class' => 'form-horizontal']) !!}
+    {!! Form::open(['route' => '%%routeGroup%%%%crudName%%.store', 'class' => 'form-horizontal']) !!}
 
     %%formFieldsHtml%%
 

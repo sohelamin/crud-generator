@@ -15,7 +15,8 @@ class CrudViewCommand extends Command
     protected $signature = 'crud:view
                             {name : The name of the Crud.}
                             {--fields= : The fields name for the form.}
-                            {--view-path= : The name of the view path.}';
+                            {--view-path= : The name of the view path.}
+                            {--route-group= : Prefix of the route group.}';
 
     /**
      * The console command description.
@@ -88,6 +89,7 @@ class CrudViewCommand extends Command
         $crudNameCap = ucwords($crudName);
         $crudNameSingular = str_singular($crudName);
         $modelName = ucwords($crudNameSingular);
+        $routeGroup = ($this->option('route-group')) ? $this->option('route-group') . '.' : $this->option('route-group');
 
         $viewDirectory = base_path('resources/views/');
         if ($this->option('view-path')) {
@@ -156,6 +158,7 @@ class CrudViewCommand extends Command
             File::put($newIndexFile, str_replace('%%crudName%%', $crudName, File::get($newIndexFile)));
             File::put($newIndexFile, str_replace('%%crudNameCap%%', $crudNameCap, File::get($newIndexFile)));
             File::put($newIndexFile, str_replace('%%modelName%%', $modelName, File::get($newIndexFile)));
+            File::put($newIndexFile, str_replace('%%routeGroup%%', $routeGroup, File::get($newIndexFile)));
         }
 
         // For create.blade.php file
@@ -166,6 +169,7 @@ class CrudViewCommand extends Command
         } else {
             File::put($newCreateFile, str_replace('%%crudName%%', $crudName, File::get($newCreateFile)));
             File::put($newCreateFile, str_replace('%%modelName%%', $modelName, File::get($newCreateFile)));
+            File::put($newCreateFile, str_replace('%%routeGroup%%', $routeGroup, File::get($newCreateFile)));
             File::put($newCreateFile, str_replace('%%formFieldsHtml%%', $formFieldsHtml, File::get($newCreateFile)));
         }
 
@@ -178,6 +182,7 @@ class CrudViewCommand extends Command
             File::put($newEditFile, str_replace('%%crudName%%', $crudName, File::get($newEditFile)));
             File::put($newEditFile, str_replace('%%crudNameSingular%%', $crudNameSingular, File::get($newEditFile)));
             File::put($newEditFile, str_replace('%%modelName%%', $modelName, File::get($newEditFile)));
+            File::put($newEditFile, str_replace('%%routeGroup%%', $routeGroup, File::get($newEditFile)));
             File::put($newEditFile, str_replace('%%formFieldsHtml%%', $formFieldsHtml, File::get($newEditFile)));
         }
 

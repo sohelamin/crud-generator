@@ -62,11 +62,20 @@ Note: You should have configured database for this operation.
 php artisan crud:generate Posts --fields="title:string, body:text"
 ```
 
-You can also easily include route, set primary key, set views directory etc through options **--route**, **--pk**, **--view-path** as bellows:
+You can also easily include route, set primary key, set views directory etc through options **--route**, **--pk**, **--view-path** as belows:
 
 ```
-php artisan crud:generate Posts --fields="title:string:required, body:text:required" --route=yes --pk=id --view-path="admin" --namespace=Admin
+php artisan crud:generate Posts --fields="title:string:required, body:text:required" --route=yes --pk=id --view-path="admin" --namespace=Admin --route-group=admin
 ```
+
+Options:
+
+- --fields : Fields name for the form & model.
+- --route : Include Crud route to routes.php? yes or no.
+- --pk : The name of the primary key.
+- --view-path : The name of the view path.
+- --namespace : Namespace of the controller.
+- --route-group : Prefix of the route group.
 
 -----------
 -----------
@@ -77,7 +86,7 @@ php artisan crud:generate Posts --fields="title:string:required, body:text:requi
 For controller generator:
 
 ```
-php artisan crud:controller PostsController --crud-name=posts --model-name=Post --view-path="directory"
+php artisan crud:controller PostsController --crud-name=posts --model-name=Post --view-path="directory" --route-group=admin
 ```
 
 For model generator:
@@ -95,7 +104,7 @@ php artisan crud:migration posts --schema="title:string, body:text"
 For view generator:
 
 ```
-php artisan crud:view posts --fields="title:string, body:text" --view-path="directory"
+php artisan crud:view posts --fields="title:string, body:text" --view-path="directory" --route-group=admin
 ```
 
 By default, the generator will attempt to append the crud route to your *routes.php* file. If you don't want the route added, you can use the option ```--route=no```.
@@ -140,6 +149,21 @@ These fields are supported for migration and view's form:
 * decimal
 * double
 * float
+
+### Custom Generator's Stub Template
+
+You can customize the generator's stub files/templates to achieve your need.
+
+1. Make sure you've published package's assets.
+    ```
+    php artisan vendor:publish
+    ```
+
+2. Turn on custom_template support on **/config/crudgenerator.php**
+    ```
+    'custom_template' => true,
+    ```
+3. From the directory **/resources/crud-generator/** you can modify or customize the stub files.
 
 ##Author
 

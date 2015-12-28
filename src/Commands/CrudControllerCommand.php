@@ -16,7 +16,8 @@ class CrudControllerCommand extends GeneratorCommand
                             {--crud-name= : The name of the Crud.}
                             {--model-name= : The name of the Model.}
                             {--view-path= : The name of the view path.}
-                            {--required-fields= : Required fields for validations.}';
+                            {--required-fields= : Required fields for validations.}
+                            {--route-group= : Prefix of the route group.}';
 
     /**
      * The console command description.
@@ -71,6 +72,7 @@ class CrudControllerCommand extends GeneratorCommand
         $crudName = strtolower($this->option('crud-name'));
         $crudNameSingular = str_singular($crudName);
         $modelName = $this->option('model-name');
+        $routeGroup = ($this->option('route-group')) ? $this->option('route-group') . '/' : $this->option('route-group');
 
         $validationRules = '';
         if ($this->option('required-fields') != '') {
@@ -82,6 +84,7 @@ class CrudControllerCommand extends GeneratorCommand
             ->replaceCrudName($stub, $crudName)
             ->replaceCrudNameSingular($stub, $crudNameSingular)
             ->replaceModelName($stub, $modelName)
+            ->replaceRouteGroup($stub, $routeGroup)
             ->replaceValidationRules($stub, $validationRules)
             ->replaceClass($stub, $name);
     }
@@ -149,6 +152,23 @@ class CrudControllerCommand extends GeneratorCommand
     {
         $stub = str_replace(
             '{{modelName}}', $modelName, $stub
+        );
+
+        return $this;
+    }
+
+    /**
+     * Replace the routeGroup for the given stub.
+     *
+     * @param  string  $stub
+     * @param  string  $routeGroup
+     *
+     * @return $this
+     */
+    protected function replaceRouteGroup(&$stub, $routeGroup)
+    {
+        $stub = str_replace(
+            '{{routeGroup}}', $routeGroup, $stub
         );
 
         return $this;
