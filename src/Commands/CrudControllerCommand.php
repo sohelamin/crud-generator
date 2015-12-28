@@ -72,7 +72,7 @@ class CrudControllerCommand extends GeneratorCommand
         $crudName = strtolower($this->option('crud-name'));
         $crudNameSingular = str_singular($crudName);
         $modelName = $this->option('model-name');
-        $routeGroup = ($this->option('route-group')) ? $this->option('route-group') . '/' : $this->option('route-group');
+        $routeGroup = ($this->option('route-group')) ? $this->option('route-group') . '/' : '';
 
         $validationRules = '';
         if ($this->option('required-fields') != '') {
