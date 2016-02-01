@@ -26,7 +26,7 @@ Laravel CRUD Generator
     ```
     composer require laravelcollective/html
     // For laravel 5.1
-    composer require laravelcollective/html:5.1.*
+    composer require laravelcollective/html "5.1.*"
     ```
     
     * Add service provider & aliases to **/config/app.php** file.
