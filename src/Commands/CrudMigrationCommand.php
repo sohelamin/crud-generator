@@ -75,12 +75,15 @@ class CrudMigrationCommand extends GeneratorCommand
         $fields = explode(',', $schema);
 
         $data = array();
-        $x = 0;
-        foreach ($fields as $field) {
-            $fieldArray = explode(':', $field);
-            $data[$x]['name'] = trim($fieldArray[0]);
-            $data[$x]['type'] = trim($fieldArray[1]);
-            $x++;
+
+        if ($schema) {
+            $x = 0;
+            foreach ($fields as $field) {
+                $fieldArray = explode(':', $field);
+                $data[$x]['name'] = trim($fieldArray[0]);
+                $data[$x]['type'] = trim($fieldArray[1]);
+                $x++;
+            }
         }
 
         $schemaFields = '';

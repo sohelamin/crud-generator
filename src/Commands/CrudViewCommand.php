@@ -91,7 +91,7 @@ class CrudViewCommand extends Command
         $modelName = ucwords($crudNameSingular);
         $routeGroup = ($this->option('route-group')) ? $this->option('route-group') . '/' : $this->option('route-group');
 
-        $viewDirectory = config('view.paths')[0];  
+        $viewDirectory = config('view.paths')[0] . '/';
         if ($this->option('view-path')) {
             $userPath = $this->option('view-path');
             $path = $viewDirectory . $userPath . '/' . $crudName . '/';
@@ -107,14 +107,17 @@ class CrudViewCommand extends Command
         $fieldsArray = explode(',', $fields);
 
         $formFields = array();
-        $x = 0;
-        foreach ($fieldsArray as $item) {
-            $itemArray = explode(':', $item);
-            $formFields[$x]['name'] = trim($itemArray[0]);
-            $formFields[$x]['type'] = trim($itemArray[1]);
-            $formFields[$x]['required'] = (isset($itemArray[2]) && (trim($itemArray[2]) == 'req' || trim($itemArray[2]) == 'required')) ? true : false;
 
-            $x++;
+        if ($fields) {
+            $x = 0;
+            foreach ($fieldsArray as $item) {
+                $itemArray = explode(':', $item);
+                $formFields[$x]['name'] = trim($itemArray[0]);
+                $formFields[$x]['type'] = trim($itemArray[1]);
+                $formFields[$x]['required'] = (isset($itemArray[2]) && (trim($itemArray[2]) == 'req' || trim($itemArray[2]) == 'required')) ? true : false;
+
+                $x++;
+            }
         }
 
         $formFieldsHtml = '';
