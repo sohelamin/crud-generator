@@ -56,40 +56,37 @@ class CrudCommand extends Command
 
         $controllerNamespace = ($this->option('namespace')) ? $this->option('namespace') . '\\' : '';
 
-        if ($this->option('fields')) {
-            $fields = $this->option('fields');
-            $primaryKey = $this->option('pk');
-            $viewPath = $this->option('view-path');
+        $fields = $this->option('fields');
+        $primaryKey = $this->option('pk');
+        $viewPath = $this->option('view-path');
 
-            $fieldsArray = explode(',', $fields);
-            $requiredFields = '';
-            $requiredFieldsStr = '';
+        $fieldsArray = explode(',', $fields);
+        $requiredFields = '';
+        $requiredFieldsStr = '';
 
-            foreach ($fieldsArray as $item) {
-                $fillableArray[] = preg_replace("/(.*?):(.*)/", "$1", trim($item));
+        foreach ($fieldsArray as $item) {
+            $fillableArray[] = preg_replace("/(.*?):(.*)/", "$1", trim($item));
 
-                $itemArray = explode(':', $item);
-                $currentField = trim($itemArray[0]);
-                $requiredFieldsStr .= (isset($itemArray[2])
-                    && (trim($itemArray[2]) == 'req'
-                        || trim($itemArray[2]) == 'required'))
-                ? "'$currentField' => 'required', " : '';
-            }
-
-            $commaSeparetedString = implode("', '", $fillableArray);
-            $fillable = "['" . $commaSeparetedString . "']";
-
-            $requiredFields = ($requiredFieldsStr != '') ? "[" . $requiredFieldsStr . "]" : '';
-
-            $this->call('crud:controller', ['name' => $controllerNamespace . $name . 'Controller', '--crud-name' => $name, '--model-name' => $modelName, '--view-path' => $viewPath, '--required-fields' => $requiredFields, '--route-group' => $routeGroup]);
-            $this->call('crud:model', ['name' => $modelName, '--fillable' => $fillable, '--table' => $tableName]);
-            $this->call('crud:migration', ['name' => $migrationName, '--schema' => $fields, '--pk' => $primaryKey]);
-            $this->call('crud:view', ['name' => $viewName, '--fields' => $fields, '--view-path' => $viewPath, '--route-group' => $routeGroup]);
-
-        } else {
-            $this->call('make:controller', ['name' => $controllerNamespace . $name . 'Controller']);
-            $this->call('make:model', ['name' => $modelName]);
+            $itemArray = explode(':', $item);
+            $currentField = trim($itemArray[0]);
+            $requiredFieldsStr .= (isset($itemArray[2])
+                && (trim($itemArray[2]) == 'req'
+                    || trim($itemArray[2]) == 'required'))
+            ? "'$currentField' => 'required', " : '';
         }
+
+        $commaSeparetedString = implode("', '", $fillableArray);
+        $fillable = "['" . $commaSeparetedString . "']";
+
+        $requiredFields = ($requiredFieldsStr != '') ? "[" . $requiredFieldsStr . "]" : '';
+
+        $this->call('crud:controller', ['name' => $controllerNamespace . $name . 'Controller', '--crud-name' => $name, '--model-name' => $modelName, '--view-path' => $viewPath, '--required-fields' => $requiredFields, '--route-group' => $routeGroup]);
+        $this->call('crud:model', ['name' => $modelName, '--fillable' => $fillable, '--table' => $tableName]);
+        $this->call('crud:migration', ['name' => $migrationName, '--schema' => $fields, '--pk' => $primaryKey]);
+        $this->call('crud:view', ['name' => $viewName, '--fields' => $fields, '--view-path' => $viewPath, '--route-group' => $routeGroup]);
+
+        $this->call('make:controller', ['name' => $controllerNamespace . $name . 'Controller']);
+        $this->call('make:model', ['name' => $modelName]);
 
         // Updating the Http/routes.php file
         $routeFile = app_path('Http/routes.php');
