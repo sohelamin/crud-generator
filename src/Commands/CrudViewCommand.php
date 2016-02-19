@@ -64,6 +64,34 @@ class CrudViewCommand extends Command
         'boolean' => 'radio',
     ];
 
+    /** @var array */
+    protected $formFields = [];
+    /** @var string  */
+    protected $formFieldsHtml = '';
+    /** @var int Number of columns to show from the table. Others are hidden */
+    protected $defaultColumsToShow = 3;
+
+    //Crud names
+    /** @var string  */
+    protected $crudName = '';
+    /** @var string  */
+    protected $crudNameCap = '';
+    /** @var string  */
+    protected $crudNameSingular = '';
+
+    /** @var string */
+    protected $modelName = '';
+    /** @var string  */
+    protected $routeGroup = '';
+
+    // Form fields and label
+    /** @var string  */
+    protected $formHeadingHtml = '';
+    /** @var string */
+    protected $formBodyHtml = '';
+    /** @var string  */
+    protected $formBodyHtmlForShowView = '';
+
     /**
      * Create a new command instance.
      *
@@ -74,8 +102,8 @@ class CrudViewCommand extends Command
         parent::__construct();
 
         $this->viewDirectoryPath = config('crudgenerator.custom_template')
-        ? config('crudgenerator.path')
-        : __DIR__ . '/../stubs/';
+            ? config('crudgenerator.path')
+            : __DIR__ . '/../stubs/';
     }
 
     /**
@@ -85,18 +113,18 @@ class CrudViewCommand extends Command
      */
     public function handle()
     {
-        $crudName = $this->argument('name');
-        $crudNameCap = ucwords($crudName);
-        $crudNameSingular = str_singular($crudName);
-        $modelName = ucwords($crudNameSingular);
-        $routeGroup = ($this->option('route-group')) ? $this->option('route-group') . '/' : $this->option('route-group');
+        $this->crudName = $this->argument('name');
+        $this->crudNameCap = ucwords($this->crudName);
+        $this->crudNameSingular = str_singular($this->crudName);
+        $this->modelName = ucwords($this->crudNameSingular);
+        $this->routeGroup = ($this->option('route-group')) ? $this->option('route-group') . '/' : $this->option('route-group');
 
         $viewDirectory = config('view.paths')[0] . '/';
         if ($this->option('view-path')) {
             $userPath = $this->option('view-path');
-            $path = $viewDirectory . $userPath . '/' . $crudName . '/';
+            $path = $viewDirectory . $userPath . '/' . $this->crudName . '/';
         } else {
-            $path = $viewDirectory . $crudName . '/';
+            $path = $viewDirectory . $this->crudName . '/';
         }
 
         if (!File::isDirectory($path)) {
@@ -106,46 +134,40 @@ class CrudViewCommand extends Command
         $fields = $this->option('fields');
         $fieldsArray = explode(',', $fields);
 
-        $formFields = array();
+        $this->formFields = array();
 
         if ($fields) {
             $x = 0;
             foreach ($fieldsArray as $item) {
                 $itemArray = explode(':', $item);
-                $formFields[$x]['name'] = trim($itemArray[0]);
-                $formFields[$x]['type'] = trim($itemArray[1]);
-                $formFields[$x]['required'] = (isset($itemArray[2]) && (trim($itemArray[2]) == 'req' || trim($itemArray[2]) == 'required')) ? true : false;
+                $this->formFields[$x]['name'] = trim($itemArray[0]);
+                $this->formFields[$x]['type'] = trim($itemArray[1]);
+                $this->formFields[$x]['required'] = (isset($itemArray[2]) && (trim($itemArray[2]) == 'req' || trim($itemArray[2]) == 'required')) ? true : false;
 
                 $x++;
             }
         }
 
-        $formFieldsHtml = '';
-        foreach ($formFields as $item) {
-            $formFieldsHtml .= $this->createField($item);
+        foreach ($this->formFields as $item) {
+            $this->formFieldsHtml .= $this->createField($item);
         }
 
-        // Form fields and label
-        $formHeadingHtml = '';
-        $formBodyHtml = '';
-        $formBodyHtmlForShowView = '';
-
         $i = 0;
-        foreach ($formFields as $key => $value) {
-            if ($i == 3) {
+        foreach ($this->formFields as $key => $value) {
+            if ($i == $this->defaultColumsToShow) {
                 break;
             }
 
             $field = $value['name'];
             $label = ucwords(str_replace('_', ' ', $field));
-            $formHeadingHtml .= '<th>' . $label . '</th>';
+            $this->formHeadingHtml .= '<th>' . $label . '</th>';
 
             if ($i == 0) {
-                $formBodyHtml .= '<td><a href="{{ url(\'%%routeGroup%%%%crudName%%\', $item->id) }}">{{ $item->' . $field . ' }}</a></td>';
+                $this->formBodyHtml .= '<td><a href="{{ url(\'%%routeGroup%%%%crudName%%\', $item->id) }}">{{ $item->' . $field . ' }}</a></td>';
             } else {
-                $formBodyHtml .= '<td>{{ $item->' . $field . ' }}</td>';
+                $this->formBodyHtml .= '<td>{{ $item->' . $field . ' }}</td>';
             }
-            $formBodyHtmlForShowView .= '<td> {{ $%%crudNameSingular%%->' . $field . ' }} </td>';
+            $this->formBodyHtmlForShowView .= '<td> {{ $%%crudNameSingular%%->' . $field . ' }} </td>';
 
             $i++;
         }
@@ -156,12 +178,7 @@ class CrudViewCommand extends Command
         if (!File::copy($indexFile, $newIndexFile)) {
             echo "failed to copy $indexFile...\n";
         } else {
-            File::put($newIndexFile, str_replace('%%formHeadingHtml%%', $formHeadingHtml, File::get($newIndexFile)));
-            File::put($newIndexFile, str_replace('%%formBodyHtml%%', $formBodyHtml, File::get($newIndexFile)));
-            File::put($newIndexFile, str_replace('%%crudName%%', $crudName, File::get($newIndexFile)));
-            File::put($newIndexFile, str_replace('%%crudNameCap%%', $crudNameCap, File::get($newIndexFile)));
-            File::put($newIndexFile, str_replace('%%modelName%%', $modelName, File::get($newIndexFile)));
-            File::put($newIndexFile, str_replace('%%routeGroup%%', $routeGroup, File::get($newIndexFile)));
+            $this->templateIndexVars($newIndexFile);
         }
 
         // For create.blade.php file
@@ -170,10 +187,7 @@ class CrudViewCommand extends Command
         if (!File::copy($createFile, $newCreateFile)) {
             echo "failed to copy $createFile...\n";
         } else {
-            File::put($newCreateFile, str_replace('%%crudName%%', $crudName, File::get($newCreateFile)));
-            File::put($newCreateFile, str_replace('%%modelName%%', $modelName, File::get($newCreateFile)));
-            File::put($newCreateFile, str_replace('%%routeGroup%%', $routeGroup, File::get($newCreateFile)));
-            File::put($newCreateFile, str_replace('%%formFieldsHtml%%', $formFieldsHtml, File::get($newCreateFile)));
+            $this->templateCreateVars($newCreateFile);
         }
 
         // For edit.blade.php file
@@ -182,11 +196,7 @@ class CrudViewCommand extends Command
         if (!File::copy($editFile, $newEditFile)) {
             echo "failed to copy $editFile...\n";
         } else {
-            File::put($newEditFile, str_replace('%%crudName%%', $crudName, File::get($newEditFile)));
-            File::put($newEditFile, str_replace('%%crudNameSingular%%', $crudNameSingular, File::get($newEditFile)));
-            File::put($newEditFile, str_replace('%%modelName%%', $modelName, File::get($newEditFile)));
-            File::put($newEditFile, str_replace('%%routeGroup%%', $routeGroup, File::get($newEditFile)));
-            File::put($newEditFile, str_replace('%%formFieldsHtml%%', $formFieldsHtml, File::get($newEditFile)));
+            $this->templateEditVars($newEditFile);
         }
 
         // For show.blade.php file
@@ -195,10 +205,7 @@ class CrudViewCommand extends Command
         if (!File::copy($showFile, $newShowFile)) {
             echo "failed to copy $showFile...\n";
         } else {
-            File::put($newShowFile, str_replace('%%formHeadingHtml%%', $formHeadingHtml, File::get($newShowFile)));
-            File::put($newShowFile, str_replace('%%formBodyHtml%%', $formBodyHtmlForShowView, File::get($newShowFile)));
-            File::put($newShowFile, str_replace('%%crudNameSingular%%', $crudNameSingular, File::get($newShowFile)));
-            File::put($newShowFile, str_replace('%%modelName%%', $modelName, File::get($newShowFile)));
+            $this->templateShowVars($newShowFile);
         }
 
         // For layouts/master.blade.php file
@@ -220,10 +227,58 @@ class CrudViewCommand extends Command
     }
 
     /**
+     * Update values between %% with real values
+     * @param $newIndexFile
+     */
+    public function templateIndexVars($newIndexFile)
+    {
+        File::put($newIndexFile, str_replace('%%formHeadingHtml%%', $this->formHeadingHtml, File::get($newIndexFile)));
+        File::put($newIndexFile, str_replace('%%formBodyHtml%%', $this->formBodyHtml, File::get($newIndexFile)));
+        File::put($newIndexFile, str_replace('%%crudName%%', $this->crudName, File::get($newIndexFile)));
+        File::put($newIndexFile, str_replace('%%crudNameCap%%', $this->crudNameCap, File::get($newIndexFile)));
+        File::put($newIndexFile, str_replace('%%modelName%%', $this->modelName, File::get($newIndexFile)));
+        File::put($newIndexFile, str_replace('%%routeGroup%%', $this->routeGroup, File::get($newIndexFile)));
+    }
+
+    /**
+     * Update values between %% with real values
+     * @param $newCreateFile
+     */
+    public function templateCreateVars($newCreateFile) {
+        File::put($newCreateFile, str_replace('%%crudName%%', $this->crudName, File::get($newCreateFile)));
+        File::put($newCreateFile, str_replace('%%modelName%%', $this->modelName, File::get($newCreateFile)));
+        File::put($newCreateFile, str_replace('%%routeGroup%%', $this->routeGroup, File::get($newCreateFile)));
+        File::put($newCreateFile, str_replace('%%formFieldsHtml%%', $this->formFieldsHtml, File::get($newCreateFile)));
+    }
+
+    /**
+     * Update values between %% with real values
+     * @param $newEditFile
+     */
+    public function templateEditVars($newEditFile) {
+        File::put($newEditFile, str_replace('%%crudName%%', $this->crudName, File::get($newEditFile)));
+        File::put($newEditFile, str_replace('%%crudNameSingular%%', $this->crudNameSingular, File::get($newEditFile)));
+        File::put($newEditFile, str_replace('%%modelName%%', $this->modelName, File::get($newEditFile)));
+        File::put($newEditFile, str_replace('%%routeGroup%%', $this->routeGroup, File::get($newEditFile)));
+        File::put($newEditFile, str_replace('%%formFieldsHtml%%', $this->formFieldsHtml, File::get($newEditFile)));
+    }
+    /**
+     * Update values between %% with real values
+     * @param $newShowFile
+     */
+    public function templateShowVars($newShowFile)
+    {
+        File::put($newShowFile, str_replace('%%formHeadingHtml%%', $this->formHeadingHtml, File::get($newShowFile)));
+        File::put($newShowFile, str_replace('%%formBodyHtml%%', $this->formBodyHtmlForShowView, File::get($newShowFile)));
+        File::put($newShowFile, str_replace('%%crudNameSingular%%', $this->crudNameSingular, File::get($newShowFile)));
+        File::put($newShowFile, str_replace('%%modelName%%', $this->modelName, File::get($newShowFile)));
+    }
+
+    /**
      * Form field wrapper.
      *
-     * @param  string  $item
-     * @param  string  $field
+     * @param  string $item
+     * @param  string $field
      *
      * @return void
      */
@@ -246,7 +301,7 @@ EOD;
     /**
      * Form field generator.
      *
-     * @param  string  $item
+     * @param  string $item
      *
      * @return string
      */
@@ -271,7 +326,7 @@ EOD;
     /**
      * Create a specific field using the form helper.
      *
-     * @param  string  $item
+     * @param  string $item
      *
      * @return string
      */
@@ -288,7 +343,7 @@ EOD;
     /**
      * Create a password field using the form helper.
      *
-     * @param  string  $item
+     * @param  string $item
      *
      * @return string
      */
@@ -305,7 +360,7 @@ EOD;
     /**
      * Create a generic input field using the form helper.
      *
-     * @param  string  $item
+     * @param  string $item
      *
      * @return string
      */
@@ -322,7 +377,7 @@ EOD;
     /**
      * Create a yes/no radio button group using the form helper.
      *
-     * @param  string  $item
+     * @param  string $item
      *
      * @return string
      */
