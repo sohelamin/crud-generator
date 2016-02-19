@@ -64,32 +64,81 @@ class CrudViewCommand extends Command
         'boolean' => 'radio',
     ];
 
-    /** @var array */
+    /**
+     * Form's fields.
+     *
+     * @var array
+     */
     protected $formFields = [];
-    /** @var string  */
+
+    /**
+     * Html of Form's fields.
+     *
+     * @var string
+     */
     protected $formFieldsHtml = '';
-    /** @var int Number of columns to show from the table. Others are hidden */
+
+    /**
+     * Number of columns to show from the table. Others are hidden.
+     *
+     * @var integer
+     */
     protected $defaultColumsToShow = 3;
 
-    //Crud names
-    /** @var string  */
+    /**
+     * Name of the Crud.
+     *
+     * @var string
+     */
     protected $crudName = '';
-    /** @var string  */
+
+    /**
+     * Crud Name in capital form.
+     *
+     * @var string
+     */
     protected $crudNameCap = '';
-    /** @var string  */
+
+    /**
+     * Crud Name in singular form.
+     *
+     * @var string
+     */
     protected $crudNameSingular = '';
 
-    /** @var string */
+    /**
+     * Name of the Model.
+     *
+     * @var string
+     */
     protected $modelName = '';
-    /** @var string  */
+
+    /**
+     * Name or prefix of the Route Group.
+     *
+     * @var string
+     */
     protected $routeGroup = '';
 
-    // Form fields and label
-    /** @var string  */
+    /**
+     * Html of the form heading.
+     *
+     * @var string
+     */
     protected $formHeadingHtml = '';
-    /** @var string */
+
+    /**
+     * Html of the form body.
+     *
+     * @var string
+     */
     protected $formBodyHtml = '';
-    /** @var string  */
+
+    /**
+     * Html of view to show.
+     *
+     * @var string
+     */
     protected $formBodyHtmlForShowView = '';
 
     /**
@@ -102,14 +151,14 @@ class CrudViewCommand extends Command
         parent::__construct();
 
         $this->viewDirectoryPath = config('crudgenerator.custom_template')
-            ? config('crudgenerator.path')
-            : __DIR__ . '/../stubs/';
+        ? config('crudgenerator.path')
+        : __DIR__ . '/../stubs/';
     }
 
     /**
      * Execute the console command.
      *
-     * @return mixed
+     * @return void
      */
     public function handle()
     {
@@ -227,8 +276,11 @@ class CrudViewCommand extends Command
     }
 
     /**
-     * Update values between %% with real values
-     * @param $newIndexFile
+     * Update values between %% with real values in index view.
+     *
+     * @param  string $newIndexFile
+     *
+     * @return void
      */
     public function templateIndexVars($newIndexFile)
     {
@@ -241,10 +293,14 @@ class CrudViewCommand extends Command
     }
 
     /**
-     * Update values between %% with real values
-     * @param $newCreateFile
+     * Update values between %% with real values in create view.
+     *
+     * @param  string $newCreateFile
+     *
+     * @return void
      */
-    public function templateCreateVars($newCreateFile) {
+    public function templateCreateVars($newCreateFile)
+    {
         File::put($newCreateFile, str_replace('%%crudName%%', $this->crudName, File::get($newCreateFile)));
         File::put($newCreateFile, str_replace('%%modelName%%', $this->modelName, File::get($newCreateFile)));
         File::put($newCreateFile, str_replace('%%routeGroup%%', $this->routeGroup, File::get($newCreateFile)));
@@ -252,19 +308,27 @@ class CrudViewCommand extends Command
     }
 
     /**
-     * Update values between %% with real values
-     * @param $newEditFile
+     * Update values between %% with real values in edit view.
+     *
+     * @param  string $newEditFile
+     *
+     * @return void
      */
-    public function templateEditVars($newEditFile) {
+    public function templateEditVars($newEditFile)
+    {
         File::put($newEditFile, str_replace('%%crudName%%', $this->crudName, File::get($newEditFile)));
         File::put($newEditFile, str_replace('%%crudNameSingular%%', $this->crudNameSingular, File::get($newEditFile)));
         File::put($newEditFile, str_replace('%%modelName%%', $this->modelName, File::get($newEditFile)));
         File::put($newEditFile, str_replace('%%routeGroup%%', $this->routeGroup, File::get($newEditFile)));
         File::put($newEditFile, str_replace('%%formFieldsHtml%%', $this->formFieldsHtml, File::get($newEditFile)));
     }
+
     /**
-     * Update values between %% with real values
-     * @param $newShowFile
+     * Update values between %% with real values in show view.
+     *
+     * @param  string $newShowFile
+     *
+     * @return void
      */
     public function templateShowVars($newShowFile)
     {
@@ -395,5 +459,4 @@ EOD;
 
         return $this->wrapField($item, sprintf($field, $item['name']));
     }
-
 }
