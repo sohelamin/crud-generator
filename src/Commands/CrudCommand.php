@@ -84,6 +84,8 @@ class CrudCommand extends Command
         $this->call('crud:model', ['name' => $modelName, '--fillable' => $fillable, '--table' => $tableName]);
         $this->call('crud:migration', ['name' => $migrationName, '--schema' => $fields, '--pk' => $primaryKey]);
         $this->call('crud:view', ['name' => $viewName, '--fields' => $fields, '--view-path' => $viewPath, '--route-group' => $routeGroup]);
+        // For optimizing the class loader
+        $this->callSilent('optimize');
 
         // Updating the Http/routes.php file
         $routeFile = app_path('Http/routes.php');
