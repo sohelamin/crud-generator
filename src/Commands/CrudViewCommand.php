@@ -60,6 +60,7 @@ class CrudViewCommand extends Command
         'float' => 'number',
         'date' => 'date',
         'datetime' => 'datetime-local',
+        'timestamp' => 'datetime-local',
         'time' => 'time',
         'boolean' => 'radio',
     ];
