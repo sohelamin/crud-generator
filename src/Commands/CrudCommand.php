@@ -28,6 +28,12 @@ class CrudCommand extends Command
      */
     protected $description = 'Generate Crud including controller, model, views & migrations.';
 
+    /** @var string  */
+    protected $routeName = '';
+
+    /** @var string  */
+    protected $controller = '';
+
     /**
      * Create a new command instance.
      *
@@ -52,7 +58,7 @@ class CrudCommand extends Command
         $viewName = strtolower($name);
 
         $routeGroup = $this->option('route-group');
-        $routeName = ($routeGroup) ? $routeGroup . '/' . strtolower($name) : strtolower($name);
+        $this->routeName = ($routeGroup) ? $routeGroup . '/' . strtolower($name) : strtolower($name);
 
         $controllerNamespace = ($this->option('namespace')) ? $this->option('namespace') . '\\' : '';
 
@@ -90,16 +96,16 @@ class CrudCommand extends Command
         // Updating the Http/routes.php file
         $routeFile = app_path('Http/routes.php');
         if (file_exists($routeFile) && (strtolower($this->option('route')) === 'yes')) {
-            $controller = ($controllerNamespace != '') ? $controllerNamespace . '\\' . $name . 'Controller' : $name . 'Controller';
+            $this->controller = ($controllerNamespace != '') ? $controllerNamespace . '\\' . $name . 'Controller' : $name . 'Controller';
 
             if (\App::VERSION() >= '5.2') {
                 $isAdded = File::append($routeFile,
                     "\nRoute::group(['middleware' => ['web']], function () {"
-                    . "\n\tRoute::resource('" . $routeName . "', '" . $controller . "');"
+                    . "\n\t" . implode("\n\t", $this->addRoutes())
                     . "\n});"
                 );
             } else {
-                $isAdded = File::append($routeFile, "\nRoute::resource('" . $routeName . "', '" . $controller . "');");
+                $isAdded = File::append($routeFile, "\n".implode("\n", $this->addRoutes()));
             }
 
             if ($isAdded) {
@@ -110,4 +116,7 @@ class CrudCommand extends Command
         }
     }
 
+    protected function addRoutes() {
+        return ["Route::resource('" . $this->routeName . "', '" . $this->controller . "');"];
+    }
 }
