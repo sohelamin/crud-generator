@@ -33,7 +33,7 @@
             @endforeach
             </tbody>
         </table>
-        <div class="pagination"> {!! $%%crudName%%->render() !!} </div>
+        <div class="pagination"> {!! $%%crudName%%->appends(Request::except('page'))->render() !!} </div>
     </div>
 
 @endsection
