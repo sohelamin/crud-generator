@@ -19,7 +19,8 @@ class CrudCommand extends Command
                             {--pk=id : The name of the primary key.}
                             {--view-path= : The name of the view path.}
                             {--namespace= : Namespace of the controller.}
-                            {--route-group= : Prefix of the route group.}';
+                            {--route-group= : Prefix of the route group.}
+                            {--config=no : Include a config file? yes|no.}';
 
     /**
      * The console command description.
@@ -90,6 +91,12 @@ class CrudCommand extends Command
         $this->call('crud:model', ['name' => $modelName, '--fillable' => $fillable, '--table' => $tableName]);
         $this->call('crud:migration', ['name' => $migrationName, '--schema' => $fields, '--pk' => $primaryKey]);
         $this->call('crud:view', ['name' => $viewName, '--fields' => $fields, '--view-path' => $viewPath, '--route-group' => $routeGroup]);
+        
+        // add a config file?
+        if (strtolower($this->option('config')) === 'yes') {
+            $this->call('crud:config', ['name' => $viewName]);
+        }
+        
         // For optimizing the class loader
         $this->callSilent('optimize');
 
