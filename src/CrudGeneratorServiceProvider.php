@@ -38,6 +38,7 @@ class CrudGeneratorServiceProvider extends ServiceProvider
     {
         $this->commands(
             'Appzcoder\CrudGenerator\Commands\CrudCommand',
+            'Appzcoder\CrudGenerator\Commands\CrudConfigCommand',
             'Appzcoder\CrudGenerator\Commands\CrudControllerCommand',
             'Appzcoder\CrudGenerator\Commands\CrudModelCommand',
             'Appzcoder\CrudGenerator\Commands\CrudMigrationCommand',
