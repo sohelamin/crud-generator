@@ -58,7 +58,7 @@ class CrudConfigCommand extends Command
 
         $newConfigFile = config_path() . '/'. $this->crudName .'.php';
         if ( ! File::copy($this->stub, $newConfigFile)) {
-            $this->info("failed to copy $stub...\n");
+            $this->info("Failed to copy $this->stub...\n");
         } else {
             File::put($newConfigFile, str_replace('%%crudNameLower%%', $this->crudName, File::get($newConfigFile)));
             File::put($newConfigFile, str_replace('%%crudNameUpper%%', $this->crudNameCap, File::get($newConfigFile)));
