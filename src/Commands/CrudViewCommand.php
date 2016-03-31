@@ -397,7 +397,7 @@ EOD;
      */
     protected function createFormField($item)
     {
-        $required = ($item['required'] === true) ? ", 'required' => 'required'" : "";
+        $required = ($item['required'] === true) ? "required " : "";
 
         return $this->wrapField(
             $item,
@@ -414,7 +414,7 @@ EOD;
      */
     protected function createPasswordField($item)
     {
-        $required = ($item['required'] === true) ? ", 'required' => 'required'" : "";
+        $required = ($item['required'] === true) ? "required " : "";
 
         return $this->wrapField(
             $item,
@@ -431,7 +431,7 @@ EOD;
      */
     protected function createInputField($item)
     {
-        $required = ($item['required'] === true) ? ", 'required' => 'required'" : "";
+        $required = ($item['required'] === true) ? "required " : "";
 
         return $this->wrapField(
             $item,
@@ -448,7 +448,7 @@ EOD;
      */
     protected function createTextareaField($item)
     {
-        $required = ($item['required'] === true) ? ", 'required' => 'required'" : "";
+        $required = ($item['required'] === true) ? "required " : "";
 
         return $this->wrapField(
             $item,
