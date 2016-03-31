@@ -5,7 +5,7 @@
     <h1>Create New %%modelName%%</h1>
     <hr/>
 
-    <form method="post" action="%%routeGroup%%%%crudName%%">
+    <form method="post" action="/%%routeGroup%%%%crudName%%">
         {{ csrf_field() }}
         %%formFieldsHtml%%
 
