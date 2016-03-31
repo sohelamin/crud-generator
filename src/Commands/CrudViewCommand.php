@@ -401,7 +401,7 @@ EOD;
 
         return $this->wrapField(
             $item,
-            "<input type=\"". $this->typeLookup[$item['type']] ."\" class=\"form-control\" name=\"". $item['name'] ."\" $required/>"
+            "<input type=\"". $this->typeLookup[$item['type']] ."\" class=\"form-control\" name=\"". $item['name'] ."\" value=\"{{ old('". $item['name'] ."') ? old('". $item['name'] ."') : (isset($". $this->crudNameSingular ."->" . $item['name'] . ") ? $". $this->crudNameSingular ."->" . $item['name'] ." : '') }}\" $required/>"
         );
     }
 
@@ -435,7 +435,7 @@ EOD;
 
         return $this->wrapField(
             $item,
-            "<input type=\"". $this->typeLookup[$item['type']] ."\" class=\"form-control\" name=\"". $item['name'] ."\" $required/>"
+            "<input type=\"". $this->typeLookup[$item['type']] ."\" class=\"form-control\" name=\"". $item['name'] ."\" value=\"{{ old('". $item['name'] ."') ? old('". $item['name'] ."') : (isset($". $this->crudNameSingular ."->" . $item['name'] . ") ? $". $this->crudNameSingular ."->" . $item['name'] ." : '') }}\" $required/>"
         );
     }
 
@@ -452,7 +452,7 @@ EOD;
 
         return $this->wrapField(
             $item,
-            "<textarea class=\"form-control\" name=\"". $item['name'] ."\" $required></textarea>"
+            "<textarea class=\"form-control\" name=\"". $item['name'] ."\" $required>{{ old('". $item['name'] ."') ? old('". $item['name'] ."') : (isset($". $this->crudNameSingular ."->" . $item['name'] . ") ? $". $this->crudNameSingular ."->" . $item['name'] ." : '') }}</textarea>"
         );
     }
 
@@ -469,12 +469,12 @@ EOD;
             <<<EOD
             <div class="checkbox">
                 <label>
-                    <input type="radio" name="%1\$s" value="1"/> Yes
+                    <input type="radio" name="%1\$s" value="1" {{ old('%1\$s') && old('%1\$s') == 1 ? 'checked' : '' }} /> Yes
                 </label>
             </div>
             <div class="checkbox">
                 <label>
-                    <input type="radio" name="%1\$s" value="0"/> No
+                    <input type="radio" name="%1\$s" value="0"  {{ old('%1\$s') && old('%1\$s') == 0 ? 'checked' : '' }} /> No
                 </label>
             </div>
 EOD;

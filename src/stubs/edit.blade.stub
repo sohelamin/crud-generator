@@ -5,20 +5,18 @@
     <h1>Edit %%modelName%%</h1>
     <hr/>
 
-    {!! Form::model($%%crudNameSingular%%, [
-        'method' => 'PATCH',
-        'url' => ['%%routeGroup%%%%crudName%%', $%%crudNameSingular%%->id],
-        'class' => 'form-horizontal'
-    ]) !!}
+    <form method="post" action="%%routeGroup%%%%crudName%%">
+        {{ method_field('PATCH') }}
 
-    %%formFieldsHtml%%
+        %%formFieldsHtml%%
 
-    <div class="form-group">
-        <div class="col-sm-offset-3 col-sm-3">
-            {!! Form::submit('Update', ['class' => 'btn btn-primary form-control']) !!}
+        <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-3">
+                {!! Form::submit('Update', ['class' => 'btn btn-primary form-control']) !!}
+            </div>
         </div>
-    </div>
-    {!! Form::close() !!}
+
+    </form>
 
     @if ($errors->any())
         <ul class="alert alert-danger">
