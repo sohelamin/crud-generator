@@ -401,7 +401,7 @@ EOD;
 
         return $this->wrapField(
             $item,
-            "<input type=\"text\" class=\"form-control\" name=\"". $item['name'] ."\" $required/>"
+            "<input type=\"". $this->typeLookup[$item['type']] ."\" class=\"form-control\" name=\"". $item['name'] ."\" $required/>"
         );
     }
 
