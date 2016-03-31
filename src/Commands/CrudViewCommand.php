@@ -469,12 +469,12 @@ EOD;
             <<<EOD
             <div class="checkbox">
                 <label>
-                    <input type="radio" name="%1\$s" value="1" {{ old('%1\$s') && old('%1\$s') == 1 ? 'checked' : '' }} /> Yes
+                    <input type="radio" name="%1\$s" value="1" {{ old('%1\$s') && old('%1\$s') == '1' ? 'checked' : '' }} /> Yes
                 </label>
             </div>
             <div class="checkbox">
                 <label>
-                    <input type="radio" name="%1\$s" value="0"  {{ old('%1\$s') && old('%1\$s') == 0 ? 'checked' : '' }} /> No
+                    <input type="radio" name="%1\$s" value="0" {{ old('%1\$s') && old('%1\$s') == '0' ? 'checked' : '' }} /> No
                 </label>
             </div>
 EOD;
