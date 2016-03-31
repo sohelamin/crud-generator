@@ -378,7 +378,7 @@ EOD;
             case 'time':
                 return $this->createInputField($item);
                 break;
-            case 'textarea'
+            case 'textarea':
                 return $this->createTextareaField($item);
             case 'radio':
                 return $this->createRadioField($item);
