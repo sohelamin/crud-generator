@@ -376,14 +376,15 @@ EOD;
                 break;
             case 'datetime-local':
             case 'time':
-            case 'text'
                 return $this->createInputField($item);
                 break;
+            case 'textarea'
+                return $this->createTextareaField($item);
             case 'radio':
                 return $this->createRadioField($item);
                 break;
             default: // text
-                return $this->createFormField($item);
+                return '$this->createFormField($item);'
         }
     }
 
@@ -400,7 +401,7 @@ EOD;
 
         return $this->wrapField(
             $item,
-            "<input type='" . $this->typeLookup[$item['type']] . "' class='form-control' name='". $item['name'] ."' $required/>"
+            "<input type=\"text\" class=\"form-control\" name=\"". $item['name'] ."\" $required/>"
         );
     }
 
@@ -417,7 +418,7 @@ EOD;
 
         return $this->wrapField(
             $item,
-            "<input type='password' class='form-control' name='". $item['name'] ."' $required/>"
+            "<input type=\"password\" class=\"form-control\" name=\"". $item['name'] ."\" $required/>"
         );
     }
 
@@ -434,7 +435,24 @@ EOD;
 
         return $this->wrapField(
             $item,
-            "<input type='". $this->typeLookup[$item['type']] ."' class='form-control' name='". $item['name'] ."' $required/>"
+            "<input type=\"". $this->typeLookup[$item['type']] ."\" class=\"form-control\" name=\"". $item['name'] ."\" $required/>"
+        );
+    }
+
+        /**
+     * Create a textarea field using the form helper.
+     *
+     * @param  string $item
+     *
+     * @return string
+     */
+    protected function createInputField($item)
+    {
+        $required = ($item['required'] === true) ? ", 'required' => 'required'" : "";
+
+        return $this->wrapField(
+            $item,
+            "<textarea class=\"form-control\" name=\"". $item['name'] ."\" $required></textarea>"
         );
     }
 
