@@ -93,6 +93,9 @@ class CrudCommand extends Command
         $this->call('crud:model', ['name' => $modelName, '--fillable' => $fillable, '--table' => $tableName]);
         $this->call('crud:migration', ['name' => $migrationName, '--schema' => $fields, '--pk' => $primaryKey]);
         $this->call('crud:view', ['name' => $viewName, '--fields' => $fields, '--view-path' => $viewPath, '--route-group' => $routeGroup, '--localize' => $localize]);
+        if($this->option('localize') == 'yes') {
+            $this->call('crud:lang', ['name' => $viewName, '--fields' => $fields, '--locale' => 'en']);
+        }
         // For optimizing the class loader
         $this->callSilent('optimize');
 
