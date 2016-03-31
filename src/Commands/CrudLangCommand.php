@@ -15,7 +15,7 @@ class CrudLangCommand extends Command
     protected $signature = 'crud:lang
                             {name : The name of the Crud.}
                             {--fields= : The fields name for the form.}
-                            {--locale=en : The locale for the file.}';
+                            {--locales=en : The locale for the file.}';
 
     /**
      * The console command description.
@@ -36,7 +36,7 @@ class CrudLangCommand extends Command
      *
      * @var string
      */
-    protected $locale;
+    protected $locales;
 
     /**
      * Form's fields.
@@ -67,12 +67,7 @@ class CrudLangCommand extends Command
     public function handle()
     {
         $this->crudName = $this->argument('name');
-        $this->locale = $this->option('locale');
-        $path = config('view.paths')[0] . '/../lang/'.$this->locale.'/';
-
-        if (!File::isDirectory($path)) {
-            File::makeDirectory($path, 0755, true);
-        }
+        $this->locales = explode(',',$this->option('locales'));
 
         $fields = $this->option('fields');
         $fieldsArray = explode(',', $fields);
@@ -91,15 +86,25 @@ class CrudLangCommand extends Command
             }
         }
 
-        $indexFile = $this->viewDirectoryPath . 'lang.stub';
-        $newLangFile = $path . $this->crudName.'.php';
-        if (!File::copy($indexFile, $newLangFile)) {
-            echo "failed to copy $indexFile...\n";
-        } else {
-            $this->templateVars($newLangFile);
-        }
+        foreach($this->locales as $locale) {
+            $locale = trim($locale);
+            $path = config('view.paths')[0] . '/../lang/' . $locale . '/';
 
-        $this->info('Lang ['.$this->locale.'] created successfully.');
+            //create directory for locale
+            if (!File::isDirectory($path)) {
+                File::makeDirectory($path, 0755, true);
+            }
+
+            $langFile = $this->viewDirectoryPath . 'lang.stub';
+            $newLangFile = $path . $this->crudName . '.php';
+            if (!File::copy($langFile, $newLangFile)) {
+                echo "failed to copy $langFile...\n";
+            } else {
+                $this->templateVars($newLangFile);
+            }
+
+            $this->info('Lang [' . $locale . '] created successfully.');
+        }
     }
 
     private function templateVars($newLangFile)

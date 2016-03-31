@@ -20,7 +20,8 @@ class CrudCommand extends Command
                             {--view-path= : The name of the view path.}
                             {--namespace= : Namespace of the controller.}
                             {--route-group= : Prefix of the route group.}
-                            {--localize=yes : Localize the generated files? yes|no. }';
+                            {--localize=yes : Localize the generated files? yes|no. }
+                            {--locales=en : Locales to create lang files for.}';
 
     /**
      * The console command description.
@@ -88,13 +89,14 @@ class CrudCommand extends Command
         $requiredFields = ($requiredFieldsStr != '') ? "[" . $requiredFieldsStr . "]" : '';
 
         $localize = $this->option('localize');
+        $locales = $this->option('locales');
 
         $this->call('crud:controller', ['name' => $controllerNamespace . $name . 'Controller', '--crud-name' => $name, '--model-name' => $modelName, '--view-path' => $viewPath, '--required-fields' => $requiredFields, '--route-group' => $routeGroup]);
         $this->call('crud:model', ['name' => $modelName, '--fillable' => $fillable, '--table' => $tableName]);
         $this->call('crud:migration', ['name' => $migrationName, '--schema' => $fields, '--pk' => $primaryKey]);
         $this->call('crud:view', ['name' => $viewName, '--fields' => $fields, '--view-path' => $viewPath, '--route-group' => $routeGroup, '--localize' => $localize]);
         if($this->option('localize') == 'yes') {
-            $this->call('crud:lang', ['name' => $viewName, '--fields' => $fields, '--locale' => 'en']);
+            $this->call('crud:lang', ['name' => $viewName, '--fields' => $fields, '--locales' => $locales]);
         }
         // For optimizing the class loader
         $this->callSilent('optimize');
