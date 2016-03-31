@@ -5,7 +5,7 @@
     <h1>Edit %%modelName%%</h1>
     <hr/>
 
-    <form method="post" action="/%%routeGroup%%%%crudName%%/%%crudName%%->id">
+    <form method="post" action="/%%routeGroup%%%%crudName%%/{{ %%crudName%%->id }}">
         {{ csrf_field() }}
         {{ method_field('PATCH') }}
 
