@@ -20,34 +20,9 @@ Laravel CRUD Generator
         Appzcoder\CrudGenerator\CrudGeneratorServiceProvider::class,
     ],
     ```
-3. Install **laravelcollective/html** package for form & html.
-    * Run
+3. Run **composer update**
 
-    ```
-    composer require laravelcollective/html
-    // For laravel 5.1
-    composer require laravelcollective/html "5.1.*"
-    ```
-    
-    * Add service provider & aliases to **/config/app.php** file.
-    ```php
-    'providers' => [
-        ...
-
-        Collective\Html\HtmlServiceProvider::class,
-    ],
-
-    // Use the lines below for "laravelcollective/html" package otherwise remove it.
-    'aliases' => [
-        ...
-
-        'Form'      => Collective\Html\FormFacade::class,
-        'HTML'      => Collective\Html\HtmlFacade::class,
-    ],
-    ```    
-4. Run **composer update**
-
-5. Publish config file & generator template files.
+4. Publish config file & generator template files.
     ```
     php artisan vendor:publish
     ```

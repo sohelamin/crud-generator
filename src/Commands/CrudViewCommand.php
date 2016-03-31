@@ -352,11 +352,9 @@ class CrudViewCommand extends Command
         $formGroup =
             <<<EOD
             <div class="form-group {{ \$errors->has('%1\$s') ? 'has-error' : ''}}">
-                {!! Form::label('%1\$s', '%2\$s: ', ['class' => 'col-sm-3 control-label']) !!}
-                <div class="col-sm-6">
+                <label for="%1\$s" class="control-label">%2\$s:</label>
                     %3\$s
                     {!! \$errors->first('%1\$s', '<p class="help-block">:message</p>') !!}
-                </div>
             </div>\n
 EOD;
 
@@ -380,6 +378,8 @@ EOD;
             case 'time':
                 return $this->createInputField($item);
                 break;
+            case 'textarea':
+                return $this->createTextareaField($item);
             case 'radio':
                 return $this->createRadioField($item);
                 break;
@@ -397,11 +397,11 @@ EOD;
      */
     protected function createFormField($item)
     {
-        $required = ($item['required'] === true) ? ", 'required' => 'required'" : "";
+        $required = ($item['required'] === true) ? "required " : "";
 
         return $this->wrapField(
             $item,
-            "{!! Form::" . $this->typeLookup[$item['type']] . "('" . $item['name'] . "', null, ['class' => 'form-control'$required]) !!}"
+            "<input type=\"". $this->typeLookup[$item['type']] ."\" class=\"form-control\" name=\"". $item['name'] ."\" value=\"{{ old('". $item['name'] ."') ? old('". $item['name'] ."') : (isset($". $this->crudNameSingular ."->" . $item['name'] . ") ? $". $this->crudNameSingular ."->" . $item['name'] ." : '') }}\" $required/>"
         );
     }
 
@@ -414,11 +414,11 @@ EOD;
      */
     protected function createPasswordField($item)
     {
-        $required = ($item['required'] === true) ? ", 'required' => 'required'" : "";
+        $required = ($item['required'] === true) ? "required " : "";
 
         return $this->wrapField(
             $item,
-            "{!! Form::password('" . $item['name'] . "', ['class' => 'form-control'$required]) !!}"
+            "<input type=\"password\" class=\"form-control\" name=\"". $item['name'] ."\" $required/>"
         );
     }
 
@@ -431,11 +431,28 @@ EOD;
      */
     protected function createInputField($item)
     {
-        $required = ($item['required'] === true) ? ", 'required' => 'required'" : "";
+        $required = ($item['required'] === true) ? "required " : "";
 
         return $this->wrapField(
             $item,
-            "{!! Form::input('" . $this->typeLookup[$item['type']] . "', '" . $item['name'] . "', null, ['class' => 'form-control'$required]) !!}"
+            "<input type=\"". $this->typeLookup[$item['type']] ."\" class=\"form-control\" name=\"". $item['name'] ."\" value=\"{{ old('". $item['name'] ."') ? old('". $item['name'] ."') : (isset($". $this->crudNameSingular ."->" . $item['name'] . ") ? $". $this->crudNameSingular ."->" . $item['name'] ." : '') }}\" $required/>"
+        );
+    }
+
+        /**
+     * Create a textarea field using the form helper.
+     *
+     * @param  string $item
+     *
+     * @return string
+     */
+    protected function createTextareaField($item)
+    {
+        $required = ($item['required'] === true) ? "required " : "";
+
+        return $this->wrapField(
+            $item,
+            "<textarea class=\"form-control\" name=\"". $item['name'] ."\" $required>{{ old('". $item['name'] ."') ? old('". $item['name'] ."') : (isset($". $this->crudNameSingular ."->" . $item['name'] . ") ? $". $this->crudNameSingular ."->" . $item['name'] ." : '') }}</textarea>"
         );
     }
 
@@ -451,10 +468,14 @@ EOD;
         $field =
             <<<EOD
             <div class="checkbox">
-                <label>{!! Form::radio('%1\$s', '1') !!} Yes</label>
+                <label>
+                    <input type="radio" name="%1\$s" value="1" {{ old('%1\$s') && old('%1\$s') == '1' ? 'checked' : '' }} /> Yes
+                </label>
             </div>
             <div class="checkbox">
-                <label>{!! Form::radio('%1\$s', '0', true) !!} No</label>
+                <label>
+                    <input type="radio" name="%1\$s" value="0" {{ old('%1\$s') && old('%1\$s') == '0' ? 'checked' : '' }} /> No
+                </label>
             </div>
 EOD;
 
