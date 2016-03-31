@@ -211,6 +211,9 @@ class CrudViewCommand extends Command
 
             $field = $value['name'];
             $label = ucwords(str_replace('_', ' ', $field));
+            if($this->option('localize') == 'yes') {
+                $label = 'trans(\'' . $this->crudName . '.' . $field . '\')';
+            }
             $this->formHeadingHtml .= '<th>' . $label . '</th>';
 
             if ($i == 0) {
