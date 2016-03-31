@@ -384,7 +384,7 @@ EOD;
                 return $this->createRadioField($item);
                 break;
             default: // text
-                return '$this->createFormField($item);'
+                return $this->createFormField($item);
         }
     }
 
@@ -446,7 +446,7 @@ EOD;
      *
      * @return string
      */
-    protected function createInputField($item)
+    protected function createTextareaField($item)
     {
         $required = ($item['required'] === true) ? ", 'required' => 'required'" : "";
 
