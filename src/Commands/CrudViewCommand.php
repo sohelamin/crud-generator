@@ -352,11 +352,9 @@ class CrudViewCommand extends Command
         $formGroup =
             <<<EOD
             <div class="form-group {{ \$errors->has('%1\$s') ? 'has-error' : ''}}">
-                {!! Form::label('%1\$s', '%2\$s: ', ['class' => 'col-sm-3 control-label']) !!}
-                <div class="col-sm-6">
+                <label for="%1\$s" class="control-label">%2\$s:</label>
                     %3\$s
                     {!! \$errors->first('%1\$s', '<p class="help-block">:message</p>') !!}
-                </div>
             </div>\n
 EOD;
 
@@ -378,6 +376,7 @@ EOD;
                 break;
             case 'datetime-local':
             case 'time':
+            case 'text'
                 return $this->createInputField($item);
                 break;
             case 'radio':
@@ -401,7 +400,7 @@ EOD;
 
         return $this->wrapField(
             $item,
-            "{!! Form::" . $this->typeLookup[$item['type']] . "('" . $item['name'] . "', null, ['class' => 'form-control'$required]) !!}"
+            "<input type='" . $this->typeLookup[$item['type']] . "' class='form-control' name='". $item['name'] ."' $required/>"
         );
     }
 
@@ -418,7 +417,7 @@ EOD;
 
         return $this->wrapField(
             $item,
-            "{!! Form::password('" . $item['name'] . "', ['class' => 'form-control'$required]) !!}"
+            "<input type='password' class='form-control' name='". $item['name'] ."' $required/>"
         );
     }
 
@@ -435,7 +434,7 @@ EOD;
 
         return $this->wrapField(
             $item,
-            "{!! Form::input('" . $this->typeLookup[$item['type']] . "', '" . $item['name'] . "', null, ['class' => 'form-control'$required]) !!}"
+            "<input type='". $this->typeLookup[$item['type']] ."' class='form-control' name='". $item['name'] ."' $required/>"
         );
     }
 
@@ -451,10 +450,14 @@ EOD;
         $field =
             <<<EOD
             <div class="checkbox">
-                <label>{!! Form::radio('%1\$s', '1') !!} Yes</label>
+                <label>
+                    <input type="radio" name="%1\$s" value="1"/> Yes
+                </label>
             </div>
             <div class="checkbox">
-                <label>{!! Form::radio('%1\$s', '0', true) !!} No</label>
+                <label>
+                    <input type="radio" name="%1\$s" value="0"/> No
+                </label>
             </div>
 EOD;
 
