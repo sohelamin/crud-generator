@@ -18,14 +18,15 @@
                     <td>{{ $x }}</td>
                     %%formBodyHtml%%
                     <td>
-                        <a href="{{ url('%%routeGroup%%%%crudName%%/' . $item->id . '/edit') }}" class="btn btn-primary btn-xs">Update</a> 
-                        {!! Form::open([
-                            'method'=>'DELETE',
-                            'url' => ['%%routeGroup%%%%crudName%%', $item->id],
-                            'style' => 'display:inline'
-                        ]) !!}
-                            {!! Form::submit('Delete', ['class' => 'btn btn-danger btn-xs']) !!}
-                        {!! Form::close() !!}
+                        <a href="{{ url('%%routeGroup%%%%crudName%%/' . $item->id . '/edit') }}" class="btn btn-primary btn-xs">
+                            Update
+                        </a>
+                        <form method="post" action="/%%routeGroup%%%%crudName%%/{{ $item->id }}">
+                            {{ csrf_field() }}
+                            {{ method_field('DELETE') }}
+                            
+                            <button type="submit" class="btn btn-danger btn-xs">Delete</button>
+                        </form>
                     </td>
                 </tr>
             @endforeach
