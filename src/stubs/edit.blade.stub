@@ -6,6 +6,7 @@
     <hr/>
 
     <form method="post" action="%%routeGroup%%%%crudName%%">
+        {{ csrf_field() }}
         {{ method_field('PATCH') }}
 
         %%formFieldsHtml%%
