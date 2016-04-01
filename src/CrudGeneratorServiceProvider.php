@@ -41,7 +41,8 @@ class CrudGeneratorServiceProvider extends ServiceProvider
             'Appzcoder\CrudGenerator\Commands\CrudControllerCommand',
             'Appzcoder\CrudGenerator\Commands\CrudModelCommand',
             'Appzcoder\CrudGenerator\Commands\CrudMigrationCommand',
-            'Appzcoder\CrudGenerator\Commands\CrudViewCommand'
+            'Appzcoder\CrudGenerator\Commands\CrudViewCommand',
+            'Appzcoder\CrudGenerator\Commands\CrudLangCommand'
         );
     }
 

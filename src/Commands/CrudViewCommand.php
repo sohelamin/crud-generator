@@ -16,7 +16,8 @@ class CrudViewCommand extends Command
                             {name : The name of the Crud.}
                             {--fields= : The fields name for the form.}
                             {--view-path= : The name of the view path.}
-                            {--route-group= : Prefix of the route group.}';
+                            {--route-group= : Prefix of the route group.}
+                            {--localize=yes : Localize the view? yes|no.}';
 
     /**
      * The console command description.
@@ -210,6 +211,9 @@ class CrudViewCommand extends Command
 
             $field = $value['name'];
             $label = ucwords(str_replace('_', ' ', $field));
+            if($this->option('localize') == 'yes') {
+                $label = 'trans(\'' . $this->crudName . '.' . $field . '\')';
+            }
             $this->formHeadingHtml .= '<th>' . $label . '</th>';
 
             if ($i == 0) {
@@ -352,15 +356,20 @@ class CrudViewCommand extends Command
         $formGroup =
             <<<EOD
             <div class="form-group {{ \$errors->has('%1\$s') ? 'has-error' : ''}}">
-                {!! Form::label('%1\$s', '%2\$s: ', ['class' => 'col-sm-3 control-label']) !!}
+                {!! Form::label('%1\$s', %2\$s, ['class' => 'col-sm-3 control-label']) !!}
                 <div class="col-sm-6">
                     %3\$s
                     {!! \$errors->first('%1\$s', '<p class="help-block">:message</p>') !!}
                 </div>
             </div>\n
 EOD;
+        $labelText = "'".ucwords(strtolower(str_replace('_', ' ', $item['name'])))."'";
 
-        return sprintf($formGroup, $item['name'], ucwords(strtolower(str_replace('_', ' ', $item['name']))), $field);
+        if($this->option('localize') == 'yes') {
+            $labelText = 'trans(\'' . $this->crudName . '.' . $item['name'] . '\')';
+        }
+
+        return sprintf($formGroup, $item['name'], $labelText, $field);
     }
 
     /**
