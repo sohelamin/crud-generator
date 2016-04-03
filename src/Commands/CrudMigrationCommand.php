@@ -69,7 +69,7 @@ class CrudMigrationCommand extends GeneratorCommand
         $stub = $this->files->get($this->getStub());
 
         $tableName = $this->argument('name');
-        $className = 'Create' . ucwords($tableName) . 'Table';
+        $className = 'Create' . str_replace(' ', '', ucwords(str_replace('_', ' ', $tableName))) . 'Table';
 
         $schema = $this->option('schema');
         $fields = explode(',', $schema);
@@ -90,101 +90,99 @@ class CrudMigrationCommand extends GeneratorCommand
         foreach ($data as $item) {
             switch ($item['type']) {
                 case 'char':
-                    $schemaFields .= "\$table->char('" . $item['name'] . "');\n";
+                    $schemaFields .= "\$table->char('" . $item['name'] . "');\n\t\t\t";
                     break;
 
                 case 'date':
-                    $schemaFields .= "\$table->date('" . $item['name'] . "');\n";
+                    $schemaFields .= "\$table->date('" . $item['name'] . "');\n\t\t\t";
                     break;
 
                 case 'datetime':
-                    $schemaFields .= "\$table->dateTime('" . $item['name'] . "');\n";
+                    $schemaFields .= "\$table->dateTime('" . $item['name'] . "');\n\t\t\t";
                     break;
 
                 case 'time':
-                    $schemaFields .= "\$table->time('" . $item['name'] . "');\n";
+                    $schemaFields .= "\$table->time('" . $item['name'] . "');\n\t\t\t";
                     break;
 
                 case 'timestamp':
-                    $schemaFields .= "\$table->timestamp('" . $item['name'] . "');\n";
+                    $schemaFields .= "\$table->timestamp('" . $item['name'] . "');\n\t\t\t";
                     break;
 
                 case 'text':
-                    $schemaFields .= "\$table->text('" . $item['name'] . "');\n";
+                    $schemaFields .= "\$table->text('" . $item['name'] . "');\n\t\t\t";
                     break;
 
                 case 'mediumtext':
-                    $schemaFields .= "\$table->mediumText('" . $item['name'] . "');\n";
+                    $schemaFields .= "\$table->mediumText('" . $item['name'] . "');\n\t\t\t";
                     break;
 
                 case 'longtext':
-                    $schemaFields .= "\$table->longText('" . $item['name'] . "');\n";
+                    $schemaFields .= "\$table->longText('" . $item['name'] . "');\n\t\t\t";
                     break;
 
                 case 'json':
-                    $schemaFields .= "\$table->json('" . $item['name'] . "');\n";
+                    $schemaFields .= "\$table->json('" . $item['name'] . "');\n\t\t\t";
                     break;
 
                 case 'jsonb':
-                    $schemaFields .= "\$table->jsonb('" . $item['name'] . "');\n";
+                    $schemaFields .= "\$table->jsonb('" . $item['name'] . "');\n\t\t\t";
                     break;
 
                 case 'binary':
-                    $schemaFields .= "\$table->binary('" . $item['name'] . "');\n";
+                    $schemaFields .= "\$table->binary('" . $item['name'] . "');\n\t\t\t";
                     break;
 
                 case 'number':
                 case 'integer':
-                    $schemaFields .= "\$table->integer('" . $item['name'] . "');\n";
+                    $schemaFields .= "\$table->integer('" . $item['name'] . "');\n\t\t\t";
                     break;
 
                 case 'bigint':
-                    $schemaFields .= "\$table->bigInteger('" . $item['name'] . "');\n";
+                    $schemaFields .= "\$table->bigInteger('" . $item['name'] . "');\n\t\t\t";
                     break;
 
                 case 'mediumint':
-                    $schemaFields .= "\$table->mediumInteger('" . $item['name'] . "');\n";
+                    $schemaFields .= "\$table->mediumInteger('" . $item['name'] . "');\n\t\t\t";
                     break;
 
                 case 'tinyint':
-                    $schemaFields .= "\$table->tinyInteger('" . $item['name'] . "');\n";
+                    $schemaFields .= "\$table->tinyInteger('" . $item['name'] . "');\n\t\t\t";
                     break;
 
                 case 'smallint':
-                    $schemaFields .= "\$table->smallInteger('" . $item['name'] . "');\n";
+                    $schemaFields .= "\$table->smallInteger('" . $item['name'] . "');\n\t\t\t";
                     break;
 
                 case 'boolean':
-                    $schemaFields .= "\$table->boolean('" . $item['name'] . "');\n";
+                    $schemaFields .= "\$table->boolean('" . $item['name'] . "');\n\t\t\t";
                     break;
 
                 case 'decimal':
-                    $schemaFields .= "\$table->decimal('" . $item['name'] . "');\n";
+                    $schemaFields .= "\$table->decimal('" . $item['name'] . "');\n\t\t\t";
                     break;
 
                 case 'double':
-                    $schemaFields .= "\$table->double('" . $item['name'] . "');\n";
+                    $schemaFields .= "\$table->double('" . $item['name'] . "');\n\t\t\t";
                     break;
 
                 case 'float':
-                    $schemaFields .= "\$table->float('" . $item['name'] . "');\n";
+                    $schemaFields .= "\$table->float('" . $item['name'] . "');\n\t\t\t";
                     break;
 
                 default:
-                    $schemaFields .= "\$table->string('" . $item['name'] . "');\n";
+                    $schemaFields .= "\$table->string('" . $item['name'] . "');\n\t\t\t";
                     break;
             }
         }
 
         $primaryKey = $this->option('pk');
 
-        $schemaUp = "
-            Schema::create('" . $tableName . "', function(Blueprint \$table) {
-                \$table->increments('" . $primaryKey . "');
-                " . $schemaFields . "
-                \$table->timestamps();
-            });
-            ";
+        $schemaUp =
+            "Schema::create('" . $tableName . "', function(Blueprint \$table) {
+            \$table->increments('" . $primaryKey . "');
+            " . $schemaFields . "\$table->timestamps();
+        });";
 
         $schemaDown = "Schema::drop('" . $tableName . "');";
 
@@ -226,5 +224,4 @@ class CrudMigrationCommand extends GeneratorCommand
 
         return $this;
     }
-
 }

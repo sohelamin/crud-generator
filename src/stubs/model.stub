@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class DummyClass extends Model
 {
-
     /**
      * The database table used by the model.
      *
@@ -20,5 +19,4 @@ class DummyClass extends Model
      * @var array
      */
     protected $fillable = {{fillable}};
-
 }

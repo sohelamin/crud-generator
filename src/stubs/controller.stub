@@ -12,7 +12,6 @@ use Session;
 
 class DummyClass extends Controller
 {
-
     /**
      * Display a listing of the resource.
      *
@@ -111,5 +110,4 @@ class DummyClass extends Controller
 
         return redirect('{{routeGroup}}{{crudName}}');
     }
-
 }
