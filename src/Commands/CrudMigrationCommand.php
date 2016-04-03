@@ -58,6 +58,27 @@ class CrudMigrationCommand extends GeneratorCommand
     }
 
     /**
+     * Add indents to multiline text
+     *
+     * @param string $text
+     * @param integer $indent indent in tabs (PSR-2)
+     * @return array
+     */
+    protected function indentSchemaFields($text, $indent)
+    {
+        $lines = explode(PHP_EOL, $text);
+
+        // skipping first line
+        $preparedLines[] = array_shift($lines);
+
+        foreach ($lines as $line) {
+            $preparedLines[] = str_pad('', $indent * 4) . $line;
+        }
+
+        return implode(PHP_EOL, $preparedLines);
+    }
+
+    /**
      * Build the model class with the given name.
      *
      * @param  string  $name
@@ -181,7 +202,7 @@ class CrudMigrationCommand extends GeneratorCommand
         $schemaUp = "
             Schema::create('" . $tableName . "', function(Blueprint \$table) {
                 \$table->increments('" . $primaryKey . "');
-                " . $schemaFields . "
+                " . $this->indentSchemaFields($schemaFields, 4) . "
                 \$table->timestamps();
             });
             ";
