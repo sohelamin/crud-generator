@@ -55,12 +55,12 @@ class CrudCommand extends Command
     {
         $name = $this->argument('name');
         $modelName = str_singular($name);
-        $migrationName = str_plural(strtolower($name));
+        $migrationName = str_plural(snake_case($name));
         $tableName = $migrationName;
-        $viewName = strtolower($name);
+        $viewName = snake_case($name);
 
         $routeGroup = $this->option('route-group');
-        $this->routeName = ($routeGroup) ? $routeGroup . '/' . strtolower($name) : strtolower($name);
+        $this->routeName = ($routeGroup) ? $routeGroup . '/' . snake_case($name, '-') : snake_case($name, '-');
 
         $controllerNamespace = ($this->option('namespace')) ? $this->option('namespace') . '\\' : '';
 
