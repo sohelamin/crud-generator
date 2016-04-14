@@ -1,5 +1,9 @@
 # Laravel 5 CRUD Generator
-Laravel CRUD Generator
+
+[![Total Downloads](https://poser.pugx.org/appzcoder/crud-generator/d/total.svg)](https://packagist.org/packages/appzcoder/crud-generator)
+[![Latest Stable Version](https://poser.pugx.org/appzcoder/crud-generator/v/stable.svg)](https://packagist.org/packages/appzcoder/crud-generator)
+[![Latest Unstable Version](https://poser.pugx.org/appzcoder/crud-generator/v/unstable.svg)](https://packagist.org/packages/appzcoder/crud-generator)
+[![License](https://poser.pugx.org/appzcoder/crud-generator/license.svg)](https://packagist.org/packages/appzcoder/crud-generator)
 
 ### Requirements
     Laravel >=5.1
