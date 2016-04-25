@@ -67,7 +67,7 @@ class CrudModelCommand extends GeneratorCommand
 
         $table = $this->option('table') ?: $this->argument('name');
         $fillable = $this->option('fillable');
-        $primaryKey = $this->option('primaryKey');
+        $primaryKey = $this->option('pk');
 
         if(!empty($primaryKey)) {
             $primaryKey = <<<EOD
