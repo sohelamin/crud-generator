@@ -17,7 +17,8 @@ class CrudViewCommand extends Command
                             {--fields= : The fields name for the form.}
                             {--view-path= : The name of the view path.}
                             {--route-group= : Prefix of the route group.}
-                            {--localize=yes : Localize the view? yes|no.}';
+                            {--localize=yes : Localize the view? yes|no.}
+                            {--pk=id : The name of the primary key.}';
 
     /**
      * The console command description.
@@ -198,7 +199,7 @@ class CrudViewCommand extends Command
         if ($fields) {
             $x = 0;
             foreach ($fieldsArray as $item) {
-                $itemArray = explode(':', $item);
+                $itemArray = explode('#', $item);
                 $this->formFields[$x]['name'] = trim($itemArray[0]);
                 $this->formFields[$x]['type'] = trim($itemArray[1]);
                 $this->formFields[$x]['required'] = (isset($itemArray[2]) && (trim($itemArray[2]) == 'req' || trim($itemArray[2]) == 'required')) ? true : false;
