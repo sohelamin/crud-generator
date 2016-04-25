@@ -12,7 +12,7 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>{{ $%%crudNameSingular%%->id }}</td> %%formBodyHtml%%
+                    <td>{{ $%%crudNameSingular%%->%%primaryKey%% }}</td> %%formBodyHtml%%
                 </tr>
             </tbody>    
         </table>

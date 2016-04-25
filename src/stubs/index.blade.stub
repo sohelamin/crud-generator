@@ -18,10 +18,10 @@
                     <td>{{ $x }}</td>
                     %%formBodyHtml%%
                     <td>
-                        <a href="{{ url('%%routeGroup%%%%crudName%%/' . $item->id . '/edit') }}" class="btn btn-primary btn-xs">Update</a> 
+                        <a href="{{ url('%%routeGroup%%%%crudName%%/' . $item->%%primaryKey%% . '/edit') }}" class="btn btn-primary btn-xs">Update</a>
                         {!! Form::open([
                             'method'=>'DELETE',
-                            'url' => ['%%routeGroup%%%%crudName%%', $item->id],
+                            'url' => ['%%routeGroup%%%%crudName%%', $item->%%primaryKey%%],
                             'style' => 'display:inline'
                         ]) !!}
                             {!! Form::submit('Delete', ['class' => 'btn btn-danger btn-xs']) !!}
