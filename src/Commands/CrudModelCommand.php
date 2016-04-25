@@ -71,12 +71,12 @@ class CrudModelCommand extends GeneratorCommand
 
         if(!empty($primaryKey)) {
             $primaryKey = <<<EOD
-    /**
+/**
     * The database primary key value.
     *
     * @var string
     */
-    protected \$primaryKey = '$primaryKey'
+    protected \$primaryKey = '$primaryKey';
 EOD;
 
         }
