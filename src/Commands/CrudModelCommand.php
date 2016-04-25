@@ -84,7 +84,7 @@ EOD;
         return $this->replaceNamespace($stub, $name)
             ->replaceTable($stub, $table)
             ->replaceFillable($stub, $fillable)
-            ->replacePrimaryKey($stub, $fillable)
+            ->replacePrimaryKey($stub, $primaryKey)
             ->replaceClass($stub, $name);
     }
 
