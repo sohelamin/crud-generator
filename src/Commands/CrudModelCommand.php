@@ -14,7 +14,8 @@ class CrudModelCommand extends GeneratorCommand
     protected $signature = 'crud:model
                             {name : The name of the model.}
                             {--table= : The name of the table.}
-                            {--fillable= : The names of the fillable columns.}';
+                            {--fillable= : The names of the fillable columns.}
+                            {--pk=id : The name of the primary key.}';
 
     /**
      * The console command description.
@@ -66,10 +67,24 @@ class CrudModelCommand extends GeneratorCommand
 
         $table = $this->option('table') ?: $this->argument('name');
         $fillable = $this->option('fillable');
+        $primaryKey = $this->option('pk');
+
+        if(!empty($primaryKey)) {
+            $primaryKey = <<<EOD
+/**
+    * The database primary key value.
+    *
+    * @var string
+    */
+    protected \$primaryKey = '$primaryKey';
+EOD;
+
+        }
 
         return $this->replaceNamespace($stub, $name)
             ->replaceTable($stub, $table)
             ->replaceFillable($stub, $fillable)
+            ->replacePrimaryKey($stub, $primaryKey)
             ->replaceClass($stub, $name);
     }
 
@@ -102,6 +117,23 @@ class CrudModelCommand extends GeneratorCommand
     {
         $stub = str_replace(
             '{{fillable}}', $fillable, $stub
+        );
+
+        return $this;
+    }
+
+    /**
+     * Replace the primary key for the given stub.
+     *
+     * @param  string  $stub
+     * @param  string  $primaryKey
+     *
+     * @return $this
+     */
+    protected function replacePrimaryKey(&$stub, $primaryKey)
+    {
+        $stub = str_replace(
+            '{{primaryKey}}', $primaryKey, $stub
         );
 
         return $this;
