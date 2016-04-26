@@ -15,7 +15,7 @@
                 <tr>
                     <td>{{ $%%crudNameSingular%%->%%primaryKey%% }}</td> %%formBodyHtml%%
                 </tr>
-            </tbody>    
+            </tbody>
         </table>
     </div>
 

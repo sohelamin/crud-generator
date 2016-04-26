@@ -107,6 +107,13 @@ class CrudLangCommand extends Command
         }
     }
 
+    /**
+     * Translate form's fields.
+     *
+     * @param  string $newLangFile
+     *
+     * @return void
+     */
     private function templateVars($newLangFile)
     {
         $messages = [];

@@ -191,5 +191,4 @@ class CrudControllerCommand extends GeneratorCommand
 
         return $this;
     }
-
 }

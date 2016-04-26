@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
 
-    <h1>%%crudNameCap%% <a href="{{ url('%%routeGroup%%%%crudName%%/create') }}" class="btn btn-primary pull-right btn-sm">Add New %%modelName%%</a></h1>
+    <h1>%%crudNameCap%% <a href="{{ url('/%%routeGroup%%%%crudName%%/create') }}" class="btn btn-primary pull-right btn-sm">Add New %%modelName%%</a></h1>
     <div class="table">
         <table class="table table-bordered table-striped table-hover">
             <thead>
@@ -19,10 +19,10 @@
                     <td>{{ $x }}</td>
                     %%formBodyHtml%%
                     <td>
-                        <a href="{{ url('%%routeGroup%%%%crudName%%/' . $item->%%primaryKey%% . '/edit') }}" class="btn btn-primary btn-xs">Update</a>
+                        <a href="{{ url('/%%routeGroup%%%%crudName%%/' . $item->%%primaryKey%% . '/edit') }}" class="btn btn-primary btn-xs">Update</a>
                         {!! Form::open([
                             'method'=>'DELETE',
-                            'url' => ['%%routeGroup%%%%crudName%%', $item->%%primaryKey%%],
+                            'url' => ['/%%routeGroup%%%%crudName%%', $item->%%primaryKey%%],
                             'style' => 'display:inline'
                         ]) !!}
                             {!! Form::submit('Delete', ['class' => 'btn btn-danger btn-xs']) !!}
@@ -32,7 +32,7 @@
             @endforeach
             </tbody>
         </table>
-        <div class="pagination"> {!! $%%crudName%%->appends(Request::except('page'))->render() !!} </div>
+        <div class="pagination"> {!! $%%crudName%%->render() !!} </div>
     </div>
 
 </div>

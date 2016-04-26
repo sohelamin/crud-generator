@@ -32,7 +32,7 @@
     // For laravel 5.1
     composer require laravelcollective/html "5.1.*"
     ```
-    
+
     * Add service provider & aliases to **/config/app.php** file.
     ```php
     'providers' => [
@@ -48,8 +48,8 @@
         'Form'      => Collective\Html\FormFacade::class,
         'HTML'      => Collective\Html\HtmlFacade::class,
     ],
-    ```    
-4. Run **composer update**
+    ```
+4. Run **composer dump-autoload**
 
 5. Publish config file & generator template files.
     ```

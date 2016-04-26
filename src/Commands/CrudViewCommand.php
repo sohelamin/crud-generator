@@ -17,6 +17,7 @@ class CrudViewCommand extends Command
                             {--fields= : The fields name for the form.}
                             {--view-path= : The name of the view path.}
                             {--route-group= : Prefix of the route group.}
+                            {--pk=id : The name of the primary key.}
                             {--localize=yes : Localize the view? yes|no.}';
 
     /**
@@ -162,6 +163,10 @@ class CrudViewCommand extends Command
         $this->viewDirectoryPath = config('crudgenerator.custom_template')
         ? config('crudgenerator.path')
         : __DIR__ . '/../stubs/';
+
+        if (config('crudgenerator.view_columns_number')) {
+            $this->defaultColumsToShow = config('crudgenerator.view_columns_number');
+        }
     }
 
     /**
@@ -222,7 +227,7 @@ class CrudViewCommand extends Command
             if($this->option('localize') == 'yes') {
                 $label = 'trans(\'' . $this->crudName . '.' . $field . '\')';
             }
-            $this->formHeadingHtml .= '<th>' . $label . '</th>';
+            $this->formHeadingHtml .= '<th>{{ ' . $label . ' }}</th>';
 
             if ($i == 0) {
                 $this->formBodyHtml .= '<td><a href="{{ url(\'%%routeGroup%%%%crudName%%\', $item->id) }}">{{ $item->' . $field . ' }}</a></td>';
@@ -301,6 +306,7 @@ class CrudViewCommand extends Command
     public function templateCreateVars($newCreateFile)
     {
         File::put($newCreateFile, str_replace('%%crudName%%', $this->crudName, File::get($newCreateFile)));
+        File::put($newCreateFile, str_replace('%%crudNameCap%%', $this->crudNameCap, File::get($newCreateFile)));
         File::put($newCreateFile, str_replace('%%modelName%%', $this->modelName, File::get($newCreateFile)));
         File::put($newCreateFile, str_replace('%%routeGroup%%', $this->routeGroup, File::get($newCreateFile)));
         File::put($newCreateFile, str_replace('%%formFieldsHtml%%', $this->formFieldsHtml, File::get($newCreateFile)));
@@ -318,6 +324,7 @@ class CrudViewCommand extends Command
     {
         File::put($newEditFile, str_replace('%%crudName%%', $this->crudName, File::get($newEditFile)));
         File::put($newEditFile, str_replace('%%crudNameSingular%%', $this->crudNameSingular, File::get($newEditFile)));
+        File::put($newEditFile, str_replace('%%crudNameCap%%', $this->crudNameCap, File::get($newEditFile)));
         File::put($newEditFile, str_replace('%%modelName%%', $this->modelName, File::get($newEditFile)));
         File::put($newEditFile, str_replace('%%routeGroup%%', $this->routeGroup, File::get($newEditFile)));
         File::put($newEditFile, str_replace('%%formFieldsHtml%%', $this->formFieldsHtml, File::get($newEditFile)));
@@ -336,6 +343,7 @@ class CrudViewCommand extends Command
         File::put($newShowFile, str_replace('%%formHeadingHtml%%', $this->formHeadingHtml, File::get($newShowFile)));
         File::put($newShowFile, str_replace('%%formBodyHtml%%', $this->formBodyHtmlForShowView, File::get($newShowFile)));
         File::put($newShowFile, str_replace('%%crudNameSingular%%', $this->crudNameSingular, File::get($newShowFile)));
+        File::put($newShowFile, str_replace('%%crudNameCap%%', $this->crudNameCap, File::get($newShowFile)));
         File::put($newShowFile, str_replace('%%modelName%%', $this->modelName, File::get($newShowFile)));
         File::put($newShowFile, str_replace('%%primaryKey%%', $this->primaryKey, File::get($newShowFile)));
     }

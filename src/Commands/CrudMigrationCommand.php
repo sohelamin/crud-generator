@@ -86,92 +86,94 @@ class CrudMigrationCommand extends GeneratorCommand
             }
         }
 
+        $tabIndent = '    ';
+
         $schemaFields = '';
         foreach ($data as $item) {
             switch ($item['type']) {
                 case 'char':
-                    $schemaFields .= "\$table->char('" . $item['name'] . "');\n\t\t\t";
+                    $schemaFields .= "\$table->char('" . $item['name'] . "');\n" . $tabIndent . $tabIndent . $tabIndent;
                     break;
 
                 case 'date':
-                    $schemaFields .= "\$table->date('" . $item['name'] . "');\n\t\t\t";
+                    $schemaFields .= "\$table->date('" . $item['name'] . "');\n" . $tabIndent . $tabIndent . $tabIndent;
                     break;
 
                 case 'datetime':
-                    $schemaFields .= "\$table->dateTime('" . $item['name'] . "');\n\t\t\t";
+                    $schemaFields .= "\$table->dateTime('" . $item['name'] . "');\n" . $tabIndent . $tabIndent . $tabIndent;
                     break;
 
                 case 'time':
-                    $schemaFields .= "\$table->time('" . $item['name'] . "');\n\t\t\t";
+                    $schemaFields .= "\$table->time('" . $item['name'] . "');\n" . $tabIndent . $tabIndent . $tabIndent;
                     break;
 
                 case 'timestamp':
-                    $schemaFields .= "\$table->timestamp('" . $item['name'] . "');\n\t\t\t";
+                    $schemaFields .= "\$table->timestamp('" . $item['name'] . "');\n" . $tabIndent . $tabIndent . $tabIndent;
                     break;
 
                 case 'text':
-                    $schemaFields .= "\$table->text('" . $item['name'] . "');\n\t\t\t";
+                    $schemaFields .= "\$table->text('" . $item['name'] . "');\n" . $tabIndent . $tabIndent . $tabIndent;
                     break;
 
                 case 'mediumtext':
-                    $schemaFields .= "\$table->mediumText('" . $item['name'] . "');\n\t\t\t";
+                    $schemaFields .= "\$table->mediumText('" . $item['name'] . "');\n" . $tabIndent . $tabIndent . $tabIndent;
                     break;
 
                 case 'longtext':
-                    $schemaFields .= "\$table->longText('" . $item['name'] . "');\n\t\t\t";
+                    $schemaFields .= "\$table->longText('" . $item['name'] . "');\n" . $tabIndent . $tabIndent . $tabIndent;
                     break;
 
                 case 'json':
-                    $schemaFields .= "\$table->json('" . $item['name'] . "');\n\t\t\t";
+                    $schemaFields .= "\$table->json('" . $item['name'] . "');\n" . $tabIndent . $tabIndent . $tabIndent;
                     break;
 
                 case 'jsonb':
-                    $schemaFields .= "\$table->jsonb('" . $item['name'] . "');\n\t\t\t";
+                    $schemaFields .= "\$table->jsonb('" . $item['name'] . "');\n" . $tabIndent . $tabIndent . $tabIndent;
                     break;
 
                 case 'binary':
-                    $schemaFields .= "\$table->binary('" . $item['name'] . "');\n\t\t\t";
+                    $schemaFields .= "\$table->binary('" . $item['name'] . "');\n" . $tabIndent . $tabIndent . $tabIndent;
                     break;
 
                 case 'number':
                 case 'integer':
-                    $schemaFields .= "\$table->integer('" . $item['name'] . "');\n\t\t\t";
+                    $schemaFields .= "\$table->integer('" . $item['name'] . "');\n" . $tabIndent . $tabIndent . $tabIndent;
                     break;
 
                 case 'bigint':
-                    $schemaFields .= "\$table->bigInteger('" . $item['name'] . "');\n\t\t\t";
+                    $schemaFields .= "\$table->bigInteger('" . $item['name'] . "');\n" . $tabIndent . $tabIndent . $tabIndent;
                     break;
 
                 case 'mediumint':
-                    $schemaFields .= "\$table->mediumInteger('" . $item['name'] . "');\n\t\t\t";
+                    $schemaFields .= "\$table->mediumInteger('" . $item['name'] . "');\n" . $tabIndent . $tabIndent . $tabIndent;
                     break;
 
                 case 'tinyint':
-                    $schemaFields .= "\$table->tinyInteger('" . $item['name'] . "');\n\t\t\t";
+                    $schemaFields .= "\$table->tinyInteger('" . $item['name'] . "');\n" . $tabIndent . $tabIndent . $tabIndent;
                     break;
 
                 case 'smallint':
-                    $schemaFields .= "\$table->smallInteger('" . $item['name'] . "');\n\t\t\t";
+                    $schemaFields .= "\$table->smallInteger('" . $item['name'] . "');\n" . $tabIndent . $tabIndent . $tabIndent;
                     break;
 
                 case 'boolean':
-                    $schemaFields .= "\$table->boolean('" . $item['name'] . "');\n\t\t\t";
+                    $schemaFields .= "\$table->boolean('" . $item['name'] . "');\n" . $tabIndent . $tabIndent . $tabIndent;
                     break;
 
                 case 'decimal':
-                    $schemaFields .= "\$table->decimal('" . $item['name'] . "');\n\t\t\t";
+                    $schemaFields .= "\$table->decimal('" . $item['name'] . "');\n" . $tabIndent . $tabIndent . $tabIndent;
                     break;
 
                 case 'double':
-                    $schemaFields .= "\$table->double('" . $item['name'] . "');\n\t\t\t";
+                    $schemaFields .= "\$table->double('" . $item['name'] . "');\n" . $tabIndent . $tabIndent . $tabIndent;
                     break;
 
                 case 'float':
-                    $schemaFields .= "\$table->float('" . $item['name'] . "');\n\t\t\t";
+                    $schemaFields .= "\$table->float('" . $item['name'] . "');\n" . $tabIndent . $tabIndent . $tabIndent;
                     break;
 
                 default:
-                    $schemaFields .= "\$table->string('" . $item['name'] . "');\n\t\t\t";
+                    $schemaFields .= "\$table->string('" . $item['name'] . "');\n" . $tabIndent . $tabIndent . $tabIndent;
                     break;
             }
         }
