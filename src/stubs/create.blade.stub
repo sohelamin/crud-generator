@@ -1,6 +1,7 @@
-@extends('layouts.master')
+@extends('layouts.app')
 
 @section('content')
+<div class="container">
 
     <h1>Create New %%modelName%%</h1>
     <hr/>
@@ -24,4 +25,5 @@
         </ul>
     @endif
 
+</div>
 @endsection
