@@ -1,6 +1,7 @@
-@extends('layouts.master')
+@extends('layouts.app')
 
 @section('content')
+<div class="container">
 
     <h1>%%crudNameCap%% <a href="{{ url('%%routeGroup%%%%crudName%%/create') }}" class="btn btn-primary pull-right btn-sm">Add New %%modelName%%</a></h1>
     <div class="table">
@@ -34,4 +35,5 @@
         <div class="pagination"> {!! $%%crudName%%->appends(Request::except('page'))->render() !!} </div>
     </div>
 
+</div>
 @endsection
