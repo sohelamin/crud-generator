@@ -1,13 +1,14 @@
-@extends('layouts.master')
+@extends('layouts.app')
 
 @section('content')
+<div class="container">
 
     <h1>Edit %%modelName%%</h1>
     <hr/>
 
     {!! Form::model($%%crudNameSingular%%, [
         'method' => 'PATCH',
-        'url' => ['%%routeGroup%%%%crudName%%', $%%crudNameSingular%%->%%primaryKey%%],
+        'url' => ['/%%routeGroup%%%%crudName%%', $%%crudNameSingular%%->%%primaryKey%%],
         'class' => 'form-horizontal'
     ]) !!}
 
@@ -28,4 +29,5 @@
         </ul>
     @endif
 
+</div>
 @endsection

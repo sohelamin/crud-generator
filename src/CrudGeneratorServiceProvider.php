@@ -25,6 +25,10 @@ class CrudGeneratorServiceProvider extends ServiceProvider
         ]);
 
         $this->publishes([
+            __DIR__ . '/../publish/app.blade.php' => base_path('resources/views/layouts/app.blade.php'),
+        ]);
+
+        $this->publishes([
             __DIR__ . '/stubs/' => base_path('resources/crud-generator/'),
         ]);
     }
@@ -45,5 +49,4 @@ class CrudGeneratorServiceProvider extends ServiceProvider
             'Appzcoder\CrudGenerator\Commands\CrudLangCommand'
         );
     }
-
 }

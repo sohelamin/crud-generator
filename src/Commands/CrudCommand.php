@@ -122,6 +122,11 @@ class CrudCommand extends Command
         }
     }
 
+    /**
+     * Add routes.
+     *
+     * @return  array
+     */
     protected function addRoutes() {
         return ["Route::resource('" . $this->routeName . "', '" . $this->controller . "');"];
     }

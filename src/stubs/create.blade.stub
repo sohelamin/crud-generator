@@ -1,11 +1,12 @@
-@extends('layouts.master')
+@extends('layouts.app')
 
 @section('content')
+<div class="container">
 
     <h1>Create New %%modelName%%</h1>
     <hr/>
 
-    {!! Form::open(['url' => '%%routeGroup%%%%crudName%%', 'class' => 'form-horizontal']) !!}
+    {!! Form::open(['url' => '/%%routeGroup%%%%crudName%%', 'class' => 'form-horizontal']) !!}
 
     %%formFieldsHtml%%
 
@@ -24,4 +25,5 @@
         </ul>
     @endif
 
+</div>
 @endsection

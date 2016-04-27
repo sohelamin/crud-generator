@@ -1,6 +1,7 @@
-@extends('layouts.master')
+@extends('layouts.app')
 
 @section('content')
+<div class="container">
 
     <h1>%%modelName%%</h1>
     <div class="table-responsive">
@@ -14,8 +15,9 @@
                 <tr>
                     <td>{{ $%%crudNameSingular%%->%%primaryKey%% }}</td> %%formBodyHtml%%
                 </tr>
-            </tbody>    
+            </tbody>
         </table>
     </div>
 
+</div>
 @endsection

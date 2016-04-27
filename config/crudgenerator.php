@@ -15,4 +15,9 @@ return [
 
     'path' => base_path('resources/crud-generator/'),
 
+    /**
+     * Columns number to show in view's table.
+     */
+    'view_columns_number' => 3,
+
 ];
