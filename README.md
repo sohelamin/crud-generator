@@ -63,13 +63,13 @@ Note: You should have configured database for this operation.
 #### Crud command:
 
 ```
-php artisan crud:generate Posts --fields="title:string, body:text"
+php artisan crud:generate Posts --fields="title#string, body#text"
 ```
 
 You can also easily include route, set primary key, set views directory etc through options **--route**, **--pk**, **--view-path** as belows:
 
 ```
-php artisan crud:generate Posts --fields="title:string:required, body:text:required" --route=yes --pk=id --view-path="admin" --namespace=Admin --route-group=admin
+php artisan crud:generate Posts --fields="title#string#required, body#text#required_with:title|alpha_num" --route=yes --pk=id --view-path="admin" --namespace=Admin --route-group=admin
 ```
 
 Options:
@@ -96,19 +96,19 @@ php artisan crud:controller PostsController --crud-name=posts --model-name=Post 
 For model generator:
 
 ```
-php artisan crud:model Post --fillable="['title', 'body']"
+php artisan crud:model Post --fillable="['title', 'body']" 
 ```
 
 For migration generator:
 
 ```
-php artisan crud:migration posts --schema="title:string, body:text"
+php artisan crud:migration posts --schema="title#string, body#text"
 ```
 
 For view generator:
 
 ```
-php artisan crud:view posts --fields="title:string, body:text" --view-path="directory" --route-group=admin
+php artisan crud:view posts --fields="title#string, body#text" --view-path="directory" --route-group=admin
 ```
 
 By default, the generator will attempt to append the crud route to your *routes.php* file. If you don't want the route added, you can use the option ```--route=no```.

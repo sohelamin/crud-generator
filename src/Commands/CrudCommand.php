@@ -69,18 +69,16 @@ class CrudCommand extends Command
         $viewPath = $this->option('view-path');
 
         $fieldsArray = explode(',', $fields);
-        $requiredFields = '';
         $requiredFieldsStr = '';
+        $fillableArray = [];
 
         foreach ($fieldsArray as $item) {
-            $fillableArray[] = preg_replace("/(.*?):(.*)/", "$1", trim($item));
+            $spareParts = explode('#', trim($item));
+            $fillableArray[] = $spareParts[0];
 
-            $itemArray = explode(':', $item);
-            $currentField = trim($itemArray[0]);
-            $requiredFieldsStr .= (isset($itemArray[2])
-                && (trim($itemArray[2]) == 'req'
-                    || trim($itemArray[2]) == 'required'))
-            ? "'$currentField' => 'required', " : '';
+            $currentField = trim($spareParts[0]);
+            $requiredFieldsStr .= (isset($spareParts[2]))
+            ? "'$currentField' => '{$spareParts[2]}', " : '';
         }
 
         $commaSeparetedString = implode("', '", $fillableArray);

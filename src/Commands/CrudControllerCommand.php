@@ -17,8 +17,7 @@ class CrudControllerCommand extends GeneratorCommand
                             {--model-name= : The name of the Model.}
                             {--view-path= : The name of the view path.}
                             {--required-fields= : Required fields for validations.}
-                            {--route-group= : Prefix of the route group.}
-                            {--pk=id : The name of the primary key.}';
+                            {--route-group= : Prefix of the route group.}';
 
     /**
      * The console command description.
