@@ -3,8 +3,7 @@
 @section('content')
 <div class="container">
 
-    <h1>Edit %%modelName%%</h1>
-    <hr/>
+    <h1>Edit %%modelName%% {{ $%%crudNameSingular%%->%%primaryKey%% }}</h1>
 
     {!! Form::model($%%crudNameSingular%%, [
         'method' => 'PATCH',
