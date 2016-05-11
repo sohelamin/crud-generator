@@ -78,7 +78,7 @@ class CrudCommand extends Command
             $requiredFieldsStr .= (isset($itemArray[2])
                 && (trim($itemArray[2]) == 'req'
                     || trim($itemArray[2]) == 'required'))
-            ? "'$currentField' => 'required', " : '';
+                ? 'required' : '';
         }
 
         $commaSeparetedString = implode("', '", $fillableArray);
@@ -96,27 +96,41 @@ class CrudCommand extends Command
         // Updating the Http/routes.php file
         $routeFile = app_path('Http/routes.php');
         if (file_exists($routeFile) && (strtolower($this->option('route')) === 'yes')) {
+
             $this->controller = ($controllerNamespace != '') ? $controllerNamespace . '\\' . $name . 'Controller' : $name . 'Controller';
 
-            if (\App::VERSION() >= '5.2') {
-                $isAdded = File::append($routeFile,
-                    "\nRoute::group(['middleware' => ['web']], function () {"
-                    . "\n\t" . implode("\n\t", $this->addRoutes())
-                    . "\n});"
-                );
-            } else {
-                $isAdded = File::append($routeFile, "\n".implode("\n", $this->addRoutes()));
-            }
+            if(!$this->routeExists($routeFile, $viewName)) {
+                File::append($routeFile, "\n\n/* @crud-generator:$viewName */");
 
-            if ($isAdded) {
-                $this->info('Crud/Resource route added to ' . $routeFile);
-            } else {
-                $this->info('Unable to add the route to ' . $routeFile);
+                if (\App::VERSION() >= '5.2') {
+                    $isAdded = File::append($routeFile,
+                        "\nRoute::group(['middleware' => ['web']], function () {"
+                        . "\n\t" . implode("\n\t", $this->addRoutes())
+                        . "\n});"
+                    );
+                } else {
+                    $isAdded = File::append($routeFile, "\n".implode("\n", $this->addRoutes()));
+                }
+
+                if ($isAdded) {
+                    $this->info('Crud/Resource route added to ' . $routeFile);
+                } else {
+                    $this->info('Unable to add the route to ' . $routeFile);
+                }
             }
         }
     }
 
-    protected function addRoutes() {
+    protected function addRoutes(){
         return ["Route::resource('" . $this->routeName . "', '" . $this->controller . "');"];
+    }
+
+    private function routeExists($routeFile, $viewName)
+    {
+        $file = File::get($routeFile);
+        if(strpos($file, "@crud-generator:$viewName")) {
+            return true;
+        }
+        return false;
     }
 }
