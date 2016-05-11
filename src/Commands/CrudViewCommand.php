@@ -143,7 +143,6 @@ class CrudViewCommand extends Command
      * @var string
      */
     protected $formBodyHtml = '';
-   
 
     /**
      * Html of view to show.
@@ -225,8 +224,8 @@ class CrudViewCommand extends Command
 
             $field = $value['name'];
             $label = ucwords(str_replace('_', ' ', $field));
-            if($this->option('localize') == 'yes') {
-                $label = 'trans(\'' . $this->crudName . '.' . $field . '\')';
+            if ($this->option('localize') == 'yes') {
+                $label = '{{ trans(\'' . $this->crudName . '.' . $field . '\') }}';
             }
             $this->formHeadingHtml .= '<th> ' . $label . ' </th>';
             $this->formBodyHtml .= '<td>{{ $item->' . $field . ' }}</td>';
@@ -367,9 +366,9 @@ class CrudViewCommand extends Command
                 </div>
             </div>\n
 EOD;
-        $labelText = "'".ucwords(strtolower(str_replace('_', ' ', $item['name'])))."'";
+        $labelText = "'" . ucwords(strtolower(str_replace('_', ' ', $item['name']))) . "'";
 
-        if($this->option('localize') == 'yes') {
+        if ($this->option('localize') == 'yes') {
             $labelText = 'trans(\'' . $this->crudName . '.' . $item['name'] . '\')';
         }
 
