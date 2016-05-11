@@ -143,6 +143,7 @@ class CrudViewCommand extends Command
      * @var string
      */
     protected $formBodyHtml = '';
+   
 
     /**
      * Html of view to show.
@@ -227,14 +228,9 @@ class CrudViewCommand extends Command
             if($this->option('localize') == 'yes') {
                 $label = 'trans(\'' . $this->crudName . '.' . $field . '\')';
             }
-            $this->formHeadingHtml .= '<th>{{ ' . $label . ' }}</th>';
-
-            if ($i == 0) {
-                $this->formBodyHtml .= '<td><a href="{{ url(\'%%routeGroup%%%%crudName%%\', $item->id) }}">{{ $item->' . $field . ' }}</a></td>';
-            } else {
-                $this->formBodyHtml .= '<td>{{ $item->' . $field . ' }}</td>';
-            }
-            $this->formBodyHtmlForShowView .= '<td> {{ $%%crudNameSingular%%->' . $field . ' }} </td>';
+            $this->formHeadingHtml .= '<th> ' . $label . ' </th>';
+            $this->formBodyHtml .= '<td>{{ $item->' . $field . ' }}</td>';
+            $this->formBodyHtmlForShowView .= '<tr><th> ' . $label . ' </th><td> {{ $%%crudNameSingular%%->' . $field . ' }} </td></tr>';
 
             $i++;
         }
@@ -341,11 +337,14 @@ class CrudViewCommand extends Command
     public function templateShowVars($newShowFile)
     {
         File::put($newShowFile, str_replace('%%formHeadingHtml%%', $this->formHeadingHtml, File::get($newShowFile)));
-        File::put($newShowFile, str_replace('%%formBodyHtml%%', $this->formBodyHtmlForShowView, File::get($newShowFile)));
+        File::put($newShowFile, str_replace('%%formBodyHtmlForShowView%%', $this->formBodyHtmlForShowView, File::get($newShowFile)));
         File::put($newShowFile, str_replace('%%crudNameSingular%%', $this->crudNameSingular, File::get($newShowFile)));
         File::put($newShowFile, str_replace('%%crudNameCap%%', $this->crudNameCap, File::get($newShowFile)));
         File::put($newShowFile, str_replace('%%modelName%%', $this->modelName, File::get($newShowFile)));
         File::put($newShowFile, str_replace('%%primaryKey%%', $this->primaryKey, File::get($newShowFile)));
+        File::put($newShowFile, str_replace('%%crudName%%', $this->crudName, File::get($newShowFile)));
+        File::put($newShowFile, str_replace('%%routeGroup%%', $this->routeGroup, File::get($newShowFile)));
+
     }
 
     /**
