@@ -78,7 +78,7 @@ class CrudCommand extends Command
             $requiredFieldsStr .= (isset($itemArray[2])
                 && (trim($itemArray[2]) == 'req'
                     || trim($itemArray[2]) == 'required'))
-                ? 'required' : '';
+            ? "'$currentField' => 'required', " : '';
         }
 
         $commaSeparetedString = implode("', '", $fillableArray);
