@@ -3,34 +3,29 @@
 @section('content')
 <div class="container">
 
-    <h1>%%modelName%% {{ $%%crudNameSingular%%->%%primaryKey%% }}</h1>
+    <h1>%%modelName%% {{ $%%crudNameSingular%%->%%primaryKey%% }}
+        <a href="{{ url('%%routeGroup%%%%crudName%%/' . $%%crudNameSingular%%->id . '/edit') }}" class="btn btn-primary btn-xs" title="Edit %%modelName%%"><span class="glyphicon glyphicon-pencil" aria-hidden="true"/></a>
+        {!! Form::open([
+            'method'=>'DELETE',
+            'url' => ['%%routeGroup%%%%crudName%%', $%%crudNameSingular%%->id],
+            'style' => 'display:inline'
+        ]) !!}
+            {!! Form::button('<span class="glyphicon glyphicon-trash" aria-hidden="true"/>', array(
+                    'type' => 'submit',
+                    'class' => 'btn btn-danger btn-xs',
+                    'title' => 'Delete %%modelName%%',
+                    'onclick'=>'return confirm("Confirm delete?")'
+            ));!!}
+        {!! Form::close() !!}
+    </h1>
     <div class="table-responsive">
         <table class="table table-bordered table-striped table-hover">
             <tbody>
                 <tr>
-                    <th>ID.</th><td>{{ $%%crudNameSingular%%->%%primaryKey%% }}</td>
+                    <th>ID</th><td>{{ $%%crudNameSingular%%->%%primaryKey%% }}</td>
                 </tr>
                 %%formBodyHtmlForShowView%%
             </tbody>
-            <tfoot>
-                <tr>
-                    <td colspan="2">
-                        <a href="{{ url('%%routeGroup%%%%crudName%%/' . $%%crudNameSingular%%->id . '/edit') }}" class="btn btn-primary btn-xs" title="Edit %%modelName%%"><span class="glyphicon glyphicon-pencil" aria-hidden="true"/></a>
-                        {!! Form::open([
-                            'method'=>'DELETE',
-                            'url' => ['%%routeGroup%%%%crudName%%', $%%crudNameSingular%%->id],
-                            'style' => 'display:inline'
-                        ]) !!}
-                            {!! Form::button('<span class="glyphicon glyphicon-trash" aria-hidden="true"/>', array(
-                                    'type' => 'submit',
-                                    'class' => 'btn btn-danger btn-xs',
-                                    'title' => 'Delete %%modelName%%',
-                                    'onclick'=>'return confirm("Confirm delete?")'
-                            ));!!}
-                        {!! Form::close() !!}
-                    </td>
-                </tr>
-            </tfoot>
         </table>
     </div>
 
