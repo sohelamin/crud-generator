@@ -13,8 +13,8 @@
             {!! Form::button('<span class="glyphicon glyphicon-trash" aria-hidden="true"/>', array(
                     'type' => 'submit',
                     'class' => 'btn btn-danger btn-xs',
-                    'title' => 'Borrar %%modelName%%',
-                    'onclick'=>'return confirm("¿Confirma que desea borrar?")'
+                    'title' => 'Delete %%modelName%%',
+                    'onclick'=>'return confirm("Confirm delete?")'
             ));!!}
         {!! Form::close() !!}
     </h1>
