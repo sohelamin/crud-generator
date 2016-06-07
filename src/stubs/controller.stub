@@ -46,7 +46,7 @@ class DummyClass extends Controller
 
         Session::flash('flash_message', '{{modelName}} added!');
 
-        return redirect('{{routeGroup}}{{crudName}}');
+        return redirect('{{routeGroup}}{{viewName}}');
     }
 
     /**
