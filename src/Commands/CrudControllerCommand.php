@@ -73,6 +73,7 @@ class CrudControllerCommand extends GeneratorCommand
         $crudNameSingular = str_singular($crudName);
         $modelName = $this->option('model-name');
         $routeGroup = ($this->option('route-group')) ? $this->option('route-group') . '/' : '';
+        $viewName = snake_case($this->option('crud-name'), '-');
 
         $validationRules = '';
         if ($this->option('required-fields') != '') {
@@ -81,12 +82,30 @@ class CrudControllerCommand extends GeneratorCommand
 
         return $this->replaceNamespace($stub, $name)
             ->replaceViewPath($stub, $viewPath)
+            ->replaceViewName($stub, $viewName)
             ->replaceCrudName($stub, $crudName)
             ->replaceCrudNameSingular($stub, $crudNameSingular)
             ->replaceModelName($stub, $modelName)
             ->replaceRouteGroup($stub, $routeGroup)
             ->replaceValidationRules($stub, $validationRules)
             ->replaceClass($stub, $name);
+    }
+
+    /**
+     * Replace the viewName fo the given stub.
+     *
+     * @param string $stub
+     * @param string $viewName
+     *
+     * @return $this
+     */
+    protected function replaceViewName(&$stub, $viewName)
+    {
+        $stub = str_replace(
+            '{{viewName}}', $viewName, $stub
+        );
+
+        return $this;
     }
 
     /**

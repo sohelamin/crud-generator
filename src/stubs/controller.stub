@@ -21,7 +21,7 @@ class DummyClass extends Controller
     {
         ${{crudName}} = {{modelName}}::paginate(15);
 
-        return view('{{viewPath}}{{crudName}}.index', compact('{{crudName}}'));
+        return view('{{viewPath}}{{viewName}}.index', compact('{{crudName}}'));
     }
 
     /**
@@ -31,7 +31,7 @@ class DummyClass extends Controller
      */
     public function create()
     {
-        return view('{{viewPath}}{{crudName}}.create');
+        return view('{{viewPath}}{{viewName}}.create');
     }
 
     /**
@@ -60,7 +60,7 @@ class DummyClass extends Controller
     {
         ${{crudNameSingular}} = {{modelName}}::findOrFail($id);
 
-        return view('{{viewPath}}{{crudName}}.show', compact('{{crudNameSingular}}'));
+        return view('{{viewPath}}{{viewName}}.show', compact('{{crudNameSingular}}'));
     }
 
     /**
@@ -74,7 +74,7 @@ class DummyClass extends Controller
     {
         ${{crudNameSingular}} = {{modelName}}::findOrFail($id);
 
-        return view('{{viewPath}}{{crudName}}.edit', compact('{{crudNameSingular}}'));
+        return view('{{viewPath}}{{viewName}}.edit', compact('{{crudNameSingular}}'));
     }
 
     /**
