@@ -57,7 +57,6 @@ class CrudCommand extends Command
         $modelName = str_singular($name);
         $migrationName = str_plural(snake_case($name));
         $tableName = $migrationName;
-        $viewName = strtolower($name);
 
         $routeGroup = $this->option('route-group');
         $this->routeName = ($routeGroup) ? $routeGroup . '/' . snake_case($name, '-') : snake_case($name, '-');
@@ -92,9 +91,9 @@ class CrudCommand extends Command
         $this->call('crud:controller', ['name' => $controllerNamespace . $name . 'Controller', '--crud-name' => $name, '--model-name' => $modelName, '--view-path' => $viewPath, '--required-fields' => $requiredFields, '--route-group' => $routeGroup]);
         $this->call('crud:model', ['name' => $modelName, '--fillable' => $fillable, '--table' => $tableName, '--pk' => $primaryKey]);
         $this->call('crud:migration', ['name' => $migrationName, '--schema' => $fields, '--pk' => $primaryKey]);
-        $this->call('crud:view', ['name' => $viewName, '--fields' => $fields, '--view-path' => $viewPath, '--route-group' => $routeGroup, '--localize' => $localize, '--pk' => $primaryKey]);
+        $this->call('crud:view', ['name' => $name, '--fields' => $fields, '--view-path' => $viewPath, '--route-group' => $routeGroup, '--localize' => $localize, '--pk' => $primaryKey]);
         if ($this->option('localize') == 'yes') {
-            $this->call('crud:lang', ['name' => $viewName, '--fields' => $fields, '--locales' => $locales]);
+            $this->call('crud:lang', ['name' => $name, '--fields' => $fields, '--locales' => $locales]);
         }
         // For optimizing the class loader
         $this->callSilent('optimize');

@@ -7,7 +7,7 @@
 
     {!! Form::model($%%crudNameSingular%%, [
         'method' => 'PATCH',
-        'url' => ['/%%routeGroup%%%%crudName%%', $%%crudNameSingular%%->%%primaryKey%%],
+        'url' => ['/%%routeGroup%%%%viewName%%', $%%crudNameSingular%%->%%primaryKey%%],
         'class' => 'form-horizontal'
     ]) !!}
 

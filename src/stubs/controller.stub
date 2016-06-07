@@ -92,7 +92,7 @@ class DummyClass extends Controller
 
         Session::flash('flash_message', '{{modelName}} updated!');
 
-        return redirect('{{routeGroup}}{{crudName}}');
+        return redirect('{{routeGroup}}{{viewName}}');
     }
 
     /**
@@ -108,6 +108,6 @@ class DummyClass extends Controller
 
         Session::flash('flash_message', '{{modelName}} deleted!');
 
-        return redirect('{{routeGroup}}{{crudName}}');
+        return redirect('{{routeGroup}}{{viewName}}');
     }
 }
