@@ -53,7 +53,7 @@
 
 5. Publish config file & generator template files.
     ```
-    php artisan vendor:publish
+    php artisan vendor:publish --provider="Appzcoder\CrudGenerator\CrudGeneratorServiceProvider"
     ```
 
 Note: You should have configured database for this operation.
