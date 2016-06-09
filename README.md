@@ -160,7 +160,7 @@ You can customize the generator's stub files/templates to achieve your need.
 
 1. Make sure you've published package's assets.
     ```
-    php artisan vendor:publish
+    php artisan vendor:publish --provider="Appzcoder\CrudGenerator\CrudGeneratorServiceProvider"
     ```
 
 2. Turn on custom_template support on **/config/crudgenerator.php**
