@@ -2,6 +2,8 @@
 
 namespace App;
 
+use DB;
+
 trait EnumTrait
 {
     /**
