@@ -172,6 +172,10 @@ class CrudMigrationCommand extends GeneratorCommand
                     $schemaFields .= "\$table->float('" . $item['name'] . "');\n" . $tabIndent . $tabIndent . $tabIndent;
                     break;
 
+                case 'enum':
+                    $schemaFields .= "\$table->enum('" . $item['name'] . "', []);\n" . $tabIndent . $tabIndent . $tabIndent;
+                    break;
+
                 default:
                     $schemaFields .= "\$table->string('" . $item['name'] . "');\n" . $tabIndent . $tabIndent . $tabIndent;
                     break;

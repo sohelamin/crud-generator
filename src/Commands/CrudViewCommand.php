@@ -18,7 +18,7 @@ class CrudViewCommand extends Command
                             {--view-path= : The name of the view path.}
                             {--route-group= : Prefix of the route group.}
                             {--pk=id : The name of the primary key.}
-                            {--localize=yes : Localize the view? yes|no.}';
+                            {--localize=no : Localize the view? yes|no.}';
 
     /**
      * The console command description.
@@ -65,6 +65,7 @@ class CrudViewCommand extends Command
         'timestamp' => 'datetime-local',
         'time' => 'time',
         'boolean' => 'radio',
+        'enum' => 'select',
     ];
 
     /**
@@ -407,6 +408,9 @@ EOD;
             case 'radio':
                 return $this->createRadioField($item);
                 break;
+            case 'select':
+                return $this->createSelectField($item);
+                break;
             default: // text
                 return $this->createFormField($item);
         }
@@ -483,5 +487,22 @@ EOD;
 EOD;
 
         return $this->wrapField($item, sprintf($field, $item['name']));
+    }
+
+    /**
+     * Create a select field using the form helper.
+     *
+     * @param  string $item
+     *
+     * @return string
+     */
+    protected function createSelectField($item)
+    {
+        $required = ($item['required'] === true) ? ", 'required' => 'required'" : "";
+
+        return $this->wrapField(
+            $item,
+            "{!! Form::select('" . $item['name'] . "', [], null, ['class' => 'form-control'$required]) !!}"
+        );
     }
 }
