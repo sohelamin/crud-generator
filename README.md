@@ -96,7 +96,7 @@ php artisan crud:controller PostsController --crud-name=posts --model-name=Post 
 For model generator:
 
 ```
-php artisan crud:model Post --fillable="['title', 'body']" 
+php artisan crud:model Post --fillable="['title', 'body']"
 ```
 
 For migration generator:
@@ -153,6 +153,7 @@ These fields are supported for migration and view's form:
 * decimal
 * double
 * float
+* enum
 
 ### Custom Generator's Stub Template
 
