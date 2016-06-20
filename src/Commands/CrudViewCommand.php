@@ -65,7 +65,7 @@ class CrudViewCommand extends Command
         'timestamp' => 'datetime-local',
         'time' => 'time',
         'boolean' => 'radio',
-        'enum' => 'select',
+        'enum' => 'enum',
     ];
 
     /**
@@ -187,7 +187,7 @@ class CrudViewCommand extends Command
         $this->crudName = strtolower($this->argument('name'));
         $this->crudNameCap = ucwords($this->crudName);
         $this->crudNameSingular = str_singular($this->crudName);
-        $this->modelName = ucwords($this->crudNameSingular);
+        $this->modelName = $this->argument('name');
         $this->primaryKey = $this->option('pk');
         $this->routeGroup = ($this->option('route-group')) ? $this->option('route-group') . '/' : $this->option('route-group');
         $this->viewName = snake_case($this->argument('name'), '-');
@@ -391,7 +391,7 @@ EOD;
     /**
      * Form field generator.
      *
-     * @param  string $item
+     * @param  array $item
      *
      * @return string
      */
@@ -411,6 +411,9 @@ EOD;
             case 'select':
                 return $this->createSelectField($item);
                 break;
+            case 'enum':
+                return $this->createEnumField($item);
+                break;
             default: // text
                 return $this->createFormField($item);
         }
@@ -419,7 +422,7 @@ EOD;
     /**
      * Create a specific field using the form helper.
      *
-     * @param  string $item
+     * @param  array $item
      *
      * @return string
      */
@@ -436,7 +439,7 @@ EOD;
     /**
      * Create a password field using the form helper.
      *
-     * @param  string $item
+     * @param  array $item
      *
      * @return string
      */
@@ -453,7 +456,7 @@ EOD;
     /**
      * Create a generic input field using the form helper.
      *
-     * @param  string $item
+     * @param  array $item
      *
      * @return string
      */
@@ -470,7 +473,7 @@ EOD;
     /**
      * Create a yes/no radio button group using the form helper.
      *
-     * @param  string $item
+     * @param  array $item
      *
      * @return string
      */
@@ -492,7 +495,7 @@ EOD;
     /**
      * Create a select field using the form helper.
      *
-     * @param  string $item
+     * @param  array $item
      *
      * @return string
      */
@@ -503,6 +506,23 @@ EOD;
         return $this->wrapField(
             $item,
             "{!! Form::select('" . $item['name'] . "', [], null, ['class' => 'form-control'$required]) !!}"
+        );
+    }
+
+    /**
+     * Create an enum field using the form helper.
+     *
+     * @param  array  $item
+     *
+     * @return string
+     */
+    protected function createEnumField($item)
+    {
+        $required = ($item['required'] === true) ? ", 'required' => 'required'" : "";
+
+        return $this->wrapField(
+            $item,
+            "{!! Form::select('" . $item['name'] . "', get_enum_values('" . $this->modelName . "', '" . $item['name'] . "'), null, ['class' => 'form-control'$required]) !!}"
         );
     }
 }

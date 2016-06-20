@@ -155,6 +155,28 @@ These fields are supported for migration and view's form:
 * float
 * enum
 
+### Enum Type Field
+
+For generating enum type field follow the instructions.
+
+1. Write a command like below.
+    ```
+    php artisan crud:generate Posts --fields="title#string#required, body#text, category#enum"
+    ```
+
+2. Modify your migration like below.
+    ```
+    $table->enum('category', ['technology', 'tips', 'health']);
+    ```
+
+3. Add **EnumTrait** to your model.
+    ```php
+    class Post extends Model
+    {
+        use EnumTrait;
+    ...................
+    ```
+
 ### Custom Generator's Stub Template
 
 You can customize the generator's stub files/templates to achieve your need.
