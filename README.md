@@ -165,7 +165,7 @@ For generating enum type field follow the instructions.
     ```
 
 2. Modify your migration like below.
-    ```
+    ```php
     $table->enum('category', ['technology', 'tips', 'health']);
     ```
 
@@ -174,7 +174,6 @@ For generating enum type field follow the instructions.
     class Post extends Model
     {
         use EnumTrait;
-    ...................
     ```
 
 ### Custom Generator's Stub Template
