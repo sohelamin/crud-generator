@@ -85,7 +85,7 @@ class CrudControllerCommand extends GeneratorCommand
             foreach ($requireds as $req)
             {
                 $req = trim($req);
-                $validationRules .= "'" . $req . "',";
+                $validationRules .= "['" . $req . "' => 'required'],";
             }
             $validationRules = substr($validationRules, 0, -1); // lose the last comma
             $validationRules .= ']);';
