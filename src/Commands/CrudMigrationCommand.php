@@ -73,7 +73,7 @@ class CrudMigrationCommand extends GeneratorCommand
         $tableName = $this->argument('name');
         $className = 'Create' . str_replace(' ', '', ucwords(str_replace('_', ' ', $tableName))) . 'Table';
 
-        $fieldsToIndex = explode(',', $this->option('indexes'));
+        $fieldsToIndex = trim($this->option('indexes')) != '' ? explode(',', $this->option('indexes')) : [];
         $fieldsToRequire = explode(',', $this->option('required-fields'));
 
         $schema = $this->option('schema');
@@ -186,15 +186,33 @@ class CrudMigrationCommand extends GeneratorCommand
                     break;
             }
 
-            if (in_array($item['name'], $fieldsToIndex))
-            {
-                $schemaFields .= '->index()';
-            }
-
             // in the sql, laravel makes fields 'not null' by default, so we add nullable to fields that aren't required
             if (!in_array($item['name'], $fieldsToRequire))
             {
                 $schemaFields .= '->nullable()';
+            }
+
+            $schemaFields .= ";\n" . $tabIndent . $tabIndent . $tabIndent;
+        }
+
+        // add indexes and unique indexes as necessary
+        foreach ($fieldsToIndex as $fld)
+        {
+            $line = trim($fld);
+
+            // is a unique index specified after the #?
+            // if no hash present, we append one to make life easier
+            if (strpos($line, '#') === false)
+                $line .= '#';
+
+            $parts = explode('#', $line);
+            if (count($parts) > 1 && $parts[1] == 'unique')
+            {
+                $schemaFields .= "\$table->unique('" . trim($parts[0]) . "')";
+            }
+            else
+            {
+                $schemaFields .= "\$table->index('" . trim($parts[0]) . "')";
             }
 
             $schemaFields .= ";\n" . $tabIndent . $tabIndent . $tabIndent;
