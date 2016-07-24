@@ -20,6 +20,7 @@ class CrudCommand extends Command
                             {--view-path= : The name of the view path.}
                             {--namespace= : Namespace of the controller.}
                             {--route-group= : Prefix of the route group.}
+                            {--pagination= : The amount of models per page for index pages.}
                             {--localize=no : Localize the generated files? yes|no. }
                             {--locales=en : Locales to create lang files for.}';
 
@@ -60,6 +61,7 @@ class CrudCommand extends Command
 
         $routeGroup = $this->option('route-group');
         $this->routeName = ($routeGroup) ? $routeGroup . '/' . snake_case($name, '-') : snake_case($name, '-');
+        $perPage = $this->option('pagination') ? intval($this->option('pagination')) : 15;
 
         $controllerNamespace = ($this->option('namespace')) ? $this->option('namespace') . '\\' : '';
 
@@ -88,7 +90,7 @@ class CrudCommand extends Command
         $localize = $this->option('localize');
         $locales = $this->option('locales');
 
-        $this->call('crud:controller', ['name' => $controllerNamespace . $name . 'Controller', '--crud-name' => $name, '--model-name' => $modelName, '--view-path' => $viewPath, '--required-fields' => $requiredFields, '--route-group' => $routeGroup]);
+        $this->call('crud:controller', ['name' => $controllerNamespace . $name . 'Controller', '--crud-name' => $name, '--model-name' => $modelName, '--view-path' => $viewPath, '--required-fields' => $requiredFields, '--route-group' => $routeGroup, '--pagination' => $perPage]);
         $this->call('crud:model', ['name' => $modelName, '--fillable' => $fillable, '--table' => $tableName, '--pk' => $primaryKey]);
         $this->call('crud:migration', ['name' => $migrationName, '--schema' => $fields, '--pk' => $primaryKey]);
         $this->call('crud:view', ['name' => $name, '--fields' => $fields, '--view-path' => $viewPath, '--route-group' => $routeGroup, '--localize' => $localize, '--pk' => $primaryKey]);
