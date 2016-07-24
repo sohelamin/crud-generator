@@ -15,6 +15,7 @@ class CrudMigrationCommand extends GeneratorCommand
                             {name : The name of the migration.}
                             {--schema= : The name of the schema.}
                             {--indexes= : The fields to add an index too}
+                            {--required-fields= : Required fields}
                             {--pk=id : The name of the primary key.}';
 
     /**
@@ -73,6 +74,7 @@ class CrudMigrationCommand extends GeneratorCommand
         $className = 'Create' . str_replace(' ', '', ucwords(str_replace('_', ' ', $tableName))) . 'Table';
 
         $fieldsToIndex = explode(',', $this->option('indexes'));
+        $fieldsToRequire = explode(',', $this->option('required-fields'));
 
         $schema = $this->option('schema');
         $fields = explode(',', $schema);
@@ -187,6 +189,12 @@ class CrudMigrationCommand extends GeneratorCommand
             if (in_array($item['name'], $fieldsToIndex))
             {
                 $schemaFields .= '->index()';
+            }
+
+            // in the sql, laravel makes fields 'not null' by default, so we add nullable to fields that aren't required
+            if (!in_array($item['name'], $fieldsToRequire))
+            {
+                $schemaFields .= '->nullable()';
             }
 
             $schemaFields .= ";\n" . $tabIndent . $tabIndent . $tabIndent;

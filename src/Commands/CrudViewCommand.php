@@ -18,6 +18,7 @@ class CrudViewCommand extends Command
                             {--view-path= : The name of the view path.}
                             {--route-group= : Prefix of the route group.}
                             {--pk=id : The name of the primary key.}
+                            {--required-fields= : Required fields}
                             {--localize=no : Localize the view? yes|no.}';
 
     /**
@@ -74,6 +75,13 @@ class CrudViewCommand extends Command
      * @var array
      */
     protected $formFields = [];
+
+    /**
+     * Array of any required form fields
+     *
+     * @var array
+     */
+    protected $requiredFormFields = [];
 
     /**
      * Html of Form's fields.
@@ -209,13 +217,15 @@ class CrudViewCommand extends Command
 
         $this->formFields = array();
 
+        $this->requiredFormFields = explode(',', $this->option('required-fields'));
+
         if ($fields) {
             $x = 0;
             foreach ($fieldsArray as $item) {
                 $itemArray = explode('#', $item);
                 $this->formFields[$x]['name'] = trim($itemArray[0]);
                 $this->formFields[$x]['type'] = trim($itemArray[1]);
-                $this->formFields[$x]['required'] = (isset($itemArray[2]) && (trim($itemArray[2]) == 'req' || trim($itemArray[2]) == 'required')) ? true : false;
+                $this->formFields[$x]['required'] = in_array($itemArray[0], $this->requiredFormFields);
 
                 $x++;
             }

@@ -78,8 +78,17 @@ class CrudControllerCommand extends GeneratorCommand
         $viewName = snake_case($this->option('crud-name'), '-');
 
         $validationRules = '';
-        if ($this->option('required-fields') != '') {
-            $validationRules = "\$this->validate(\$request, " . $this->option('required-fields') . ");\n";
+        if (trim($this->option('required-fields')) != '') {
+            $validationRules = "\$this->validate(\$request, [";
+
+            $requireds = explode(',', $this->option('required-fields'));
+            foreach ($requireds as $req)
+            {
+                $req = trim($req);
+                $validationRules .= "'" . $req . "',";
+            }
+            $validationRules = substr($validationRules, 0, -1); // lose the last comma
+            $validationRules .= ']);';
         }
 
         return $this->replaceNamespace($stub, $name)
