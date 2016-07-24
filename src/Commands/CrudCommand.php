@@ -21,6 +21,7 @@ class CrudCommand extends Command
                             {--namespace= : Namespace of the controller.}
                             {--route-group= : Prefix of the route group.}
                             {--pagination= : The amount of models per page for index pages.}
+                            {--indexes= : The fields to add an index to.}
                             {--localize=no : Localize the generated files? yes|no. }
                             {--locales=en : Locales to create lang files for.}';
 
@@ -90,9 +91,11 @@ class CrudCommand extends Command
         $localize = $this->option('localize');
         $locales = $this->option('locales');
 
+        $indexes = $this->option('indexes');
+
         $this->call('crud:controller', ['name' => $controllerNamespace . $name . 'Controller', '--crud-name' => $name, '--model-name' => $modelName, '--view-path' => $viewPath, '--required-fields' => $requiredFields, '--route-group' => $routeGroup, '--pagination' => $perPage]);
         $this->call('crud:model', ['name' => $modelName, '--fillable' => $fillable, '--table' => $tableName, '--pk' => $primaryKey]);
-        $this->call('crud:migration', ['name' => $migrationName, '--schema' => $fields, '--pk' => $primaryKey]);
+        $this->call('crud:migration', ['name' => $migrationName, '--schema' => $fields, '--pk' => $primaryKey, '--indexes' => $indexes]);
         $this->call('crud:view', ['name' => $name, '--fields' => $fields, '--view-path' => $viewPath, '--route-group' => $routeGroup, '--localize' => $localize, '--pk' => $primaryKey]);
         if ($localize == 'yes') {
             $this->call('crud:lang', ['name' => $name, '--fields' => $fields, '--locales' => $locales]);

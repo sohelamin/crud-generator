@@ -14,6 +14,7 @@ class CrudMigrationCommand extends GeneratorCommand
     protected $signature = 'crud:migration
                             {name : The name of the migration.}
                             {--schema= : The name of the schema.}
+                            {--indexes= : The fields to add an index too}
                             {--pk=id : The name of the primary key.}';
 
     /**
@@ -71,6 +72,8 @@ class CrudMigrationCommand extends GeneratorCommand
         $tableName = $this->argument('name');
         $className = 'Create' . str_replace(' ', '', ucwords(str_replace('_', ' ', $tableName))) . 'Table';
 
+        $fieldsToIndex = explode(',', $this->option('indexes'));
+
         $schema = $this->option('schema');
         $fields = explode(',', $schema);
 
@@ -92,94 +95,101 @@ class CrudMigrationCommand extends GeneratorCommand
         foreach ($data as $item) {
             switch ($item['type']) {
                 case 'char':
-                    $schemaFields .= "\$table->char('" . $item['name'] . "');\n" . $tabIndent . $tabIndent . $tabIndent;
+                    $schemaFields .= "\$table->char('" . $item['name'] . "')";
                     break;
 
                 case 'date':
-                    $schemaFields .= "\$table->date('" . $item['name'] . "');\n" . $tabIndent . $tabIndent . $tabIndent;
+                    $schemaFields .= "\$table->date('" . $item['name'] . "')";
                     break;
 
                 case 'datetime':
-                    $schemaFields .= "\$table->dateTime('" . $item['name'] . "');\n" . $tabIndent . $tabIndent . $tabIndent;
+                    $schemaFields .= "\$table->dateTime('" . $item['name'] . "')";
                     break;
 
                 case 'time':
-                    $schemaFields .= "\$table->time('" . $item['name'] . "');\n" . $tabIndent . $tabIndent . $tabIndent;
+                    $schemaFields .= "\$table->time('" . $item['name'] . "')";
                     break;
 
                 case 'timestamp':
-                    $schemaFields .= "\$table->timestamp('" . $item['name'] . "');\n" . $tabIndent . $tabIndent . $tabIndent;
+                    $schemaFields .= "\$table->timestamp('" . $item['name'] . "')";
                     break;
 
                 case 'text':
-                    $schemaFields .= "\$table->text('" . $item['name'] . "');\n" . $tabIndent . $tabIndent . $tabIndent;
+                    $schemaFields .= "\$table->text('" . $item['name'] . "')";
                     break;
 
                 case 'mediumtext':
-                    $schemaFields .= "\$table->mediumText('" . $item['name'] . "');\n" . $tabIndent . $tabIndent . $tabIndent;
+                    $schemaFields .= "\$table->mediumText('" . $item['name'] . "')";
                     break;
 
                 case 'longtext':
-                    $schemaFields .= "\$table->longText('" . $item['name'] . "');\n" . $tabIndent . $tabIndent . $tabIndent;
+                    $schemaFields .= "\$table->longText('" . $item['name'] . "')";
                     break;
 
                 case 'json':
-                    $schemaFields .= "\$table->json('" . $item['name'] . "');\n" . $tabIndent . $tabIndent . $tabIndent;
+                    $schemaFields .= "\$table->json('" . $item['name'] . "')";
                     break;
 
                 case 'jsonb':
-                    $schemaFields .= "\$table->jsonb('" . $item['name'] . "');\n" . $tabIndent . $tabIndent . $tabIndent;
+                    $schemaFields .= "\$table->jsonb('" . $item['name'] . "')";
                     break;
 
                 case 'binary':
-                    $schemaFields .= "\$table->binary('" . $item['name'] . "');\n" . $tabIndent . $tabIndent . $tabIndent;
+                    $schemaFields .= "\$table->binary('" . $item['name'] . "')";
                     break;
 
                 case 'number':
                 case 'integer':
-                    $schemaFields .= "\$table->integer('" . $item['name'] . "');\n" . $tabIndent . $tabIndent . $tabIndent;
+                    $schemaFields .= "\$table->integer('" . $item['name'] . "')";
                     break;
 
                 case 'bigint':
-                    $schemaFields .= "\$table->bigInteger('" . $item['name'] . "');\n" . $tabIndent . $tabIndent . $tabIndent;
+                    $schemaFields .= "\$table->bigInteger('" . $item['name'] . "')";
                     break;
 
                 case 'mediumint':
-                    $schemaFields .= "\$table->mediumInteger('" . $item['name'] . "');\n" . $tabIndent . $tabIndent . $tabIndent;
+                    $schemaFields .= "\$table->mediumInteger('" . $item['name'] . "')";
                     break;
 
                 case 'tinyint':
-                    $schemaFields .= "\$table->tinyInteger('" . $item['name'] . "');\n" . $tabIndent . $tabIndent . $tabIndent;
+                    $schemaFields .= "\$table->tinyInteger('" . $item['name'] . "')";
                     break;
 
                 case 'smallint':
-                    $schemaFields .= "\$table->smallInteger('" . $item['name'] . "');\n" . $tabIndent . $tabIndent . $tabIndent;
+                    $schemaFields .= "\$table->smallInteger('" . $item['name'] . "')";
                     break;
 
                 case 'boolean':
-                    $schemaFields .= "\$table->boolean('" . $item['name'] . "');\n" . $tabIndent . $tabIndent . $tabIndent;
+                    $schemaFields .= "\$table->boolean('" . $item['name'] . "')";
                     break;
 
                 case 'decimal':
-                    $schemaFields .= "\$table->decimal('" . $item['name'] . "');\n" . $tabIndent . $tabIndent . $tabIndent;
+                    $schemaFields .= "\$table->decimal('" . $item['name'] . "')";
                     break;
 
                 case 'double':
-                    $schemaFields .= "\$table->double('" . $item['name'] . "');\n" . $tabIndent . $tabIndent . $tabIndent;
+                    $schemaFields .= "\$table->double('" . $item['name'] . "')";
                     break;
 
                 case 'float':
-                    $schemaFields .= "\$table->float('" . $item['name'] . "');\n" . $tabIndent . $tabIndent . $tabIndent;
+                    $schemaFields .= "\$table->float('" . $item['name'] . "')";
                     break;
 
                 case 'enum':
-                    $schemaFields .= "\$table->enum('" . $item['name'] . "', []);\n" . $tabIndent . $tabIndent . $tabIndent;
+                    $schemaFields .= "\$table->enum('" . $item['name'] . "', [])";
                     break;
 
                 default:
-                    $schemaFields .= "\$table->string('" . $item['name'] . "');\n" . $tabIndent . $tabIndent . $tabIndent;
+                    $schemaFields .= "\$table->string('" . $item['name'] . "')";
                     break;
             }
+
+            if (in_array($item['name'], $fieldsToIndex))
+            {
+                $schemaFields .= '->index()';
+            }
+
+            $schemaFields .= ";\n" . $tabIndent . $tabIndent . $tabIndent;
         }
 
         $primaryKey = $this->option('pk');
