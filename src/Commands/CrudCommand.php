@@ -22,7 +22,8 @@ class CrudCommand extends Command
                             {--route-group= : Prefix of the route group.}
                             {--pagination= : The amount of models per page for index pages.}
                             {--indexes= : The fields to add an index to.}
-                            {--foreign-keys= : Any foreign keys for the table}
+                            {--foreign-keys= : Any foreign keys for the table.}
+                            {--relationships= : The relationships for the model}
                             {--required-fields= : Required fields}
                             {--localize=no : Localize the generated files? yes|no. }
                             {--locales=en : Locales to create lang files for.}';
@@ -90,9 +91,10 @@ class CrudCommand extends Command
 
         $indexes = $this->option('indexes');
         $required = $this->option('required-fields');
+        $relationships = $this->option('relationships');
 
         $this->call('crud:controller', ['name' => $controllerNamespace . $name . 'Controller', '--crud-name' => $name, '--model-name' => $modelName, '--view-path' => $viewPath, '--required-fields' => $required, '--route-group' => $routeGroup, '--pagination' => $perPage]);
-        $this->call('crud:model', ['name' => $modelName, '--fillable' => $fillable, '--table' => $tableName, '--pk' => $primaryKey]);
+        $this->call('crud:model', ['name' => $modelName, '--fillable' => $fillable, '--table' => $tableName, '--pk' => $primaryKey, '--relationships' => $relationships]);
         $this->call('crud:migration', ['name' => $migrationName, '--schema' => $fields, '--pk' => $primaryKey, '--indexes' => $indexes, '--required-fields' => $required, '--foreign-keys' => $foreignKeys]);
         $this->call('crud:view', ['name' => $name, '--fields' => $fields, '--view-path' => $viewPath, '--route-group' => $routeGroup, '--localize' => $localize, '--pk' => $primaryKey, '--required-fields' => $required]);
         if ($localize == 'yes') {
