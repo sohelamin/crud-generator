@@ -16,6 +16,7 @@ class CrudMigrationCommand extends GeneratorCommand
                             {--schema= : The name of the schema.}
                             {--indexes= : The fields to add an index too}
                             {--required-fields= : Required fields}
+                            {--foreign-keys= : Foreign keys}
                             {--pk=id : The name of the primary key.}';
 
     /**
@@ -74,7 +75,8 @@ class CrudMigrationCommand extends GeneratorCommand
         $className = 'Create' . str_replace(' ', '', ucwords(str_replace('_', ' ', $tableName))) . 'Table';
 
         $fieldsToIndex = trim($this->option('indexes')) != '' ? explode(',', $this->option('indexes')) : [];
-        $fieldsToRequire = explode(',', $this->option('required-fields'));
+        $fieldsToRequire = trim($this->option('required-fields')) != '' ? explode(',', $this->option('required-fields')) : [];
+        $foreignKeys = trim($this->option('foreign-keys')) != '' ? explode(',', $this->option('foreign-keys')) : [];
 
         $schema = $this->option('schema');
         $fields = explode(',', $schema);
@@ -217,6 +219,26 @@ class CrudMigrationCommand extends GeneratorCommand
 
             $schemaFields .= ";\n" . $tabIndent . $tabIndent . $tabIndent;
         }
+
+        // foreign keys
+        foreach ($foreignKeys as $fk)
+        {
+            $line = trim($fk);
+
+            $parts = explode('#', $line);
+
+            // if we don't have three parts, then the foreign key isn't defined properly
+            // --foreign-keys="foreign_entity_id#id#foreign_entity"
+            if (count($parts) != 3)
+                continue;
+
+            $schemaFields .= "\$table->foreign('" . trim($parts[0]) . "')"
+                . "->references('" . trim($parts[1]) . "')->on('" . trim($parts[0]) . "')";
+
+            $schemaFields .= ";\n" . $tabIndent . $tabIndent . $tabIndent;
+
+        }
+
 
         $primaryKey = $this->option('pk');
 
