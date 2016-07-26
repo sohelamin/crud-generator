@@ -15,7 +15,7 @@
                     'class' => 'btn btn-danger btn-xs',
                     'title' => 'Delete %%modelName%%',
                     'onclick'=>'return confirm("Confirm delete?")'
-            ));!!}
+            ))!!}
         {!! Form::close() !!}
     </h1>
     <div class="table-responsive">
