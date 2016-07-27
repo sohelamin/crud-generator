@@ -26,6 +26,7 @@ class CrudCommand extends Command
                             {--foreign-keys= : Any foreign keys for the table.}
                             {--relationships= : The relationships for the model}
                             {--required-fields= : Required fields}
+                            {--form-validation= : Validation details for the form fields}
                             {--localize=no : Localize the generated files? yes|no. }
                             {--locales=en : Locales to create lang files for.}';
 
@@ -91,12 +92,13 @@ class CrudCommand extends Command
         $localize = $this->option('localize');
         $locales = $this->option('locales');
 
-
         $indexes = $this->option('indexes');
         $required = $this->option('required-fields');
         $relationships = $this->option('relationships');
 
-        $this->call('crud:controller', ['name' => $controllerNamespace . $name . 'Controller', '--crud-name' => $name, '--model-name' => $modelName, '--view-path' => $viewPath, '--required-fields' => $required, '--route-group' => $routeGroup, '--pagination' => $perPage]);
+        $formValidation = trim($this->option('form-validation'));
+
+        $this->call('crud:controller', ['name' => $controllerNamespace . $name . 'Controller', '--crud-name' => $name, '--model-name' => $modelName, '--view-path' => $viewPath, '--required-fields' => $required, '--route-group' => $routeGroup, '--pagination' => $perPage, '--form-validation' => $formValidation]);
         $this->call('crud:model', ['name' => $modelNamespace . $modelName, '--fillable' => $fillable, '--table' => $tableName, '--pk' => $primaryKey, '--relationships' => $relationships]);
         $this->call('crud:migration', ['name' => $migrationName, '--schema' => $fields, '--pk' => $primaryKey, '--indexes' => $indexes, '--required-fields' => $required, '--foreign-keys' => $foreignKeys]);
         $this->call('crud:view', ['name' => $name, '--fields' => $fields, '--view-path' => $viewPath, '--route-group' => $routeGroup, '--localize' => $localize, '--pk' => $primaryKey, '--required-fields' => $required]);
