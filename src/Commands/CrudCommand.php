@@ -20,7 +20,7 @@ class CrudCommand extends Command
                             {--view-path= : The name of the view path.}
                             {--namespace= : Namespace of the controller.}
                             {--route-group= : Prefix of the route group.}
-                            {--pagination=15 : The amount of models per page for index pages.}
+                            {--pagination=25 : The amount of models per page for index pages.}
                             {--indexes= : The fields to add an index to.}
                             {--foreign-keys= : Any foreign keys for the table.}
                             {--relationships= : The relationships for the model}

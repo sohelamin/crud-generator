@@ -18,7 +18,7 @@ class CrudControllerCommand extends GeneratorCommand
                             {--view-path= : The name of the view path.}
                             {--required-fields= : Required fields for validations.}
                             {--route-group= : Prefix of the route group.}
-                            {--pagination=15 : The amount of models per page for index pages.}';
+                            {--pagination=25 : The amount of models per page for index pages.}';
 
     /**
      * The console command description.
