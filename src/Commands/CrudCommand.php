@@ -18,7 +18,8 @@ class CrudCommand extends Command
                             {--route=yes : Include Crud route to routes.php? yes|no.}
                             {--pk=id : The name of the primary key.}
                             {--view-path= : The name of the view path.}
-                            {--namespace= : Namespace of the controller.}
+                            {--model-namespace= : Namespace of the model inside "app" dir}
+                            {--controller-namespace= : Namespace of the controller.}
                             {--route-group= : Prefix of the route group.}
                             {--pagination=25 : The amount of models per page for index pages.}
                             {--indexes= : The fields to add an index to.}
@@ -67,7 +68,8 @@ class CrudCommand extends Command
         $this->routeName = ($routeGroup) ? $routeGroup . '/' . snake_case($name, '-') : snake_case($name, '-');
         $perPage = intval($this->option('pagination'));
 
-        $controllerNamespace = ($this->option('namespace')) ? $this->option('namespace') . '\\' : '';
+        $controllerNamespace = ($this->option('controller-namespace')) ? $this->option('controller-namespace') . '\\' : '';
+        $modelNamespace = ($this->option('model-namespace')) ? trim($this->option('model-namespace')) . '\\' : '';
 
         $fields = $this->option('fields');
         $primaryKey = $this->option('pk');
@@ -89,12 +91,13 @@ class CrudCommand extends Command
         $localize = $this->option('localize');
         $locales = $this->option('locales');
 
+
         $indexes = $this->option('indexes');
         $required = $this->option('required-fields');
         $relationships = $this->option('relationships');
 
         $this->call('crud:controller', ['name' => $controllerNamespace . $name . 'Controller', '--crud-name' => $name, '--model-name' => $modelName, '--view-path' => $viewPath, '--required-fields' => $required, '--route-group' => $routeGroup, '--pagination' => $perPage]);
-        $this->call('crud:model', ['name' => $modelName, '--fillable' => $fillable, '--table' => $tableName, '--pk' => $primaryKey, '--relationships' => $relationships]);
+        $this->call('crud:model', ['name' => $modelNamespace . $modelName, '--fillable' => $fillable, '--table' => $tableName, '--pk' => $primaryKey, '--relationships' => $relationships]);
         $this->call('crud:migration', ['name' => $migrationName, '--schema' => $fields, '--pk' => $primaryKey, '--indexes' => $indexes, '--required-fields' => $required, '--foreign-keys' => $foreignKeys]);
         $this->call('crud:view', ['name' => $name, '--fields' => $fields, '--view-path' => $viewPath, '--route-group' => $routeGroup, '--localize' => $localize, '--pk' => $primaryKey, '--required-fields' => $required]);
         if ($localize == 'yes') {
