@@ -84,8 +84,9 @@ Options:
 - --pagination=25 : The amount of models per page for index pages.
 - --indexes : The fields to add an index to. append "#unique" to a field name to add a unique index
 - --foreign-keys= : Any foreign keys for the table. e.g. --foreign-keys="owner_id#id#owners" where owner_id is the column name, id is the name of the field on the foreign table, and owners is the name of the foreign table
+- --form-validation= : Validation for html form "my_col_name#validationRulesAsUsedInValidateFunction" e.g. "title#min:10|max:30|required" - See https://laravel.com/docs/master/validation#available-validation-rules
 - --relationships= : The relationships for the model. e.g. --relationships="comments#hasMany#App\Comment" in the format "relationshipname#type#args|SeparatedBy|Pipes"
-- --required-fields= : Required fields. These fields will be set to not null, and also receive a required in the forms
+- --required-fields= : Required fields for the table. These fields will be set to not null, and other fields will be nullable. Note, required will not be set on form fields, you must define that manually 
 - --localize=no : Localize the generated files? yes|no. 
 - --locales=en : Locales to create lang files for.
 

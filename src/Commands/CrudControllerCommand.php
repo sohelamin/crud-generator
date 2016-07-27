@@ -17,6 +17,7 @@ class CrudControllerCommand extends GeneratorCommand
                             {--model-name= : The name of the Model.}
                             {--view-path= : The name of the view path.}
                             {--required-fields= : Required fields for validations.}
+                            {--form-validation= : Form validation}
                             {--route-group= : Prefix of the route group.}
                             {--pagination=25 : The amount of models per page for index pages.}';
 
@@ -76,19 +77,33 @@ class CrudControllerCommand extends GeneratorCommand
         $routeGroup = ($this->option('route-group')) ? $this->option('route-group') . '/' : '';
         $perPage = intval($this->option('pagination'));
         $viewName = snake_case($this->option('crud-name'), '-');
+        $validation = $this->option('form-validation');
 
         $validationRules = '';
-        if (trim($this->option('required-fields')) != '') {
+        if (trim($this->option('form-validation')) != '') {
             $validationRules = "\$this->validate(\$request, [";
 
-            $requireds = explode(',', $this->option('required-fields'));
-            foreach ($requireds as $req)
+            $rules = explode(',', $validation);
+            foreach ($rules as $v)
             {
-                $req = trim($req);
-                $validationRules .= "['" . $req . "' => 'required'],";
+                if (trim($v) == '')
+                    continue;
+
+                // extract field name and args
+                $parts = explode('#', $v);
+                $fieldName = trim($parts[0]);
+                $args = trim($parts[1]);
+                $validationRules .= "\n\t\t\t'$fieldName' => '$args',";
             }
+
+//            $requireds = explode(',', $this->option('required-fields'));
+//            foreach ($requireds as $req)
+//            {
+//                $req = trim($req);
+//                $validationRules .= "['" . $req . "' => 'required'],";
+//            }
             $validationRules = substr($validationRules, 0, -1); // lose the last comma
-            $validationRules .= ']);';
+            $validationRules .= "\n\t\t]);";
         }
 
         return $this->replaceNamespace($stub, $name)
