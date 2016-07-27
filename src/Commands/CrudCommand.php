@@ -20,7 +20,7 @@ class CrudCommand extends Command
                             {--view-path= : The name of the view path.}
                             {--namespace= : Namespace of the controller.}
                             {--route-group= : Prefix of the route group.}
-                            {--pagination= : The amount of models per page for index pages.}
+                            {--pagination=15 : The amount of models per page for index pages.}
                             {--indexes= : The fields to add an index to.}
                             {--foreign-keys= : Any foreign keys for the table.}
                             {--relationships= : The relationships for the model}
@@ -65,7 +65,7 @@ class CrudCommand extends Command
 
         $routeGroup = $this->option('route-group');
         $this->routeName = ($routeGroup) ? $routeGroup . '/' . snake_case($name, '-') : snake_case($name, '-');
-        $perPage = $this->option('pagination') ? intval($this->option('pagination')) : 15;
+        $perPage = intval($this->option('pagination'));
 
         $controllerNamespace = ($this->option('namespace')) ? $this->option('namespace') . '\\' : '';
 

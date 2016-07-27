@@ -18,7 +18,7 @@ class CrudControllerCommand extends GeneratorCommand
                             {--view-path= : The name of the view path.}
                             {--required-fields= : Required fields for validations.}
                             {--route-group= : Prefix of the route group.}
-                            {--pagination= : The amount of models per page for index pages.}';
+                            {--pagination=15 : The amount of models per page for index pages.}';
 
     /**
      * The console command description.
@@ -74,7 +74,7 @@ class CrudControllerCommand extends GeneratorCommand
         $crudNameSingular = str_singular($crudName);
         $modelName = $this->option('model-name');
         $routeGroup = ($this->option('route-group')) ? $this->option('route-group') . '/' : '';
-        $perPage = $this->option('pagination') ? intval($this->option('pagination')) : 15;
+        $perPage = intval($this->option('pagination'));
         $viewName = snake_case($this->option('crud-name'), '-');
 
         $validationRules = '';
