@@ -78,8 +78,16 @@ Options:
 - --route : Include Crud route to routes.php? yes or no.
 - --pk : The name of the primary key.
 - --view-path : The name of the view path.
-- --namespace : Namespace of the controller.
+- --model-namespace : The namespace that the model will be placed in - directories will be created
+- --controller-namespace : The namespace of the controller - sub directories will be created
 - --route-group : Prefix of the route group.
+- --pagination=25 : The amount of models per page for index pages.
+- --indexes : The fields to add an index to. append "#unique" to a field name to add a unique index
+- --foreign-keys= : Any foreign keys for the table. e.g. --foreign-keys="owner_id#id#owners" where owner_id is the column name, id is the name of the field on the foreign table, and owners is the name of the foreign table
+- --relationships= : The relationships for the model. e.g. --relationships="comments#hasMany#App\Comment" in the format "relationshipname#type#args|SeparatedBy|Pipes"
+- --required-fields= : Required fields. These fields will be set to not null, and also receive a required in the forms
+- --localize=no : Localize the generated files? yes|no. 
+- --locales=en : Locales to create lang files for.
 
 -----------
 -----------
@@ -191,6 +199,6 @@ You can customize the generator's stub files/templates to achieve your need.
     ```
 3. From the directory **/resources/crud-generator/** you can modify or customize the stub files.
 
-##Author
+##Original Author
 
 [Sohel Amin](http://www.sohelamin.com)

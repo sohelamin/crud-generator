@@ -17,7 +17,8 @@ class CrudControllerCommand extends GeneratorCommand
                             {--model-name= : The name of the Model.}
                             {--view-path= : The name of the view path.}
                             {--required-fields= : Required fields for validations.}
-                            {--route-group= : Prefix of the route group.}';
+                            {--route-group= : Prefix of the route group.}
+                            {--pagination=25 : The amount of models per page for index pages.}';
 
     /**
      * The console command description.
@@ -73,11 +74,21 @@ class CrudControllerCommand extends GeneratorCommand
         $crudNameSingular = str_singular($crudName);
         $modelName = $this->option('model-name');
         $routeGroup = ($this->option('route-group')) ? $this->option('route-group') . '/' : '';
+        $perPage = intval($this->option('pagination'));
         $viewName = snake_case($this->option('crud-name'), '-');
 
         $validationRules = '';
-        if ($this->option('required-fields') != '') {
-            $validationRules = "\$this->validate(\$request, " . $this->option('required-fields') . ");\n";
+        if (trim($this->option('required-fields')) != '') {
+            $validationRules = "\$this->validate(\$request, [";
+
+            $requireds = explode(',', $this->option('required-fields'));
+            foreach ($requireds as $req)
+            {
+                $req = trim($req);
+                $validationRules .= "['" . $req . "' => 'required'],";
+            }
+            $validationRules = substr($validationRules, 0, -1); // lose the last comma
+            $validationRules .= ']);';
         }
 
         return $this->replaceNamespace($stub, $name)
@@ -88,6 +99,7 @@ class CrudControllerCommand extends GeneratorCommand
             ->replaceModelName($stub, $modelName)
             ->replaceRouteGroup($stub, $routeGroup)
             ->replaceValidationRules($stub, $validationRules)
+            ->replacePaginationNumber($stub, $perPage)
             ->replaceClass($stub, $name);
     }
 
@@ -205,6 +217,23 @@ class CrudControllerCommand extends GeneratorCommand
     {
         $stub = str_replace(
             '{{validationRules}}', $validationRules, $stub
+        );
+
+        return $this;
+    }
+
+    /**
+     * Replace the pagination placeholder for the given stub
+     *
+     * @param $stub
+     * @param $perPage
+     *
+     * @return $this
+     */
+    protected function replacePaginationNumber(&$stub, $perPage)
+    {
+        $stub = str_replace(
+            '{{pagination}}', $perPage, $stub
         );
 
         return $this;
