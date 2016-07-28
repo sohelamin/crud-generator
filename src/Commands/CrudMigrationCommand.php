@@ -198,23 +198,34 @@ class CrudMigrationCommand extends GeneratorCommand
         }
 
         // add indexes and unique indexes as necessary
-        foreach ($fieldsToIndex as $fld)
+        foreach ($fieldsToIndex as $fldData)
         {
-            $line = trim($fld);
+            $line = trim($fldData);
 
             // is a unique index specified after the #?
             // if no hash present, we append one to make life easier
             if (strpos($line, '#') === false)
                 $line .= '#';
 
+            // parts[0] = field name (or names if pipe separated)
+            // parts[1] = unique specified
             $parts = explode('#', $line);
-            if (count($parts) > 1 && $parts[1] == 'unique')
+            if (strpos($parts[0],'|') !== 0)
             {
-                $schemaFields .= "\$table->unique('" . trim($parts[0]) . "')";
+                $fieldNames = "['" . implode("', '", explode('|', $parts[0])) . "']"; // wrap single quotes around each element
             }
             else
             {
-                $schemaFields .= "\$table->index('" . trim($parts[0]) . "')";
+                $fieldNames = trim($parts[0]);
+            }
+
+            if (count($parts) > 1 && $parts[1] == 'unique')
+            {
+                $schemaFields .= "\$table->unique(" . trim($fieldNames) . ")";
+            }
+            else
+            {
+                $schemaFields .= "\$table->index(" . trim($fieldNames) . ")";
             }
 
             $schemaFields .= ";\n" . $tabIndent . $tabIndent . $tabIndent;
