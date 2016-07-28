@@ -95,7 +95,7 @@ class CrudViewCommand extends Command
      *
      * @var integer
      */
-    protected $defaultColumsToShow = 3;
+    protected $defaultColumnsToShow = 3;
 
     /**
      * Name of the Crud.
@@ -181,7 +181,7 @@ class CrudViewCommand extends Command
         : __DIR__ . '/../stubs/';
 
         if (config('crudgenerator.view_columns_number')) {
-            $this->defaultColumsToShow = config('crudgenerator.view_columns_number');
+            $this->defaultColumnsToShow = config('crudgenerator.view_columns_number');
         }
     }
 
@@ -237,7 +237,7 @@ class CrudViewCommand extends Command
 
         $i = 0;
         foreach ($this->formFields as $key => $value) {
-            if ($i == $this->defaultColumsToShow) {
+            if ($i == $this->defaultColumnsToShow) {
                 break;
             }
 
