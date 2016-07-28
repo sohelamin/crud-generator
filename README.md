@@ -82,7 +82,7 @@ Options:
 - --controller-namespace : The namespace of the controller - sub directories will be created
 - --route-group : Prefix of the route group.
 - --pagination=25 : The amount of models per page for index pages.
-- --indexes : The fields to add an index to. append "#unique" to a field name to add a unique index
+- --indexes : The fields to add an index to. append "#unique" to a field name to add a unique index. Create composite fields by separating fieldnames with a pipe (--indexes="title,fld1|fld2#unique" will create normal index on title, and unique composite on fld1 and fld2) 
 - --foreign-keys= : Any foreign keys for the table. e.g. --foreign-keys="owner_id#id#owners" where owner_id is the column name, id is the name of the field on the foreign table, and owners is the name of the foreign table
 - --form-validation= : Validation for html form "my_col_name#validationRulesAsUsedInValidateFunction" e.g. "title#min:10|max:30|required" - See https://laravel.com/docs/master/validation#available-validation-rules
 - --relationships= : The relationships for the model. e.g. --relationships="comments#hasMany#App\Comment" in the format "relationshipname#type#args|SeparatedBy|Pipes"
