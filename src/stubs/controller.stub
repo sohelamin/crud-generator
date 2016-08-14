@@ -7,7 +7,6 @@ use DummyRootNamespaceHttp\Controllers\Controller;
 
 use DummyRootNamespace{{modelName}};
 use Illuminate\Http\Request;
-use Carbon\Carbon;
 use Session;
 
 class DummyClass extends Controller
@@ -15,7 +14,7 @@ class DummyClass extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return void
+     * @return \Illuminate\View\View
      */
     public function index()
     {
@@ -27,7 +26,7 @@ class DummyClass extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return void
+     * @return \Illuminate\View\View
      */
     public function create()
     {
@@ -37,7 +36,9 @@ class DummyClass extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @return void
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function store(Request $request)
     {
@@ -54,7 +55,7 @@ class DummyClass extends Controller
      *
      * @param  int  $id
      *
-     * @return void
+     * @return \Illuminate\View\View
      */
     public function show($id)
     {
@@ -68,7 +69,7 @@ class DummyClass extends Controller
      *
      * @param  int  $id
      *
-     * @return void
+     * @return \Illuminate\View\View
      */
     public function edit($id)
     {
@@ -81,8 +82,9 @@ class DummyClass extends Controller
      * Update the specified resource in storage.
      *
      * @param  int  $id
+     * @param \Illuminate\Http\Request $request
      *
-     * @return void
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function update($id, Request $request)
     {
@@ -100,7 +102,7 @@ class DummyClass extends Controller
      *
      * @param  int  $id
      *
-     * @return void
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function destroy($id)
     {
