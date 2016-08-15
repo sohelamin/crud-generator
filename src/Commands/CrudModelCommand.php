@@ -71,7 +71,7 @@ class CrudModelCommand extends GeneratorCommand
         $primaryKey = $this->option('pk');
         $relationships = trim($this->option('relationships')) != '' ? explode(',', trim($this->option('relationships'))) : [];
 
-        if(!empty($primaryKey)) {
+        if (!empty($primaryKey)) {
             $primaryKey = <<<EOD
 /**
     * The database primary key value.
@@ -88,28 +88,28 @@ EOD;
             ->replaceFillable($stub, $fillable)
             ->replacePrimaryKey($stub, $primaryKey);
 
-        foreach ($relationships as $rel)
-        {
+        foreach ($relationships as $rel) {
             // relationshipname#relationshiptype#args_separated_by_pipes
             // e.g. employees#hasMany#App\Employee|id|dept_id
             // user is responsible for ensuring these relationships are valid
-            $parts = explode('#',$rel);
+            $parts = explode('#', $rel);
 
-            if (count($parts) != 3)
+            if (count($parts) != 3) {
                 continue;
+            }
 
             // blindly wrap each arg in single quotes
             $args = explode('|', trim($parts[2]));
             $argsString = '';
-            foreach ($args as $k => $v)
-            {
-                if (trim($v) == '')
+            foreach ($args as $k => $v) {
+                if (trim($v) == '') {
                     continue;
+                }
 
                 $argsString .= "'" . trim($v) . "', ";
             }
 
-            $argsString = substr($argsString, 0, -2);   // remove last comma
+            $argsString = substr($argsString, 0, -2); // remove last comma
 
             $ret->createRelationshipFunction($stub, trim($parts[0]), trim($parts[1]), $argsString);
         }

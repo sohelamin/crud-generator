@@ -29,10 +29,6 @@ class CrudGeneratorServiceProvider extends ServiceProvider
         ]);
 
         $this->publishes([
-            __DIR__ . '/../publish/EnumTrait.php' => app_path('EnumTrait.php'),
-        ]);
-
-        $this->publishes([
             __DIR__ . '/stubs/' => base_path('resources/crud-generator/'),
         ]);
     }

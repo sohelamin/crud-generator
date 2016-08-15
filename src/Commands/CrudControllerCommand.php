@@ -16,8 +16,7 @@ class CrudControllerCommand extends GeneratorCommand
                             {--crud-name= : The name of the Crud.}
                             {--model-name= : The name of the Model.}
                             {--view-path= : The name of the view path.}
-                            {--required-fields= : Required fields for validations.}
-                            {--form-validation= : Form validation}
+                            {--validations= : Validation details for the fields.}
                             {--route-group= : Prefix of the route group.}
                             {--pagination=25 : The amount of models per page for index pages.}';
 
@@ -77,31 +76,25 @@ class CrudControllerCommand extends GeneratorCommand
         $routeGroup = ($this->option('route-group')) ? $this->option('route-group') . '/' : '';
         $perPage = intval($this->option('pagination'));
         $viewName = snake_case($this->option('crud-name'), '-');
-        $validation = $this->option('form-validation');
+        $validations = rtrim($this->option('validations'), ';');
 
         $validationRules = '';
-        if (trim($this->option('form-validation')) != '') {
+        if (trim($validations) != '') {
             $validationRules = "\$this->validate(\$request, [";
 
-            $rules = explode(',', $validation);
-            foreach ($rules as $v)
-            {
-                if (trim($v) == '')
+            $rules = explode(';', $validations);
+            foreach ($rules as $v) {
+                if (trim($v) == '') {
                     continue;
+                }
 
                 // extract field name and args
                 $parts = explode('#', $v);
                 $fieldName = trim($parts[0]);
-                $args = trim($parts[1]);
-                $validationRules .= "\n\t\t\t'$fieldName' => '$args',";
+                $rules = trim($parts[1]);
+                $validationRules .= "\n\t\t\t'$fieldName' => '$rules',";
             }
 
-//            $requireds = explode(',', $this->option('required-fields'));
-//            foreach ($requireds as $req)
-//            {
-//                $req = trim($req);
-//                $validationRules .= "['" . $req . "' => 'required'],";
-//            }
             $validationRules = substr($validationRules, 0, -1); // lose the last comma
             $validationRules .= "\n\t\t]);";
         }

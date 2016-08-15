@@ -14,9 +14,8 @@ class CrudMigrationCommand extends GeneratorCommand
     protected $signature = 'crud:migration
                             {name : The name of the migration.}
                             {--schema= : The name of the schema.}
-                            {--indexes= : The fields to add an index too}
-                            {--required-fields= : Required fields}
-                            {--foreign-keys= : Foreign keys}
+                            {--indexes= : The fields to add an index too.}
+                            {--foreign-keys= : Foreign keys.}
                             {--pk=id : The name of the primary key.}';
 
     /**
@@ -75,11 +74,10 @@ class CrudMigrationCommand extends GeneratorCommand
         $className = 'Create' . str_replace(' ', '', ucwords(str_replace('_', ' ', $tableName))) . 'Table';
 
         $fieldsToIndex = trim($this->option('indexes')) != '' ? explode(',', $this->option('indexes')) : [];
-        $fieldsToRequire = trim($this->option('required-fields')) != '' ? explode(',', $this->option('required-fields')) : [];
         $foreignKeys = trim($this->option('foreign-keys')) != '' ? explode(',', $this->option('foreign-keys')) : [];
 
-        $schema = $this->option('schema');
-        $fields = explode(',', $schema);
+        $schema = rtrim($this->option('schema'), ';');
+        $fields = explode(';', $schema);
 
         $data = array();
 
@@ -188,43 +186,31 @@ class CrudMigrationCommand extends GeneratorCommand
                     break;
             }
 
-            // in the sql, laravel makes fields 'not null' by default, so we add nullable to fields that aren't required
-            if (!in_array($item['name'], $fieldsToRequire))
-            {
-                $schemaFields .= '->nullable()';
-            }
-
             $schemaFields .= ";\n" . $tabIndent . $tabIndent . $tabIndent;
         }
 
         // add indexes and unique indexes as necessary
-        foreach ($fieldsToIndex as $fldData)
-        {
+        foreach ($fieldsToIndex as $fldData) {
             $line = trim($fldData);
 
             // is a unique index specified after the #?
             // if no hash present, we append one to make life easier
-            if (strpos($line, '#') === false)
+            if (strpos($line, '#') === false) {
                 $line .= '#';
+            }
 
             // parts[0] = field name (or names if pipe separated)
             // parts[1] = unique specified
             $parts = explode('#', $line);
-            if (strpos($parts[0],'|') !== 0)
-            {
+            if (strpos($parts[0], '|') !== 0) {
                 $fieldNames = "['" . implode("', '", explode('|', $parts[0])) . "']"; // wrap single quotes around each element
-            }
-            else
-            {
+            } else {
                 $fieldNames = trim($parts[0]);
             }
 
-            if (count($parts) > 1 && $parts[1] == 'unique')
-            {
+            if (count($parts) > 1 && $parts[1] == 'unique') {
                 $schemaFields .= "\$table->unique(" . trim($fieldNames) . ")";
-            }
-            else
-            {
+            } else {
                 $schemaFields .= "\$table->index(" . trim($fieldNames) . ")";
             }
 
@@ -232,24 +218,23 @@ class CrudMigrationCommand extends GeneratorCommand
         }
 
         // foreign keys
-        foreach ($foreignKeys as $fk)
-        {
+        foreach ($foreignKeys as $fk) {
             $line = trim($fk);
 
             $parts = explode('#', $line);
 
             // if we don't have three parts, then the foreign key isn't defined properly
             // --foreign-keys="foreign_entity_id#id#foreign_entity"
-            if (count($parts) != 3)
+            if (count($parts) != 3) {
                 continue;
+            }
 
             $schemaFields .= "\$table->foreign('" . trim($parts[0]) . "')"
-                . "->references('" . trim($parts[1]) . "')->on('" . trim($parts[0]) . "')";
+            . "->references('" . trim($parts[1]) . "')->on('" . trim($parts[0]) . "')";
 
             $schemaFields .= ";\n" . $tabIndent . $tabIndent . $tabIndent;
 
         }
-
 
         $primaryKey = $this->option('pk');
 
