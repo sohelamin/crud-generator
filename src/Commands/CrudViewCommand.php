@@ -68,6 +68,7 @@ class CrudViewCommand extends Command
         'boolean' => 'radio',
         'enum' => 'select',
         'select' => 'select',
+        'file' => 'file',
     ];
 
     /**

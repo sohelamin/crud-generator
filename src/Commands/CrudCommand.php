@@ -14,20 +14,20 @@ class CrudCommand extends Command
      */
     protected $signature = 'crud:generate
                             {name : The name of the Crud.}
-                            {--fields= : Fields name for the form & model.}
+                            {--fields= : Fields name for the form & migration.}
                             {--validations= : Validation details for the fields.}
                             {--controller-namespace= : Namespace of the controller.}
                             {--model-namespace= : Namespace of the model inside "app" dir.}
                             {--pk=id : The name of the primary key.}
                             {--pagination=25 : The amount of models per page for index pages.}
                             {--indexes= : The fields to add an index to.}
-                            {--foreign-keys= : Any foreign keys for the table.}
+                            {--foreign-keys= : The foreign keys for the table.}
                             {--relationships= : The relationships for the model.}
                             {--route=yes : Include Crud route to routes.php? yes|no.}
                             {--route-group= : Prefix of the route group.}
                             {--view-path= : The name of the view path.}
-                            {--localize=no : Localize the generated files? yes|no.}
-                            {--locales=en : Locales to create lang files for.}';
+                            {--localize=no : Allow to localize? yes|no.}
+                            {--locales=en : Locales language type.}';
 
     /**
      * The console command description.
