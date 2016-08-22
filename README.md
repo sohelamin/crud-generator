@@ -61,14 +61,14 @@ Note: You should have configured database for this operation.
 
 
 ```
-php artisan crud:generate Posts --fields="title#string; content#text" --view-path=admin --controller-namespace=Admin --route-group=admin
+php artisan crud:generate Posts --fields="title#string; content#text; category#select#options=technology,tips,health" --view-path=admin --controller-namespace=Admin --route-group=admin
 ```
 
 Options:
 
 | Option    | Description |
 | ---       | ---     |
-| --fields | Fields name for the form & migration |
+| --fields | Fields name for the form & migration. e.g. ```--fields="title#string; content#text; category#select#options=technology,tips,health"``` |
 | --route | Include Crud route to routes.php? yes or no |
 | --pk | The name of the primary key |
 | --view-path | The name of the view path |

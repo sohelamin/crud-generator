@@ -223,6 +223,17 @@ class CrudViewCommand extends Command
                 $this->formFields[$x]['type'] = trim($itemArray[1]);
                 $this->formFields[$x]['required'] = preg_match('/' . $itemArray[0] . '/', $validations) ? true : false;
 
+                if ($this->formFields[$x]['type'] == 'select' && isset($itemArray[2])) {
+                    $options = trim($itemArray[2]);
+                    $options = str_replace('options=', '', $options);
+                    $optionsArray = explode(',', $options);
+
+                    $commaSeparetedString = implode("', '", $optionsArray);
+                    $options = "['" . $commaSeparetedString . "']";
+
+                    $this->formFields[$x]['options'] = $options;
+                }
+
                 $x++;
             }
         }
@@ -509,7 +520,7 @@ EOD;
 
         return $this->wrapField(
             $item,
-            "{!! Form::select('" . $item['name'] . "', [], null, ['class' => 'form-control'$required]) !!}"
+            "{!! Form::select('" . $item['name'] . "', " . $item['options'] . ", null, ['class' => 'form-control'$required]) !!}"
         );
     }
 }
