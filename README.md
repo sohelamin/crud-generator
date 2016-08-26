@@ -71,20 +71,20 @@ Options:
 
 | Option    | Description |
 | ---       | ---     |
-| --fields | Fields name for the form & migration. e.g. ```--fields="title#string; content#text; category#select#options=technology,tips,health"``` |
-| --route | Include Crud route to routes.php? yes or no |
-| --pk | The name of the primary key |
-| --view-path | The name of the view path |
-| --controller-namespace | The namespace of the controller - sub directories will be created |
-| --model-namespace | The namespace that the model will be placed in - directories will be created |
-| --route-group | Prefix of the route group |
-| --pagination | The amount of models per page for index pages |
-| --indexes | The fields to add an index to. append "#unique" to a field name to add a unique index. Create composite fields by separating fieldnames with a pipe (```--indexes="title,fld1|fld2#unique"``` will create normal index on title, and unique composite on fld1 and fld2) |
-| --foreign-keys | Any foreign keys for the table. e.g. ```--foreign-keys="owner_id#id#owners"``` where owner_id is the column name, id is the name of the field on the foreign table, and owners is the name of the foreign table |
-| --validations | Validation rules for the form "col_name#rules_set" e.g. ```"title#min:10|max:30|required"``` - See https://laravel.com/docs/master/validation#available-validation-rules |
-| --relationships | The relationships for the model. e.g. ```--relationships="comments#hasMany#App\Comment"``` in the format |
-| --localize | Allow to localize. e.g. localize=yes  |
-| --locales  | Locales language type. e.g. locals=en |
+| `--fields` | Fields name for the form & migration. e.g. ```--fields="title#string; content#text; category#select#options=technology,tips,health"``` |
+| `--route` | Include Crud route to routes.php? yes or no |
+| `--pk` | The name of the primary key |
+| `--view-path` | The name of the view path |
+| `--controller-namespace` | The namespace of the controller - sub directories will be created |
+| `--model-namespace` | The namespace that the model will be placed in - directories will be created |
+| `--route-group` | Prefix of the route group |
+| `--pagination` | The amount of models per page for index pages |
+| `--indexes` | The fields to add an index to. append "#unique" to a field name to add a unique index. Create composite fields by separating fieldnames with a pipe (```--indexes="title,fld1|fld2#unique"``` will create normal index on title, and unique composite on fld1 and fld2) |
+| `--foreign-keys` | Any foreign keys for the table. e.g. ```--foreign-keys="owner_id#id#owners"``` where owner_id is the column name, id is the name of the field on the foreign table, and owners is the name of the foreign table |
+| `--validations` | Validation rules for the form "col_name#rules_set" e.g. ```"title#min:10|max:30|required"``` - See https://laravel.com/docs/master/validation#available-validation-rules |
+| `--relationships` | The relationships for the model. e.g. ```--relationships="comments#hasMany#App\Comment"``` in the format |
+| `--localize` | Allow to localize. e.g. localize=yes  |
+| `--locales`  | Locales language type. e.g. locals=en |
 
 -----------
 
