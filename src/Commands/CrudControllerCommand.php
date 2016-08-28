@@ -16,6 +16,7 @@ class CrudControllerCommand extends GeneratorCommand
                             {--crud-name= : The name of the Crud.}
                             {--model-name= : The name of the Model.}
                             {--view-path= : The name of the view path.}
+                            {--fields= : Fields name for the form & migration.}
                             {--validations= : Validation details for the fields.}
                             {--route-group= : Prefix of the route group.}
                             {--pagination=25 : The amount of models per page for index pages.}';
@@ -76,6 +77,7 @@ class CrudControllerCommand extends GeneratorCommand
         $routeGroup = ($this->option('route-group')) ? $this->option('route-group') . '/' : '';
         $perPage = intval($this->option('pagination'));
         $viewName = snake_case($this->option('crud-name'), '-');
+        $fields = $this->option('fields');
         $validations = rtrim($this->option('validations'), ';');
 
         $validationRules = '';
@@ -99,6 +101,32 @@ class CrudControllerCommand extends GeneratorCommand
             $validationRules .= "\n\t\t]);";
         }
 
+        $snippet = <<<EOD
+if (\$request->hasFile('{{fieldName}}')) {
+    \$uploadPath = public_path('/uploads/');
+
+    \$extension = \$request->file('{{fieldName}}')->getClientOriginalExtension();
+    \$fileName = rand(11111, 99999) . '.' . \$extension;
+
+    \$request->file('{{fieldName}}')->move(\$uploadPath, \$fileName);
+    \$requestData['{{fieldName}}'] = \$fileName;
+}
+EOD;
+
+        $fieldsArray = explode(';', $fields);
+        $fileSnippet = '';
+
+        if ($fields) {
+            $x = 0;
+            foreach ($fieldsArray as $item) {
+                $itemArray = explode('#', $item);
+
+                if (trim($itemArray[1]) == 'file') {
+                    $fileSnippet .= "\n\n" . str_replace('{{fieldName}}', trim($itemArray[0]), $snippet) . "\n";
+                }
+            }
+        }
+
         return $this->replaceNamespace($stub, $name)
             ->replaceViewPath($stub, $viewPath)
             ->replaceViewName($stub, $viewName)
@@ -108,6 +136,7 @@ class CrudControllerCommand extends GeneratorCommand
             ->replaceRouteGroup($stub, $routeGroup)
             ->replaceValidationRules($stub, $validationRules)
             ->replacePaginationNumber($stub, $perPage)
+            ->replaceFileSnippet($stub, $fileSnippet)
             ->replaceClass($stub, $name);
     }
 
@@ -242,6 +271,23 @@ class CrudControllerCommand extends GeneratorCommand
     {
         $stub = str_replace(
             '{{pagination}}', $perPage, $stub
+        );
+
+        return $this;
+    }
+
+    /**
+     * Replace the file snippet for the given stub
+     *
+     * @param $stub
+     * @param $fileSnippet
+     *
+     * @return $this
+     */
+    protected function replaceFileSnippet(&$stub, $fileSnippet)
+    {
+        $stub = str_replace(
+            '{{fileSnippet}}', $fileSnippet, $stub
         );
 
         return $this;

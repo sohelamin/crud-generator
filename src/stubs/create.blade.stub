@@ -6,15 +6,15 @@
     <h1>Create New %%modelName%%</h1>
     <hr/>
 
-    {!! Form::open(['url' => '/%%routeGroup%%%%viewName%%', 'class' => 'form-horizontal']) !!}
+    {!! Form::open(['url' => '/%%routeGroup%%%%viewName%%', 'class' => 'form-horizontal', 'files' => true]) !!}
 
-    %%formFieldsHtml%%
+        %%formFieldsHtml%%
 
-    <div class="form-group">
-        <div class="col-sm-offset-3 col-sm-3">
-            {!! Form::submit('Create', ['class' => 'btn btn-primary form-control']) !!}
+        <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-3">
+                {!! Form::submit('Create', ['class' => 'btn btn-primary form-control']) !!}
+            </div>
         </div>
-    </div>
     {!! Form::close() !!}
 
     @if ($errors->any())

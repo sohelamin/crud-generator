@@ -8,16 +8,17 @@
     {!! Form::model($%%crudNameSingular%%, [
         'method' => 'PATCH',
         'url' => ['/%%routeGroup%%%%viewName%%', $%%crudNameSingular%%->%%primaryKey%%],
-        'class' => 'form-horizontal'
+        'class' => 'form-horizontal',
+        'files' => true
     ]) !!}
 
-    %%formFieldsHtml%%
+        %%formFieldsHtml%%
 
-    <div class="form-group">
-        <div class="col-sm-offset-3 col-sm-3">
-            {!! Form::submit('Update', ['class' => 'btn btn-primary form-control']) !!}
+        <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-3">
+                {!! Form::submit('Update', ['class' => 'btn btn-primary form-control']) !!}
+            </div>
         </div>
-    </div>
     {!! Form::close() !!}
 
     @if ($errors->any())

@@ -29,9 +29,6 @@
 
     ```
     composer require laravelcollective/html
-
-    // For laravel 5.3
-    composer require laravelcollective/html dev-master
     ```
 
     * Add service provider & aliases to **/config/app.php**.
