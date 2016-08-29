@@ -12,11 +12,9 @@
                 </tr>
             </thead>
             <tbody>
-            {{-- */$x=0;/* --}}
             @foreach($%%crudName%% as $item)
-                {{-- */$x++;/* --}}
                 <tr>
-                    <td>{{ $x }}</td>
+                    <td>{{ $loop->iteration }}</td>
                     %%formBodyHtml%%
                     <td>
                         <a href="{{ url('/%%routeGroup%%%%viewName%%/' . $item->%%primaryKey%%) }}" class="btn btn-success btn-xs" title="View %%modelName%%"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"/></a>

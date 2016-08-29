@@ -18,6 +18,7 @@ class CrudViewCommand extends Command
                             {--view-path= : The name of the view path.}
                             {--route-group= : Prefix of the route group.}
                             {--pk=id : The name of the primary key.}
+                            {--validations= : Validation details for the fields.}
                             {--localize=no : Localize the view? yes|no.}';
 
     /**
@@ -65,7 +66,9 @@ class CrudViewCommand extends Command
         'timestamp' => 'datetime-local',
         'time' => 'time',
         'boolean' => 'radio',
-        'enum' => 'enum',
+        'enum' => 'select',
+        'select' => 'select',
+        'file' => 'file',
     ];
 
     /**
@@ -87,7 +90,7 @@ class CrudViewCommand extends Command
      *
      * @var integer
      */
-    protected $defaultColumsToShow = 3;
+    protected $defaultColumnsToShow = 3;
 
     /**
      * Name of the Crud.
@@ -173,7 +176,7 @@ class CrudViewCommand extends Command
         : __DIR__ . '/../stubs/';
 
         if (config('crudgenerator.view_columns_number')) {
-            $this->defaultColumsToShow = config('crudgenerator.view_columns_number');
+            $this->defaultColumnsToShow = config('crudgenerator.view_columns_number');
         }
     }
 
@@ -205,17 +208,31 @@ class CrudViewCommand extends Command
         }
 
         $fields = $this->option('fields');
-        $fieldsArray = explode(',', $fields);
+        $fieldsArray = explode(';', $fields);
 
         $this->formFields = array();
+
+        $validations = $this->option('validations');
 
         if ($fields) {
             $x = 0;
             foreach ($fieldsArray as $item) {
                 $itemArray = explode('#', $item);
+
                 $this->formFields[$x]['name'] = trim($itemArray[0]);
                 $this->formFields[$x]['type'] = trim($itemArray[1]);
-                $this->formFields[$x]['required'] = (isset($itemArray[2]) && (trim($itemArray[2]) == 'req' || trim($itemArray[2]) == 'required')) ? true : false;
+                $this->formFields[$x]['required'] = preg_match('/' . $itemArray[0] . '/', $validations) ? true : false;
+
+                if ($this->formFields[$x]['type'] == 'select' && isset($itemArray[2])) {
+                    $options = trim($itemArray[2]);
+                    $options = str_replace('options=', '', $options);
+                    $optionsArray = explode(',', $options);
+
+                    $commaSeparetedString = implode("', '", $optionsArray);
+                    $options = "['" . $commaSeparetedString . "']";
+
+                    $this->formFields[$x]['options'] = $options;
+                }
 
                 $x++;
             }
@@ -227,7 +244,7 @@ class CrudViewCommand extends Command
 
         $i = 0;
         foreach ($this->formFields as $key => $value) {
-            if ($i == $this->defaultColumsToShow) {
+            if ($i == $this->defaultColumnsToShow) {
                 break;
             }
 
@@ -409,10 +426,8 @@ EOD;
                 return $this->createRadioField($item);
                 break;
             case 'select':
-                return $this->createSelectField($item);
-                break;
             case 'enum':
-                return $this->createEnumField($item);
+                return $this->createSelectField($item);
                 break;
             default: // text
                 return $this->createFormField($item);
@@ -505,24 +520,7 @@ EOD;
 
         return $this->wrapField(
             $item,
-            "{!! Form::select('" . $item['name'] . "', [], null, ['class' => 'form-control'$required]) !!}"
-        );
-    }
-
-    /**
-     * Create an enum field using the form helper.
-     *
-     * @param  array  $item
-     *
-     * @return string
-     */
-    protected function createEnumField($item)
-    {
-        $required = ($item['required'] === true) ? ", 'required' => 'required'" : "";
-
-        return $this->wrapField(
-            $item,
-            "{!! Form::select('" . $item['name'] . "', get_enum_values('" . $this->modelName . "', '" . $item['name'] . "'), null, ['class' => 'form-control'$required]) !!}"
+            "{!! Form::select('" . $item['name'] . "', " . $item['options'] . ", null, ['class' => 'form-control'$required]) !!}"
         );
     }
 }

@@ -16,8 +16,10 @@ class CrudControllerCommand extends GeneratorCommand
                             {--crud-name= : The name of the Crud.}
                             {--model-name= : The name of the Model.}
                             {--view-path= : The name of the view path.}
-                            {--required-fields= : Required fields for validations.}
-                            {--route-group= : Prefix of the route group.}';
+                            {--fields= : Fields name for the form & migration.}
+                            {--validations= : Validation details for the fields.}
+                            {--route-group= : Prefix of the route group.}
+                            {--pagination=25 : The amount of models per page for index pages.}';
 
     /**
      * The console command description.
@@ -73,11 +75,56 @@ class CrudControllerCommand extends GeneratorCommand
         $crudNameSingular = str_singular($crudName);
         $modelName = $this->option('model-name');
         $routeGroup = ($this->option('route-group')) ? $this->option('route-group') . '/' : '';
+        $perPage = intval($this->option('pagination'));
         $viewName = snake_case($this->option('crud-name'), '-');
+        $fields = $this->option('fields');
+        $validations = rtrim($this->option('validations'), ';');
 
         $validationRules = '';
-        if ($this->option('required-fields') != '') {
-            $validationRules = "\$this->validate(\$request, " . $this->option('required-fields') . ");\n";
+        if (trim($validations) != '') {
+            $validationRules = "\$this->validate(\$request, [";
+
+            $rules = explode(';', $validations);
+            foreach ($rules as $v) {
+                if (trim($v) == '') {
+                    continue;
+                }
+
+                // extract field name and args
+                $parts = explode('#', $v);
+                $fieldName = trim($parts[0]);
+                $rules = trim($parts[1]);
+                $validationRules .= "\n\t\t\t'$fieldName' => '$rules',";
+            }
+
+            $validationRules = substr($validationRules, 0, -1); // lose the last comma
+            $validationRules .= "\n\t\t]);";
+        }
+
+        $snippet = <<<EOD
+if (\$request->hasFile('{{fieldName}}')) {
+    \$uploadPath = public_path('/uploads/');
+
+    \$extension = \$request->file('{{fieldName}}')->getClientOriginalExtension();
+    \$fileName = rand(11111, 99999) . '.' . \$extension;
+
+    \$request->file('{{fieldName}}')->move(\$uploadPath, \$fileName);
+    \$requestData['{{fieldName}}'] = \$fileName;
+}
+EOD;
+
+        $fieldsArray = explode(';', $fields);
+        $fileSnippet = '';
+
+        if ($fields) {
+            $x = 0;
+            foreach ($fieldsArray as $item) {
+                $itemArray = explode('#', $item);
+
+                if (trim($itemArray[1]) == 'file') {
+                    $fileSnippet .= "\n\n" . str_replace('{{fieldName}}', trim($itemArray[0]), $snippet) . "\n";
+                }
+            }
         }
 
         return $this->replaceNamespace($stub, $name)
@@ -88,6 +135,8 @@ class CrudControllerCommand extends GeneratorCommand
             ->replaceModelName($stub, $modelName)
             ->replaceRouteGroup($stub, $routeGroup)
             ->replaceValidationRules($stub, $validationRules)
+            ->replacePaginationNumber($stub, $perPage)
+            ->replaceFileSnippet($stub, $fileSnippet)
             ->replaceClass($stub, $name);
     }
 
@@ -205,6 +254,40 @@ class CrudControllerCommand extends GeneratorCommand
     {
         $stub = str_replace(
             '{{validationRules}}', $validationRules, $stub
+        );
+
+        return $this;
+    }
+
+    /**
+     * Replace the pagination placeholder for the given stub
+     *
+     * @param $stub
+     * @param $perPage
+     *
+     * @return $this
+     */
+    protected function replacePaginationNumber(&$stub, $perPage)
+    {
+        $stub = str_replace(
+            '{{pagination}}', $perPage, $stub
+        );
+
+        return $this;
+    }
+
+    /**
+     * Replace the file snippet for the given stub
+     *
+     * @param $stub
+     * @param $fileSnippet
+     *
+     * @return $this
+     */
+    protected function replaceFileSnippet(&$stub, $fileSnippet)
+    {
+        $stub = str_replace(
+            '{{fileSnippet}}', $fileSnippet, $stub
         );
 
         return $this;

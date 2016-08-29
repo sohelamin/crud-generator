@@ -14,14 +14,20 @@ class CrudCommand extends Command
      */
     protected $signature = 'crud:generate
                             {name : The name of the Crud.}
-                            {--fields= : Fields name for the form & model.}
-                            {--route=yes : Include Crud route to routes.php? yes|no.}
+                            {--fields= : Fields name for the form & migration.}
+                            {--validations= : Validation details for the fields.}
+                            {--controller-namespace= : Namespace of the controller.}
+                            {--model-namespace= : Namespace of the model inside "app" dir.}
                             {--pk=id : The name of the primary key.}
-                            {--view-path= : The name of the view path.}
-                            {--namespace= : Namespace of the controller.}
+                            {--pagination=25 : The amount of models per page for index pages.}
+                            {--indexes= : The fields to add an index to.}
+                            {--foreign-keys= : The foreign keys for the table.}
+                            {--relationships= : The relationships for the model.}
+                            {--route=yes : Include Crud route to routes.php? yes|no.}
                             {--route-group= : Prefix of the route group.}
-                            {--localize=no : Localize the generated files? yes|no. }
-                            {--locales=en : Locales to create lang files for.}';
+                            {--view-path= : The name of the view path.}
+                            {--localize=no : Allow to localize? yes|no.}
+                            {--locales=en : Locales language type.}';
 
     /**
      * The console command description.
@@ -60,38 +66,41 @@ class CrudCommand extends Command
 
         $routeGroup = $this->option('route-group');
         $this->routeName = ($routeGroup) ? $routeGroup . '/' . snake_case($name, '-') : snake_case($name, '-');
+        $perPage = intval($this->option('pagination'));
 
-        $controllerNamespace = ($this->option('namespace')) ? $this->option('namespace') . '\\' : '';
+        $controllerNamespace = ($this->option('controller-namespace')) ? $this->option('controller-namespace') . '\\' : '';
+        $modelNamespace = ($this->option('model-namespace')) ? trim($this->option('model-namespace')) . '\\' : '';
 
-        $fields = $this->option('fields');
+        $fields = rtrim($this->option('fields'), ';');
+
         $primaryKey = $this->option('pk');
         $viewPath = $this->option('view-path');
 
-        $fieldsArray = explode(',', $fields);
-        $requiredFieldsStr = '';
+        $foreignKeys = $this->option('foreign-keys');
+
+        $fieldsArray = explode(';', $fields);
         $fillableArray = [];
 
         foreach ($fieldsArray as $item) {
             $spareParts = explode('#', trim($item));
             $fillableArray[] = $spareParts[0];
-
-            $currentField = trim($spareParts[0]);
-            $requiredFieldsStr .= (isset($spareParts[2]))
-            ? "'$currentField' => '{$spareParts[2]}', " : '';
         }
 
         $commaSeparetedString = implode("', '", $fillableArray);
         $fillable = "['" . $commaSeparetedString . "']";
 
-        $requiredFields = ($requiredFieldsStr != '') ? "[" . $requiredFieldsStr . "]" : '';
-
         $localize = $this->option('localize');
         $locales = $this->option('locales');
 
-        $this->call('crud:controller', ['name' => $controllerNamespace . $name . 'Controller', '--crud-name' => $name, '--model-name' => $modelName, '--view-path' => $viewPath, '--required-fields' => $requiredFields, '--route-group' => $routeGroup]);
-        $this->call('crud:model', ['name' => $modelName, '--fillable' => $fillable, '--table' => $tableName, '--pk' => $primaryKey]);
-        $this->call('crud:migration', ['name' => $migrationName, '--schema' => $fields, '--pk' => $primaryKey]);
-        $this->call('crud:view', ['name' => $name, '--fields' => $fields, '--view-path' => $viewPath, '--route-group' => $routeGroup, '--localize' => $localize, '--pk' => $primaryKey]);
+        $indexes = $this->option('indexes');
+        $relationships = $this->option('relationships');
+
+        $validations = trim($this->option('validations'));
+
+        $this->call('crud:controller', ['name' => $controllerNamespace . $name . 'Controller', '--crud-name' => $name, '--model-name' => $modelName, '--view-path' => $viewPath, '--route-group' => $routeGroup, '--pagination' => $perPage, '--fields' => $fields, '--validations' => $validations]);
+        $this->call('crud:model', ['name' => $modelNamespace . $modelName, '--fillable' => $fillable, '--table' => $tableName, '--pk' => $primaryKey, '--relationships' => $relationships]);
+        $this->call('crud:migration', ['name' => $migrationName, '--schema' => $fields, '--pk' => $primaryKey, '--indexes' => $indexes, '--foreign-keys' => $foreignKeys]);
+        $this->call('crud:view', ['name' => $name, '--fields' => $fields, '--validations' => $validations, '--view-path' => $viewPath, '--route-group' => $routeGroup, '--localize' => $localize, '--pk' => $primaryKey]);
         if ($localize == 'yes') {
             $this->call('crud:lang', ['name' => $name, '--fields' => $fields, '--locales' => $locales]);
         }
@@ -100,6 +109,11 @@ class CrudCommand extends Command
 
         // Updating the Http/routes.php file
         $routeFile = app_path('Http/routes.php');
+
+        if (\App::VERSION() >= '5.3') {
+            $routeFile = base_path('routes/web.php');
+        }
+
         if (file_exists($routeFile) && (strtolower($this->option('route')) === 'yes')) {
             $this->controller = ($controllerNamespace != '') ? $controllerNamespace . '\\' . $name . 'Controller' : $name . 'Controller';
 

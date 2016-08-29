@@ -15,6 +15,7 @@ class CrudModelCommand extends GeneratorCommand
                             {name : The name of the model.}
                             {--table= : The name of the table.}
                             {--fillable= : The names of the fillable columns.}
+                            {--relationships= : The relationships for the model}
                             {--pk=id : The name of the primary key.}';
 
     /**
@@ -68,8 +69,9 @@ class CrudModelCommand extends GeneratorCommand
         $table = $this->option('table') ?: $this->argument('name');
         $fillable = $this->option('fillable');
         $primaryKey = $this->option('pk');
+        $relationships = trim($this->option('relationships')) != '' ? explode(',', trim($this->option('relationships'))) : [];
 
-        if(!empty($primaryKey)) {
+        if (!empty($primaryKey)) {
             $primaryKey = <<<EOD
 /**
     * The database primary key value.
@@ -81,11 +83,40 @@ EOD;
 
         }
 
-        return $this->replaceNamespace($stub, $name)
+        $ret = $this->replaceNamespace($stub, $name)
             ->replaceTable($stub, $table)
             ->replaceFillable($stub, $fillable)
-            ->replacePrimaryKey($stub, $primaryKey)
-            ->replaceClass($stub, $name);
+            ->replacePrimaryKey($stub, $primaryKey);
+
+        foreach ($relationships as $rel) {
+            // relationshipname#relationshiptype#args_separated_by_pipes
+            // e.g. employees#hasMany#App\Employee|id|dept_id
+            // user is responsible for ensuring these relationships are valid
+            $parts = explode('#', $rel);
+
+            if (count($parts) != 3) {
+                continue;
+            }
+
+            // blindly wrap each arg in single quotes
+            $args = explode('|', trim($parts[2]));
+            $argsString = '';
+            foreach ($args as $k => $v) {
+                if (trim($v) == '') {
+                    continue;
+                }
+
+                $argsString .= "'" . trim($v) . "', ";
+            }
+
+            $argsString = substr($argsString, 0, -2); // remove last comma
+
+            $ret->createRelationshipFunction($stub, trim($parts[0]), trim($parts[1]), $argsString);
+        }
+
+        $ret->replaceRelationshipPlaceholder($stub);
+
+        return $ret->replaceClass($stub, $name);
     }
 
     /**
@@ -136,6 +167,38 @@ EOD;
             '{{primaryKey}}', $primaryKey, $stub
         );
 
+        return $this;
+    }
+
+    /**
+     * Create the code for a model relationship
+     *
+     * @param string $stub
+     * @param string $relationshipName  the name of the function, e.g. owners
+     * @param string $relationshipType  the type of the relationship, hasOne, hasMany, belongsTo etc
+     * @param array $relationshipArgs   args for the relationship function
+     */
+    protected function createRelationshipFunction(&$stub, $relationshipName, $relationshipType, $argsString)
+    {
+        $code = "public function " . $relationshipName . "()\n\t{\n\t\t"
+            . "return \$this->" . $relationshipType . "(" . $argsString . ");"
+            . "\n\t}";
+
+        $str = '{{relationships}}';
+        $stub = str_replace($str, $code . "\n\t$str", $stub);
+
+        return $this;
+    }
+
+    /**
+     * remove the relationships placeholder when it's no longer needed
+     *
+     * @param $stub
+     * @return $this
+     */
+    protected function replaceRelationshipPlaceholder(&$stub)
+    {
+        $stub = str_replace('{{relationships}}', '', $stub);
         return $this;
     }
 }

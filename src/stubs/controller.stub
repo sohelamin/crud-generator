@@ -18,7 +18,7 @@ class DummyClass extends Controller
      */
     public function index()
     {
-        ${{crudName}} = {{modelName}}::paginate(15);
+        ${{crudName}} = {{modelName}}::paginate({{pagination}});
 
         return view('{{viewPath}}{{viewName}}.index', compact('{{crudName}}'));
     }
@@ -43,7 +43,9 @@ class DummyClass extends Controller
     public function store(Request $request)
     {
         {{validationRules}}
-        {{modelName}}::create($request->all());
+        $requestData = $request->all();
+        {{fileSnippet}}
+        {{modelName}}::create($requestData);
 
         Session::flash('flash_message', '{{modelName}} added!');
 
@@ -89,8 +91,10 @@ class DummyClass extends Controller
     public function update($id, Request $request)
     {
         {{validationRules}}
+        $requestData = $request->all();
+        {{fileSnippet}}
         ${{crudNameSingular}} = {{modelName}}::findOrFail($id);
-        ${{crudNameSingular}}->update($request->all());
+        ${{crudNameSingular}}->update($requestData);
 
         Session::flash('flash_message', '{{modelName}} updated!');
 
