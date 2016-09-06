@@ -70,7 +70,7 @@ class CrudLangCommand extends Command
         $this->locales = explode(',',$this->option('locales'));
 
         $fields = $this->option('fields');
-        $fieldsArray = explode(',', $fields);
+        $fieldsArray = explode(';', $fields);
 
         $this->formFields = array();
 
