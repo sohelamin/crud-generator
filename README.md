@@ -68,7 +68,7 @@ Options:
 
 | Option    | Description |
 | ---       | ---     |
-| `--fields` | Fields name for the form & migration. e.g. ```--fields="title#string; content#text; category#select#options=technology,tips,health"``` |
+| `--fields` | Fields name for the form & migration. e.g. ```--fields="title#string; content#text; owner_id#unsigned; category#select#options=technology,tips,health"``` |
 | `--route` | Include Crud route to routes.php? yes or no |
 | `--pk` | The name of the primary key |
 | `--view-path` | The name of the view path |
@@ -156,6 +156,7 @@ These fields are supported for migration and view's form:
 * json
 * jsonb
 * binary
+* unsigned
 * integer
 * bigint
 * mediumint
