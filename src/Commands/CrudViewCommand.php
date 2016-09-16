@@ -54,6 +54,7 @@ class CrudViewCommand extends Command
         'email' => 'email',
         'number' => 'number',
         'integer' => 'number',
+        'unsigned' => 'number',
         'bigint' => 'number',
         'mediumint' => 'number',
         'tinyint' => 'number',
