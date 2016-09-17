@@ -230,7 +230,7 @@ class CrudMigrationCommand extends GeneratorCommand
             }
 
             $schemaFields .= "\$table->foreign('" . trim($parts[0]) . "')"
-            . "->references('" . trim($parts[1]) . "')->on('" . trim($parts[0]) . "')";
+            . "->references('" . trim($parts[1]) . "')->on('" . trim($parts[2]) . "')";
 
             $schemaFields .= ";\n" . $tabIndent . $tabIndent . $tabIndent;
 
