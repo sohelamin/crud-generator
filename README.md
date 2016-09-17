@@ -183,6 +183,8 @@ You can customize the generator's stub files/templates to achieve your need.
     ```
 3. From the directory **/resources/crud-generator/** you can modify or customize the stub files.
 
+#### If you're still looking for easier one then try this [Admin Panel](https://github.com/appzcoder/laravel-admin)
+
 ## Author
 
 [Sohel Amin](http://www.sohelamin.com)
