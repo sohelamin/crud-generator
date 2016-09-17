@@ -33,6 +33,36 @@ class CrudMigrationCommand extends GeneratorCommand
     protected $type = 'Migration';
 
     /**
+     *  Migration column types collection.
+     *
+     * @var array
+     */
+    protected $typeLookup = [
+        'char' => 'char',
+        'date' => 'date',
+        'datetime' => 'dateTime',
+        'time' => 'time',
+        'timestamp' => 'timestamp',
+        'text' => 'text',
+        'mediumtext' => 'mediumText',
+        'longtext' => 'longText',
+        'json' => 'json',
+        'jsonb' => 'jsonb',
+        'binary' => 'binary',
+        'number' => 'integer',
+        'integer' => 'integer',
+        'bigint' => 'bigInteger',
+        'mediumint' => 'mediumInteger',
+        'tinyint' => 'tinyInteger',
+        'smallint' => 'smallInteger',
+        'boolean' => 'boolean',
+        'decimal' => 'decimal',
+        'double' => 'double',
+        'float' => 'float',
+        'enum' => 'enum',
+    ];
+
+    /**
      * Get the stub file for the generator.
      *
      * @return string
@@ -87,6 +117,21 @@ class CrudMigrationCommand extends GeneratorCommand
                 $fieldArray = explode('#', $field);
                 $data[$x]['name'] = trim($fieldArray[0]);
                 $data[$x]['type'] = trim($fieldArray[1]);
+
+                $data[$x]['modifier'] = '';
+
+                $modifierLookup = [
+                    'comment',
+                    'default',
+                    'first',
+                    'nullable',
+                    'unsigned',
+                ];
+
+                if (isset($fieldArray[2]) && in_array(trim($fieldArray[2]), $modifierLookup)) {
+                    $data[$x]['modifier'] = "->" . trim($fieldArray[2]) . "()";
+                }
+
                 $x++;
             }
         }
@@ -95,97 +140,16 @@ class CrudMigrationCommand extends GeneratorCommand
 
         $schemaFields = '';
         foreach ($data as $item) {
-            switch ($item['type']) {
-                case 'char':
-                    $schemaFields .= "\$table->char('" . $item['name'] . "')";
-                    break;
+            if (isset($this->typeLookup[$item['type']])) {
+                $type = $this->typeLookup[$item['type']];
 
-                case 'date':
-                    $schemaFields .= "\$table->date('" . $item['name'] . "')";
-                    break;
-
-                case 'datetime':
-                    $schemaFields .= "\$table->dateTime('" . $item['name'] . "')";
-                    break;
-
-                case 'time':
-                    $schemaFields .= "\$table->time('" . $item['name'] . "')";
-                    break;
-
-                case 'timestamp':
-                    $schemaFields .= "\$table->timestamp('" . $item['name'] . "')";
-                    break;
-
-                case 'text':
-                    $schemaFields .= "\$table->text('" . $item['name'] . "')";
-                    break;
-
-                case 'mediumtext':
-                    $schemaFields .= "\$table->mediumText('" . $item['name'] . "')";
-                    break;
-
-                case 'longtext':
-                    $schemaFields .= "\$table->longText('" . $item['name'] . "')";
-                    break;
-
-                case 'json':
-                    $schemaFields .= "\$table->json('" . $item['name'] . "')";
-                    break;
-
-                case 'jsonb':
-                    $schemaFields .= "\$table->jsonb('" . $item['name'] . "')";
-                    break;
-
-                case 'binary':
-                    $schemaFields .= "\$table->binary('" . $item['name'] . "')";
-                    break;
-
-                case 'number':
-                case 'integer':
-                    $schemaFields .= "\$table->integer('" . $item['name'] . "')";
-                    break;
-
-                case 'bigint':
-                    $schemaFields .= "\$table->bigInteger('" . $item['name'] . "')";
-                    break;
-
-                case 'mediumint':
-                    $schemaFields .= "\$table->mediumInteger('" . $item['name'] . "')";
-                    break;
-
-                case 'tinyint':
-                    $schemaFields .= "\$table->tinyInteger('" . $item['name'] . "')";
-                    break;
-
-                case 'smallint':
-                    $schemaFields .= "\$table->smallInteger('" . $item['name'] . "')";
-                    break;
-
-                case 'boolean':
-                    $schemaFields .= "\$table->boolean('" . $item['name'] . "')";
-                    break;
-
-                case 'decimal':
-                    $schemaFields .= "\$table->decimal('" . $item['name'] . "')";
-                    break;
-
-                case 'double':
-                    $schemaFields .= "\$table->double('" . $item['name'] . "')";
-                    break;
-
-                case 'float':
-                    $schemaFields .= "\$table->float('" . $item['name'] . "')";
-                    break;
-
-                case 'enum':
-                    $schemaFields .= "\$table->enum('" . $item['name'] . "', [])";
-                    break;
-
-                default:
-                    $schemaFields .= "\$table->string('" . $item['name'] . "')";
-                    break;
+                $schemaFields .= "\$table->" . $type . "('" . $item['name'] . "')";
+            } else {
+                $schemaFields .= "\$table->string('" . $item['name'] . "')";
             }
 
+            // Append column modifier
+            $schemaFields .= $item['modifier'];
             $schemaFields .= ";\n" . $tabIndent . $tabIndent . $tabIndent;
         }
 
