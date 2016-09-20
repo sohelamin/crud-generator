@@ -188,10 +188,22 @@ class CrudMigrationCommand extends GeneratorCommand
             $parts = explode('#', $line);
 
             // if we don't have three parts, then the foreign key isn't defined properly
-            // --foreign-keys="foreign_entity_id#id#foreign_entity"
-            if (count($parts) != 3) {
+            // --foreign-keys="foreign_entity_id#id#foreign_entity#onDelete#onUpdate"
+            if (count($parts) == 3) {
+                $schemaFields .= "\$table->foreign('" . trim($parts[0]) . "')"
+                . "->references('" . trim($parts[1]) . "')->on('" . trim($parts[2]) . "')";
+            }elseif(count($parts) == 4){
+                $schemaFields .= "\$table->foreign('" . trim($parts[0]) . "')"
+                . "->references('" . trim($parts[1]) . "')->on('" . trim($parts[2]) . "')"
+                . "->onDelete('" . trim($parts[3]) . "')" . "->onUpdate('" . trim($parts[3]) . "')";
+            }elseif(count($parts) == 5){
+                $schemaFields .= "\$table->foreign('" . trim($parts[0]) . "')"
+                . "->references('" . trim($parts[1]) . "')->on('" . trim($parts[2]) . "')"
+                . "->onDelete('" . trim($parts[3]) . "')" . "->onUpdate('" . trim($parts[4]) . "')";
+            }else{
                 continue;
             }
+
 
             $schemaFields .= "\$table->foreign('" . trim($parts[0]) . "')"
             . "->references('" . trim($parts[1]) . "')->on('" . trim($parts[2]) . "')";
@@ -199,6 +211,7 @@ class CrudMigrationCommand extends GeneratorCommand
             $schemaFields .= ";\n" . $tabIndent . $tabIndent . $tabIndent;
 
         }
+
 
         $primaryKey = $this->option('pk');
 
