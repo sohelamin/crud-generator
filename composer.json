@@ -22,9 +22,6 @@
     "autoload": {
         "psr-4": {
             "Appzcoder\\CrudGenerator\\": "src/"
-        },
-        "files": [
-            "src/helpers.php"
-        ]
+        }
     }
 }

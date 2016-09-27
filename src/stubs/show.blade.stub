@@ -1,33 +1,41 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <div class="panel panel-default">
+                    <div class="panel-heading">%%modelName%% {{ $%%crudNameSingular%%->%%primaryKey%% }}</div>
+                    <div class="panel-body">
 
-    <h1>%%modelName%% {{ $%%crudNameSingular%%->%%primaryKey%% }}
-        <a href="{{ url('%%routeGroup%%%%viewName%%/' . $%%crudNameSingular%%->%%primaryKey%% . '/edit') }}" class="btn btn-primary btn-xs" title="Edit %%modelName%%"><span class="glyphicon glyphicon-pencil" aria-hidden="true"/></a>
-        {!! Form::open([
-            'method'=>'DELETE',
-            'url' => ['%%routeGroup%%%%crudName%%', $%%crudNameSingular%%->%%primaryKey%%],
-            'style' => 'display:inline'
-        ]) !!}
-            {!! Form::button('<span class="glyphicon glyphicon-trash" aria-hidden="true"/>', array(
-                    'type' => 'submit',
-                    'class' => 'btn btn-danger btn-xs',
-                    'title' => 'Delete %%modelName%%',
-                    'onclick'=>'return confirm("Confirm delete?")'
-            ))!!}
-        {!! Form::close() !!}
-    </h1>
-    <div class="table-responsive">
-        <table class="table table-bordered table-striped table-hover">
-            <tbody>
-                <tr>
-                    <th>ID</th><td>{{ $%%crudNameSingular%%->%%primaryKey%% }}</td>
-                </tr>
-                %%formBodyHtmlForShowView%%
-            </tbody>
-        </table>
+                        <a href="{{ url('%%routeGroup%%%%viewName%%/' . $%%crudNameSingular%%->%%primaryKey%% . '/edit') }}" class="btn btn-primary btn-xs" title="Edit %%modelName%%"><span class="glyphicon glyphicon-pencil" aria-hidden="true"/></a>
+                        {!! Form::open([
+                            'method'=>'DELETE',
+                            'url' => ['%%routeGroup%%%%crudName%%', $%%crudNameSingular%%->%%primaryKey%%],
+                            'style' => 'display:inline'
+                        ]) !!}
+                            {!! Form::button('<span class="glyphicon glyphicon-trash" aria-hidden="true"/>', array(
+                                    'type' => 'submit',
+                                    'class' => 'btn btn-danger btn-xs',
+                                    'title' => 'Delete %%modelName%%',
+                                    'onclick'=>'return confirm("Confirm delete?")'
+                            ))!!}
+                        {!! Form::close() !!}
+
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped table-hover">
+                                <tbody>
+                                    <tr>
+                                        <th>ID</th><td>{{ $%%crudNameSingular%%->%%primaryKey%% }}</td>
+                                    </tr>
+                                    %%formBodyHtmlForShowView%%
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-
-</div>
 @endsection

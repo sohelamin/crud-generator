@@ -16,7 +16,7 @@
     composer require appzcoder/crud-generator
     ```
 
-2. Add the service provider to **/config/app.php**.
+2. Add the service provider to **config/app.php**.
     ```php
     'providers' => [
         ...
@@ -31,7 +31,7 @@
     composer require laravelcollective/html
     ```
 
-    * Add service provider & aliases to **/config/app.php**.
+    * Add service provider & aliases to **config/app.php**.
     ```php
     'providers' => [
         ...
@@ -76,7 +76,7 @@ Options:
 | `--model-namespace` | The namespace that the model will be placed in - directories will be created |
 | `--route-group` | Prefix of the route group |
 | `--pagination` | The amount of models per page for index pages |
-| `--indexes` | The fields to add an index to. append "#unique" to a field name to add a unique index. Create composite fields by separating fieldnames with a pipe (```--indexes="title,fld1|fld2#unique"``` will create normal index on title, and unique composite on fld1 and fld2) |
+| `--indexes` | The fields to add an index to. append "#unique" to a field name to add a unique index. Create composite fields by separating fieldnames with a pipe (```--indexes="title,field1|field2#unique"``` will create normal index on title, and unique composite on fld1 and fld2) |
 | `--foreign-keys` | Any foreign keys for the table. e.g. ```--foreign-keys="user_id#id#users#cascade"``` where user_id is the column name, id is the name of the field on the foreign table, users is the name of the foreign table, and cascade is the operation 'ON DELETE' together with 'ON UPDATE' |
 | `--validations` | Validation rules for the form "col_name#rules_set" e.g. ```"title#min:10|max:30|required"``` - See https://laravel.com/docs/master/validation#available-validation-rules |
 | `--relationships` | The relationships for the model. e.g. ```--relationships="comments#hasMany#App\Comment"``` in the format |
@@ -112,7 +112,7 @@ For view:
 php artisan crud:view posts --fields="title#string; body#text" --view-path="directory" --route-group=admin
 ```
 
-By default, the generator will attempt to append the crud route to your *routes.php* file. If you don't want the route added, you can use this option ```--route=no```.
+By default, the generator will attempt to append the crud route to your ```Route``` file. If you don't want the route added, you can use this option ```--route=no```.
 
 After creating all resources, run migrate command. *If necessary, include the route for your crud as well.*
 
@@ -177,11 +177,11 @@ You can customize the generator's stub files/templates to achieve your need.
     php artisan vendor:publish --provider="Appzcoder\CrudGenerator\CrudGeneratorServiceProvider"
     ```
 
-2. Turn on custom_template support on **/config/crudgenerator.php**
+2. Turn on custom_template support on **config/crudgenerator.php**
     ```
     'custom_template' => true,
     ```
-3. From the directory **/resources/crud-generator/** you can modify or customize the stub files.
+3. From the directory **resources/crud-generator/** you can modify or customize the stub files.
 
 #### If you're still looking for easier one then try this [Admin Panel](https://github.com/appzcoder/laravel-admin)
 

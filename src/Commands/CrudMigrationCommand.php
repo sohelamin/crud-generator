@@ -192,18 +192,17 @@ class CrudMigrationCommand extends GeneratorCommand
             if (count($parts) == 3) {
                 $schemaFields .= "\$table->foreign('" . trim($parts[0]) . "')"
                 . "->references('" . trim($parts[1]) . "')->on('" . trim($parts[2]) . "')";
-            }elseif(count($parts) == 4){
+            } elseif (count($parts) == 4) {
                 $schemaFields .= "\$table->foreign('" . trim($parts[0]) . "')"
                 . "->references('" . trim($parts[1]) . "')->on('" . trim($parts[2]) . "')"
                 . "->onDelete('" . trim($parts[3]) . "')" . "->onUpdate('" . trim($parts[3]) . "')";
-            }elseif(count($parts) == 5){
+            } elseif (count($parts) == 5) {
                 $schemaFields .= "\$table->foreign('" . trim($parts[0]) . "')"
                 . "->references('" . trim($parts[1]) . "')->on('" . trim($parts[2]) . "')"
                 . "->onDelete('" . trim($parts[3]) . "')" . "->onUpdate('" . trim($parts[4]) . "')";
-            }else{
+            } else {
                 continue;
             }
-
 
             $schemaFields .= "\$table->foreign('" . trim($parts[0]) . "')"
             . "->references('" . trim($parts[1]) . "')->on('" . trim($parts[2]) . "')";
@@ -211,7 +210,6 @@ class CrudMigrationCommand extends GeneratorCommand
             $schemaFields .= ";\n" . $tabIndent . $tabIndent . $tabIndent;
 
         }
-
 
         $primaryKey = $this->option('pk');
 

@@ -389,8 +389,8 @@ class CrudViewCommand extends Command
         $formGroup =
             <<<EOD
             <div class="form-group {{ \$errors->has('%1\$s') ? 'has-error' : ''}}">
-                {!! Form::label('%1\$s', %2\$s, ['class' => 'col-sm-3 control-label']) !!}
-                <div class="col-sm-6">
+                {!! Form::label('%1\$s', %2\$s, ['class' => 'col-md-4 control-label']) !!}
+                <div class="col-md-6">
                     %3\$s
                     {!! \$errors->first('%1\$s', '<p class="help-block">:message</p>') !!}
                 </div>

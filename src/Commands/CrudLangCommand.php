@@ -67,7 +67,7 @@ class CrudLangCommand extends Command
     public function handle()
     {
         $this->crudName = $this->argument('name');
-        $this->locales = explode(',',$this->option('locales'));
+        $this->locales = explode(',', $this->option('locales'));
 
         $fields = $this->option('fields');
         $fieldsArray = explode(';', $fields);
@@ -86,7 +86,7 @@ class CrudLangCommand extends Command
             }
         }
 
-        foreach($this->locales as $locale) {
+        foreach ($this->locales as $locale) {
             $locale = trim($locale);
             $path = config('view.paths')[0] . '/../lang/' . $locale . '/';
 
@@ -117,12 +117,12 @@ class CrudLangCommand extends Command
     private function templateVars($newLangFile)
     {
         $messages = [];
-        foreach($this->formFields as $field) {
+        foreach ($this->formFields as $field) {
             $index = $field['name'];
             $text = ucwords(strtolower(str_replace('_', ' ', $index)));
             $messages[] = "'$index' => '$text'";
         }
 
-        File::put($newLangFile, str_replace('%%messages%%', implode(",\n",$messages), File::get($newLangFile)));
+        File::put($newLangFile, str_replace('%%messages%%', implode(",\n", $messages), File::get($newLangFile)));
     }
 }
