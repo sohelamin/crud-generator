@@ -21,9 +21,11 @@
                                     'onclick'=>'return confirm("Confirm delete?")'
                             ))!!}
                         {!! Form::close() !!}
+                        <br/>
+                        <br/>
 
                         <div class="table-responsive">
-                            <table class="table table-bordered table-striped table-hover">
+                            <table class="table table-borderless">
                                 <tbody>
                                     <tr>
                                         <th>ID</th><td>{{ $%%crudNameSingular%%->%%primaryKey%% }}</td>

@@ -9,17 +9,19 @@
                     <div class="panel-body">
 
                         <a href="{{ url('/%%routeGroup%%%%viewName%%/create') }}" class="btn btn-primary btn-xs" title="Add New %%modelName%%"><span class="glyphicon glyphicon-plus" aria-hidden="true"/></a>
-                        <div class="table">
-                            <table class="table table-bordered table-striped table-hover">
+                        <br/>
+                        <br/>
+                        <div class="table-responsive">
+                            <table class="table table-borderless">
                                 <thead>
                                     <tr>
-                                        <th>S.No</th>%%formHeadingHtml%%<th>Actions</th>
+                                        <th>ID</th>%%formHeadingHtml%%<th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                 @foreach($%%crudName%% as $item)
                                     <tr>
-                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $item->id }}</td>
                                         %%formBodyHtml%%
                                         <td>
                                             <a href="{{ url('/%%routeGroup%%%%viewName%%/' . $item->%%primaryKey%%) }}" class="btn btn-success btn-xs" title="View %%modelName%%"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"/></a>
