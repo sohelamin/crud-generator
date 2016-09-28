@@ -197,8 +197,8 @@ class CrudViewCommand extends Command
 
         $viewDirectory = config('view.paths')[0] . '/';
         if ($this->option('view-path')) {
-            $userPath = $this->option('view-path');
-            $path = $viewDirectory . $userPath . '/' . $this->viewName . '/';
+            $this->userViewPath = $this->option('view-path');
+            $path = $viewDirectory . $this->userViewPath . '/' . $this->viewName . '/';
         } else {
             $path = $viewDirectory . $this->viewName . '/';
         }
@@ -210,7 +210,7 @@ class CrudViewCommand extends Command
         $fields = $this->option('fields');
         $fieldsArray = explode(';', $fields);
 
-        $this->formFields = array();
+        $this->formFields = [];
 
         $validations = $this->option('validations');
 
@@ -269,6 +269,15 @@ class CrudViewCommand extends Command
             $this->templateIndexVars($newIndexFile);
         }
 
+        // For form.blade.php file
+        $formFile = $this->viewDirectoryPath . 'form.blade.stub';
+        $newFormFile = $path . 'form.blade.php';
+        if (!File::copy($formFile, $newFormFile)) {
+            echo "failed to copy $formFile...\n";
+        } else {
+            $this->templateFormVars($newFormFile);
+        }
+
         // For create.blade.php file
         $createFile = $this->viewDirectoryPath . 'create.blade.stub';
         $newCreateFile = $path . 'create.blade.php';
@@ -319,6 +328,19 @@ class CrudViewCommand extends Command
     }
 
     /**
+     * Update values between %% with real values in form view.
+     *
+     * @param  string $newFormFile
+     *
+     * @return void
+     */
+    public function templateFormVars($newFormFile)
+    {
+        File::put($newFormFile, str_replace('%%formFieldsHtml%%', $this->formFieldsHtml, File::get($newFormFile)));
+
+    }
+
+    /**
      * Update values between %% with real values in create view.
      *
      * @param  string $newCreateFile
@@ -327,13 +349,14 @@ class CrudViewCommand extends Command
      */
     public function templateCreateVars($newCreateFile)
     {
+        $viewTemplateDir = isset($this->userViewPath) ? $this->userViewPath . '.' . $this->viewName : $this->viewName;
+
         File::put($newCreateFile, str_replace('%%crudName%%', $this->crudName, File::get($newCreateFile)));
         File::put($newCreateFile, str_replace('%%crudNameCap%%', $this->crudNameCap, File::get($newCreateFile)));
         File::put($newCreateFile, str_replace('%%modelName%%', $this->modelName, File::get($newCreateFile)));
         File::put($newCreateFile, str_replace('%%viewName%%', $this->viewName, File::get($newCreateFile)));
         File::put($newCreateFile, str_replace('%%routeGroup%%', $this->routeGroup, File::get($newCreateFile)));
-        File::put($newCreateFile, str_replace('%%formFieldsHtml%%', $this->formFieldsHtml, File::get($newCreateFile)));
-
+        File::put($newCreateFile, str_replace('%%viewTemplateDir%%', $viewTemplateDir, File::get($newCreateFile)));
     }
 
     /**
@@ -345,14 +368,16 @@ class CrudViewCommand extends Command
      */
     public function templateEditVars($newEditFile)
     {
+        $viewTemplateDir = isset($this->userViewPath) ? $this->userViewPath . '.' . $this->viewName : $this->viewName;
+
         File::put($newEditFile, str_replace('%%crudName%%', $this->crudName, File::get($newEditFile)));
         File::put($newEditFile, str_replace('%%crudNameSingular%%', $this->crudNameSingular, File::get($newEditFile)));
         File::put($newEditFile, str_replace('%%crudNameCap%%', $this->crudNameCap, File::get($newEditFile)));
         File::put($newEditFile, str_replace('%%modelName%%', $this->modelName, File::get($newEditFile)));
         File::put($newEditFile, str_replace('%%viewName%%', $this->viewName, File::get($newEditFile)));
         File::put($newEditFile, str_replace('%%routeGroup%%', $this->routeGroup, File::get($newEditFile)));
-        File::put($newEditFile, str_replace('%%formFieldsHtml%%', $this->formFieldsHtml, File::get($newEditFile)));
         File::put($newEditFile, str_replace('%%primaryKey%%', $this->primaryKey, File::get($newEditFile)));
+        File::put($newEditFile, str_replace('%%viewTemplateDir%%', $viewTemplateDir, File::get($newEditFile)));
     }
 
     /**
@@ -388,13 +413,13 @@ class CrudViewCommand extends Command
     {
         $formGroup =
             <<<EOD
-            <div class="form-group {{ \$errors->has('%1\$s') ? 'has-error' : ''}}">
-                {!! Form::label('%1\$s', %2\$s, ['class' => 'col-md-4 control-label']) !!}
-                <div class="col-md-6">
-                    %3\$s
-                    {!! \$errors->first('%1\$s', '<p class="help-block">:message</p>') !!}
-                </div>
-            </div>\n
+<div class="form-group {{ \$errors->has('%1\$s') ? 'has-error' : ''}}">
+    {!! Form::label('%1\$s', %2\$s, ['class' => 'col-md-4 control-label']) !!}
+    <div class="col-md-6">
+        %3\$s
+        {!! \$errors->first('%1\$s', '<p class="help-block">:message</p>') !!}
+    </div>
+</div>\n
 EOD;
         $labelText = "'" . ucwords(strtolower(str_replace('_', ' ', $item['name']))) . "'";
 

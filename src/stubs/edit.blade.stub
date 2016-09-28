@@ -23,13 +23,8 @@
                             'files' => true
                         ]) !!}
 
-                        %%formFieldsHtml%%
+                        @include ('%%viewTemplateDir%%.form', ['submitButtonText' => 'Update'])
 
-                        <div class="form-group">
-                            <div class="col-md-offset-4 col-md-4">
-                                {!! Form::submit('Update', ['class' => 'btn btn-primary']) !!}
-                            </div>
-                        </div>
                         {!! Form::close() !!}
 
                     </div>
