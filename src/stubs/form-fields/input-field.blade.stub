@@ -1,0 +1,1 @@
+{!! Form::input('%%fieldType%%', '%%itemName%%', null, ['class' => 'form-control'%%required%%]) !!}

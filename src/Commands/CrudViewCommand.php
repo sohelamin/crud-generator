@@ -411,16 +411,8 @@ class CrudViewCommand extends Command
      */
     protected function wrapField($item, $field)
     {
-        $formGroup =
-            <<<EOD
-<div class="form-group {{ \$errors->has('%1\$s') ? 'has-error' : ''}}">
-    {!! Form::label('%1\$s', %2\$s, ['class' => 'col-md-4 control-label']) !!}
-    <div class="col-md-6">
-        %3\$s
-        {!! \$errors->first('%1\$s', '<p class="help-block">:message</p>') !!}
-    </div>
-</div>\n
-EOD;
+        $formGroup = file_get_contents($this->viewDirectoryPath . 'form-fields/wrap-field.blade.stub');
+
         $labelText = "'" . ucwords(strtolower(str_replace('_', ' ', $item['name']))) . "'";
 
         if ($this->option('localize') == 'yes') {
@@ -470,9 +462,14 @@ EOD;
     {
         $required = ($item['required'] === true) ? ", 'required' => 'required'" : "";
 
+        $markup = file_get_contents($this->viewDirectoryPath . 'form-fields/form-field.blade.stub');
+        $markup = str_replace('%%required%%', $required, $markup);
+        $markup = str_replace('%%fieldType%%', $this->typeLookup[$item['type']], $markup);
+        $markup = str_replace('%%itemName%%', $item['name'], $markup);
+
         return $this->wrapField(
             $item,
-            "{!! Form::" . $this->typeLookup[$item['type']] . "('" . $item['name'] . "', null, ['class' => 'form-control'$required]) !!}"
+            $markup
         );
     }
 
@@ -487,9 +484,13 @@ EOD;
     {
         $required = ($item['required'] === true) ? ", 'required' => 'required'" : "";
 
+        $markup = file_get_contents($this->viewDirectoryPath . 'form-fields/password-field.blade.stub');
+        $markup = str_replace('%%required%%', $required, $markup);
+        $markup = str_replace('%%itemName%%', $item['name'], $markup);
+
         return $this->wrapField(
             $item,
-            "{!! Form::password('" . $item['name'] . "', ['class' => 'form-control'$required]) !!}"
+            $markup
         );
     }
 
@@ -504,9 +505,14 @@ EOD;
     {
         $required = ($item['required'] === true) ? ", 'required' => 'required'" : "";
 
+        $markup = file_get_contents($this->viewDirectoryPath . 'form-fields/input-field.blade.stub');
+        $markup = str_replace('%%required%%', $required, $markup);
+        $markup = str_replace('%%fieldType%%', $this->typeLookup[$item['type']], $markup);
+        $markup = str_replace('%%itemName%%', $item['name'], $markup);
+
         return $this->wrapField(
             $item,
-            "{!! Form::input('" . $this->typeLookup[$item['type']] . "', '" . $item['name'] . "', null, ['class' => 'form-control'$required]) !!}"
+            $markup
         );
     }
 
@@ -519,17 +525,9 @@ EOD;
      */
     protected function createRadioField($item)
     {
-        $field =
-            <<<EOD
-            <div class="checkbox">
-                <label>{!! Form::radio('%1\$s', '1') !!} Yes</label>
-            </div>
-            <div class="checkbox">
-                <label>{!! Form::radio('%1\$s', '0', true) !!} No</label>
-            </div>
-EOD;
+        $markup = file_get_contents($this->viewDirectoryPath . 'form-fields/radio-field.blade.stub');
 
-        return $this->wrapField($item, sprintf($field, $item['name']));
+        return $this->wrapField($item, sprintf($markup, $item['name']));
     }
 
     /**
@@ -543,9 +541,14 @@ EOD;
     {
         $required = ($item['required'] === true) ? ", 'required' => 'required'" : "";
 
+        $markup = file_get_contents($this->viewDirectoryPath . 'form-fields/select-field.blade.stub');
+        $markup = str_replace('%%required%%', $required, $markup);
+        $markup = str_replace('%%options%%', $item['options'], $markup);
+        $markup = str_replace('%%itemName%%', $item['name'], $markup);
+
         return $this->wrapField(
             $item,
-            "{!! Form::select('" . $item['name'] . "', " . $item['options'] . ", null, ['class' => 'form-control'$required]) !!}"
+            $markup
         );
     }
 }
