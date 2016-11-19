@@ -15,6 +15,7 @@ class CrudControllerCommand extends GeneratorCommand
                             {name : The name of the controler.}
                             {--crud-name= : The name of the Crud.}
                             {--model-name= : The name of the Model.}
+                            {--model-namespace= : The namespace of the Model.}
                             {--view-path= : The name of the view path.}
                             {--fields= : Fields name for the form & migration.}
                             {--validations= : Validation details for the fields.}
@@ -74,6 +75,7 @@ class CrudControllerCommand extends GeneratorCommand
         $crudName = strtolower($this->option('crud-name'));
         $crudNameSingular = str_singular($crudName);
         $modelName = $this->option('model-name');
+        $modelNamespace = $this->option('model-namespace');
         $routeGroup = ($this->option('route-group')) ? $this->option('route-group') . '/' : '';
         $perPage = intval($this->option('pagination'));
         $viewName = snake_case($this->option('crud-name'), '-');
@@ -133,6 +135,7 @@ EOD;
             ->replaceCrudName($stub, $crudName)
             ->replaceCrudNameSingular($stub, $crudNameSingular)
             ->replaceModelName($stub, $modelName)
+            ->replaceModelNamespace($stub, $modelNamespace)
             ->replaceRouteGroup($stub, $routeGroup)
             ->replaceValidationRules($stub, $validationRules)
             ->replacePaginationNumber($stub, $perPage)
@@ -220,6 +223,23 @@ EOD;
     {
         $stub = str_replace(
             '{{modelName}}', $modelName, $stub
+        );
+
+        return $this;
+    }
+
+    /**
+     * Replace the modelName for the given stub.
+     *
+     * @param  string  $stub
+     * @param  string  $modelName
+     *
+     * @return $this
+     */
+    protected function replaceModelNamespace(&$stub, $modelNamespace)
+    {
+        $stub = str_replace(
+            '{{modelNamespace}}', $modelNamespace, $stub
         );
 
         return $this;
