@@ -15,6 +15,7 @@ class CrudCommand extends Command
     protected $signature = 'crud:generate
                             {name : The name of the Crud.}
                             {--fields= : Fields name for the form & migration.}
+                            {--fields_from_file= : Fields from a json file.}
                             {--validations= : Validation details for the fields.}
                             {--controller-namespace= : Namespace of the controller.}
                             {--model-namespace= : Namespace of the model inside "app" dir.}
@@ -72,6 +73,10 @@ class CrudCommand extends Command
         $modelNamespace = ($this->option('model-namespace')) ? trim($this->option('model-namespace')) . '\\' : '';
 
         $fields = rtrim($this->option('fields'), ';');
+
+        if ($this->option('fields_from_file')) {
+            $fields = $this->processJSONFields($this->option('fields_from_file'));
+        }
 
         $primaryKey = $this->option('pk');
         $viewPath = $this->option('view-path');
@@ -135,5 +140,31 @@ class CrudCommand extends Command
     protected function addRoutes()
     {
         return ["Route::resource('" . $this->routeName . "', '" . $this->controller . "');"];
+    }
+
+    /**
+     * Process the JSON Fields.
+     *
+     * @param  string $file
+     *
+     * @return string
+     */
+    protected function processJSONFields($file)
+    {
+        $json = File::get($file);
+        $fields = json_decode($json);
+
+        $fieldsString = '';
+        foreach ($fields->fields as $field) {
+            if ($field->type == 'select') {
+                $fieldsString .= $field->name . '#' . $field->type . '#options=' . implode(',', $field->options) . ';';
+            } else {
+                $fieldsString .= $field->name . '#' . $field->type . ';';
+            }
+        }
+
+        $fieldsString = rtrim($fieldsString, ';');
+
+        return $fieldsString;
     }
 }
