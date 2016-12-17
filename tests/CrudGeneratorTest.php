@@ -9,8 +9,6 @@ class CrudGeneratorTest extends TestCase
         //     '--fields' => "title#string; content#text; category#select#options=technology,tips,health",
         // ]);
         // $this->assertContains('Controller already exists!', $this->consoleOutput());
-
-        $this->assertFileNotExists('/path/to/file.php');
     }
 
     public function testControllerGenerateCommand()
@@ -22,6 +20,8 @@ class CrudGeneratorTest extends TestCase
         ]);
 
         $this->assertContains('Controller created successfully.', $this->consoleOutput());
+
+        $this->assertFileExists(app_path('Http/Controllers') . '/CustomersController.php');
     }
 
     public function testModelGenerateCommand()
@@ -32,6 +32,8 @@ class CrudGeneratorTest extends TestCase
         ]);
 
         $this->assertContains('Model created successfully.', $this->consoleOutput());
+
+        $this->assertFileExists(app_path() . '/Customer.php');
     }
 
     public function testMigrationGenerateCommand()
@@ -52,5 +54,7 @@ class CrudGeneratorTest extends TestCase
         ]);
 
         $this->assertContains('View created successfully.', $this->consoleOutput());
+
+        $this->assertDirectoryExists(config('view.paths')[0] . '/customers');
     }
 }

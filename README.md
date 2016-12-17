@@ -64,11 +64,38 @@ Note: You should have configured database for this operation.
 php artisan crud:generate Posts --fields="title#string; content#text; category#select#options=technology,tips,health" --view-path=admin --controller-namespace=Admin --route-group=admin
 ```
 
+#### Crud fields from a JSON file:
+
+```json
+{
+   "fields": [
+        {
+            "name": "title",
+            "type": "string"
+        },
+        {
+            "name": "content",
+            "type": "text"
+        },
+        {
+            "name": "category",
+            "type": "select",
+            "options": ["technology", "tips", "health"]
+        }
+   ]
+}
+```
+
+```
+php artisan crud:generate Posts --fields_from_file="/path/to/fields.json" --view-path=admin --controller-namespace=Admin --route-group=admin
+```
+
 Options:
 
 | Option    | Description |
 | ---       | ---     |
 | `--fields` | Fields name for the form & migration. e.g. ```--fields="title#string; content#text; category#select#options=technology,tips,health; user_id#integer#unsigned"``` |
+| `--fields_from_file` | Fields from a JSON file. e.g. ```--fields_from_file="/path/to/fields.json"``` |
 | `--route` | Include Crud route to routes.php? yes or no |
 | `--pk` | The name of the primary key |
 | `--view-path` | The name of the view path |

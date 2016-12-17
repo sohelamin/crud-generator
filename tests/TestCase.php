@@ -1,5 +1,4 @@
 <?php
-
 abstract class TestCase extends Orchestra\Testbench\TestCase
 {
     protected $consoleOutput;
@@ -25,6 +24,8 @@ abstract class TestCase extends Orchestra\Testbench\TestCase
         parent::setUp();
 
         exec('rm -rf ' . __DIR__ . '/temp/*');
+        exec('rm -rf ' . app_path() . '/*');
+        exec('rm -rf ' . database_path('migrations') . '/*');
     }
 
     public function tearDown()
