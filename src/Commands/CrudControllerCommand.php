@@ -117,15 +117,20 @@ EOD;
 
         $fieldsArray = explode(';', $fields);
         $fileSnippet = '';
+        $whereSnippet = '';
 
         if ($fields) {
             $x = 0;
-            foreach ($fieldsArray as $item) {
+            foreach ($fieldsArray as $index => $item) {
                 $itemArray = explode('#', $item);
 
                 if (trim($itemArray[1]) == 'file') {
                     $fileSnippet .= "\n\n" . str_replace('{{fieldName}}', trim($itemArray[0]), $snippet) . "\n";
                 }
+
+                $fieldName = trim($itemArray[0]);
+
+                $whereSnippet .= ($index == 0) ? "where('$fieldName', 'LIKE', \"%\$keyword%\")" . "\n\t\t\t\t" : "->orWhere('$fieldName', 'LIKE', \"%\$keyword%\")" . "\n\t\t\t\t";
             }
         }
 
@@ -140,6 +145,7 @@ EOD;
             ->replaceValidationRules($stub, $validationRules)
             ->replacePaginationNumber($stub, $perPage)
             ->replaceFileSnippet($stub, $fileSnippet)
+            ->replaceWhereSnippet($stub, $whereSnippet)
             ->replaceClass($stub, $name);
     }
 
@@ -308,6 +314,23 @@ EOD;
     {
         $stub = str_replace(
             '{{fileSnippet}}', $fileSnippet, $stub
+        );
+
+        return $this;
+    }
+
+    /**
+     * Replace the where snippet for the given stub
+     *
+     * @param $stub
+     * @param $whereSnippet
+     *
+     * @return $this
+     */
+    protected function replaceWhereSnippet(&$stub, $whereSnippet)
+    {
+        $stub = str_replace(
+            '{{whereSnippet}}', $whereSnippet, $stub
         );
 
         return $this;

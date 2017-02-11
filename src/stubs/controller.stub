@@ -16,9 +16,17 @@ class DummyClass extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function index()
+    public function index(Request $request)
     {
-        ${{crudName}} = {{modelName}}::paginate({{pagination}});
+        $keyword = $request->get('search');
+        $perPage = {{pagination}};
+
+        if (!empty($keyword)) {
+            ${{crudName}} = {{modelName}}::{{whereSnippet}}
+                ->paginate($perPage);
+        } else {
+            ${{crudName}} = {{modelName}}::paginate($perPage);
+        }
 
         return view('{{viewPath}}{{viewName}}.index', compact('{{crudName}}'));
     }
