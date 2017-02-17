@@ -13,16 +13,18 @@
 
 1. Run
     ```
-    composer require appzcoder/crud-generator
+    composer require appzcoder/crud-generator --dev 
     ```
 
-2. Add the service provider to **config/app.php**.
+2. Since the package is only use in local developmnet, add the provider in app/Providers/AppServiceProvider.php.
     ```php
-    'providers' => [
-        ...
 
-        Appzcoder\CrudGenerator\CrudGeneratorServiceProvider::class,
-    ],
+    public function register()
+    {
+        if ($this->app->environment() == 'local') {
+            $this->app->register('Appzcoder\CrudGenerator\CrudGeneratorServiceProvider');
+        }
+    }
     ```
 3. Install **laravelcollective/html** helper package.
     * Run
