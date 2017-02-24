@@ -10,6 +10,7 @@
     PHP >= 5.5.9
 
 ## Installation
+Open your terminal(CLI), go to the root directory of your Laravel project, then follow the following procedure. 
 
 1. Run
     ```
@@ -26,7 +27,7 @@
         }
     }
     ```
-3. Install **laravelcollective/html** helper package.
+3. Install **laravelcollective/html** helper package if you haven't installed it already.
     * Run
 
     ```
