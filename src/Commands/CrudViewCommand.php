@@ -432,18 +432,14 @@ class CrudViewCommand extends Command
         switch ($this->typeLookup[$item['type']]) {
             case 'password':
                 return $this->createPasswordField($item);
-                break;
             case 'datetime-local':
             case 'time':
                 return $this->createInputField($item);
-                break;
             case 'radio':
                 return $this->createRadioField($item);
-                break;
             case 'select':
             case 'enum':
                 return $this->createSelectField($item);
-                break;
             default: // text
                 return $this->createFormField($item);
         }
