@@ -215,7 +215,7 @@ You can customize the generator's stub files/templates to achieve your need.
 
 ### Screencast
 
-<iframe width="854" height="480" src="https://www.youtube.com/embed/831-PFBsYfw" frameborder="0" allowfullscreen></iframe>
+[![Screencast](http://img.youtube.com/vi/831-PFBsYfw/0.jpg)](http://www.youtube.com/watch?v=831-PFBsYfw)
 
 #### If you're still looking for easier one then try this [Admin Panel](https://github.com/appzcoder/laravel-admin)
 
