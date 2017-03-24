@@ -21,7 +21,8 @@ class CrudControllerCommand extends GeneratorCommand
                             {--fields= : Fields name for the form & migration.}
                             {--validations= : Validation details for the fields.}
                             {--route-group= : Prefix of the route group.}
-                            {--pagination=25 : The amount of models per page for index pages.}';
+                            {--pagination=25 : The amount of models per page for index pages.}
+                            {--force : Overwrite already existing controller.}';
 
     /**
      * The console command description.
@@ -59,6 +60,21 @@ class CrudControllerCommand extends GeneratorCommand
     protected function getDefaultNamespace($rootNamespace)
     {
         return $rootNamespace . '\\' . ($this->option('controller-namespace') ? $this->option('controller-namespace') : 'Http\Controllers');
+    }
+
+    /**
+     * Determine if the class already exists.
+     *
+     * @param  string  $rawName
+     * @return bool
+     */
+    protected function alreadyExists($rawName)
+    {
+        if($this->option('force'))
+        {
+            return false;
+        }
+        return $this->files->exists($this->getPath($this->qualifyClass($rawName)));
     }
 
     /**
