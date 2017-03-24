@@ -16,6 +16,7 @@ class CrudControllerCommand extends GeneratorCommand
                             {--crud-name= : The name of the Crud.}
                             {--model-name= : The name of the Model.}
                             {--model-namespace= : The namespace of the Model.}
+                            {--controller-namespace= : Namespace of the controller.}
                             {--view-path= : The name of the view path.}
                             {--fields= : Fields name for the form & migration.}
                             {--validations= : Validation details for the fields.}
@@ -57,7 +58,7 @@ class CrudControllerCommand extends GeneratorCommand
      */
     protected function getDefaultNamespace($rootNamespace)
     {
-        return $rootNamespace . '\Http\Controllers';
+        return $rootNamespace . '\\' . ($this->option('controller-namespace') ? $this->option('controller-namespace') : 'Http\Controllers');
     }
 
     /**
