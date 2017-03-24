@@ -72,6 +72,25 @@ class CrudViewCommand extends Command
     ];
 
     /**
+     * Variables that can be used in stubs
+     *
+     * @var array
+     */
+    protected $vars = [
+        'formFields',
+        'formFieldsHtml',
+        'varName',
+        'crudName',
+        'crudNameCap',
+        'crudNameSingular',
+        'primaryKey',
+        'modelName',
+        'viewName',
+        'routeGroup',
+        'formHeadingHtml',
+        'formBodyHtml'];
+
+    /**
      * Form's fields.
      *
      * @var array
@@ -330,7 +349,11 @@ class CrudViewCommand extends Command
 
         foreach($vars as $var)
         {
-            File::put($file, str_replace($delimiter[0] . $var . $delimiter[1], $this->$var, File::get($file)));
+            if(in_array($var, $this->vars))
+            {
+                File::put($file, str_replace($delimiter[0] . $var . $delimiter[1], $this->$var, File::get($file)));
+            }
+
         }
     }
 
