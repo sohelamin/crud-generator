@@ -72,6 +72,25 @@ class CrudViewCommand extends Command
     ];
 
     /**
+     * Variables that can be used in stubs
+     *
+     * @var array
+     */
+    protected $vars = [
+        'formFields',
+        'formFieldsHtml',
+        'varName',
+        'crudName',
+        'crudNameCap',
+        'crudNameSingular',
+        'primaryKey',
+        'modelName',
+        'viewName',
+        'routeGroup',
+        'formHeadingHtml',
+        'formBodyHtml'];
+
+    /**
      * Form's fields.
      *
      * @var array
@@ -91,6 +110,13 @@ class CrudViewCommand extends Command
      * @var integer
      */
     protected $defaultColumnsToShow = 3;
+
+    /**
+     * Variable name with first letter in lowercase
+     *
+     * @var string
+     */
+    protected $varName = '';
 
     /**
      * Name of the Crud.
@@ -163,6 +189,13 @@ class CrudViewCommand extends Command
     protected $formBodyHtmlForShowView = '';
 
     /**
+     * Template directory where views are generated
+     *
+     * @var string
+     */
+    protected $viewTemplateDir = '';
+
+    /**
      * Create a new command instance.
      *
      * @return void
@@ -188,6 +221,7 @@ class CrudViewCommand extends Command
     public function handle()
     {
         $this->crudName = strtolower($this->argument('name'));
+        $this->varName = lcfirst($this->argument('name'));
         $this->crudNameCap = ucwords($this->crudName);
         $this->crudNameSingular = str_singular($this->crudName);
         $this->modelName = str_singular($this->argument('name'));
@@ -202,6 +236,7 @@ class CrudViewCommand extends Command
         } else {
             $path = $viewDirectory . $this->viewName . '/';
         }
+        $this->viewTemplateDir = isset($this->userViewPath) ? $this->userViewPath . '.' . $this->viewName : $this->viewName;
 
         if (!File::isDirectory($path)) {
             File::makeDirectory($path, 0755, true);
@@ -260,143 +295,66 @@ class CrudViewCommand extends Command
             $i++;
         }
 
-        // For index.blade.php file
-        $indexFile = $this->viewDirectoryPath . 'index.blade.stub';
-        $newIndexFile = $path . 'index.blade.php';
-        if (!File::copy($indexFile, $newIndexFile)) {
-            echo "failed to copy $indexFile...\n";
-        } else {
-            $this->templateIndexVars($newIndexFile);
-        }
-
-        // For form.blade.php file
-        $formFile = $this->viewDirectoryPath . 'form.blade.stub';
-        $newFormFile = $path . 'form.blade.php';
-        if (!File::copy($formFile, $newFormFile)) {
-            echo "failed to copy $formFile...\n";
-        } else {
-            $this->templateFormVars($newFormFile);
-        }
-
-        // For create.blade.php file
-        $createFile = $this->viewDirectoryPath . 'create.blade.stub';
-        $newCreateFile = $path . 'create.blade.php';
-        if (!File::copy($createFile, $newCreateFile)) {
-            echo "failed to copy $createFile...\n";
-        } else {
-            $this->templateCreateVars($newCreateFile);
-        }
-
-        // For edit.blade.php file
-        $editFile = $this->viewDirectoryPath . 'edit.blade.stub';
-        $newEditFile = $path . 'edit.blade.php';
-        if (!File::copy($editFile, $newEditFile)) {
-            echo "failed to copy $editFile...\n";
-        } else {
-            $this->templateEditVars($newEditFile);
-        }
-
-        // For show.blade.php file
-        $showFile = $this->viewDirectoryPath . 'show.blade.stub';
-        $newShowFile = $path . 'show.blade.php';
-        if (!File::copy($showFile, $newShowFile)) {
-            echo "failed to copy $showFile...\n";
-        } else {
-            $this->templateShowVars($newShowFile);
-        }
+        $this->templateStubs($path);
 
         $this->info('View created successfully.');
     }
 
     /**
-     * Update values between %% with real values in index view.
+     * Default template configuration if not provided
      *
-     * @param  string $newIndexFile
-     *
-     * @return void
+     * @return array
      */
-    public function templateIndexVars($newIndexFile)
+    private function defaultTemplating()
     {
-        File::put($newIndexFile, str_replace('%%formHeadingHtml%%', $this->formHeadingHtml, File::get($newIndexFile)));
-        File::put($newIndexFile, str_replace('%%formBodyHtml%%', $this->formBodyHtml, File::get($newIndexFile)));
-        File::put($newIndexFile, str_replace('%%crudName%%', $this->crudName, File::get($newIndexFile)));
-        File::put($newIndexFile, str_replace('%%crudNameCap%%', $this->crudNameCap, File::get($newIndexFile)));
-        File::put($newIndexFile, str_replace('%%modelName%%', $this->modelName, File::get($newIndexFile)));
-        File::put($newIndexFile, str_replace('%%viewName%%', $this->viewName, File::get($newIndexFile)));
-        File::put($newIndexFile, str_replace('%%routeGroup%%', $this->routeGroup, File::get($newIndexFile)));
-        File::put($newIndexFile, str_replace('%%primaryKey%%', $this->primaryKey, File::get($newIndexFile)));
+        return [
+            'index'   =>   ['formHeadingHtml', 'formBodyHtml', 'crudName', 'crudNameCap', 'modelName', 'viewName', 'routeGroup', 'primaryKey'],
+            'form'    =>   ['formFieldsHtml'],
+            'create'  =>   ['crudName', 'crudNameCap', 'modelName', 'viewName', 'routeGroup', 'viewTemplateDir'],
+            'edit'    =>   ['crudName', 'crudNameSingular', 'crudNameCap', 'modelName', 'viewName', 'routeGroup', 'primaryKey', 'viewTemplateDir'],
+            'show'    =>   ['formHeadingHtml', 'formBodyHtml', 'crudName', 'crudNameCap', 'modelName', 'viewName', 'routeGroup', 'primaryKey']
+        ];
     }
 
     /**
-     * Update values between %% with real values in form view.
+     * Generate files from stub
      *
-     * @param  string $newFormFile
-     *
-     * @return void
+     * @param $path
      */
-    public function templateFormVars($newFormFile)
+    protected function templateStubs($path)
     {
-        File::put($newFormFile, str_replace('%%formFieldsHtml%%', $this->formFieldsHtml, File::get($newFormFile)));
+        $dynamicViewTemplate = config('crudgenerator.dynamic_view_template') ? config('crudgenerator.dynamic_view_template') : $this->defaultTemplating();
+
+        foreach($dynamicViewTemplate as $name => $vars)
+        {
+            $file = $this->viewDirectoryPath . $name . '.blade.stub';
+            $newFile = $path . $name . '.blade.php';
+            if (!File::copy($file, $newFile)) {
+                echo "failed to copy $file...\n";
+            } else {
+                $this->templateVars($newFile, $vars);
+            }
+        }
     }
 
     /**
-     * Update values between %% with real values in create view.
+     * Update specified values between delimiter with real values
      *
-     * @param  string $newCreateFile
-     *
-     * @return void
+     * @param $file
+     * @param $vars
      */
-    public function templateCreateVars($newCreateFile)
+    protected function templateVars($file, $vars)
     {
-        $viewTemplateDir = isset($this->userViewPath) ? $this->userViewPath . '.' . $this->viewName : $this->viewName;
+        $delimiter = config('crudgenerator.custom_delimiter') ? config('crudgenerator.custom_delimiter') : ['%%', '%%'];
 
-        File::put($newCreateFile, str_replace('%%crudName%%', $this->crudName, File::get($newCreateFile)));
-        File::put($newCreateFile, str_replace('%%crudNameCap%%', $this->crudNameCap, File::get($newCreateFile)));
-        File::put($newCreateFile, str_replace('%%modelName%%', $this->modelName, File::get($newCreateFile)));
-        File::put($newCreateFile, str_replace('%%viewName%%', $this->viewName, File::get($newCreateFile)));
-        File::put($newCreateFile, str_replace('%%routeGroup%%', $this->routeGroup, File::get($newCreateFile)));
-        File::put($newCreateFile, str_replace('%%viewTemplateDir%%', $viewTemplateDir, File::get($newCreateFile)));
-    }
+        foreach($vars as $var)
+        {
+            if(in_array($var, $this->vars))
+            {
+                File::put($file, str_replace($delimiter[0] . $var . $delimiter[1], $this->$var, File::get($file)));
+            }
 
-    /**
-     * Update values between %% with real values in edit view.
-     *
-     * @param  string $newEditFile
-     *
-     * @return void
-     */
-    public function templateEditVars($newEditFile)
-    {
-        $viewTemplateDir = isset($this->userViewPath) ? $this->userViewPath . '.' . $this->viewName : $this->viewName;
-
-        File::put($newEditFile, str_replace('%%crudName%%', $this->crudName, File::get($newEditFile)));
-        File::put($newEditFile, str_replace('%%crudNameSingular%%', $this->crudNameSingular, File::get($newEditFile)));
-        File::put($newEditFile, str_replace('%%crudNameCap%%', $this->crudNameCap, File::get($newEditFile)));
-        File::put($newEditFile, str_replace('%%modelName%%', $this->modelName, File::get($newEditFile)));
-        File::put($newEditFile, str_replace('%%viewName%%', $this->viewName, File::get($newEditFile)));
-        File::put($newEditFile, str_replace('%%routeGroup%%', $this->routeGroup, File::get($newEditFile)));
-        File::put($newEditFile, str_replace('%%primaryKey%%', $this->primaryKey, File::get($newEditFile)));
-        File::put($newEditFile, str_replace('%%viewTemplateDir%%', $viewTemplateDir, File::get($newEditFile)));
-    }
-
-    /**
-     * Update values between %% with real values in show view.
-     *
-     * @param  string $newShowFile
-     *
-     * @return void
-     */
-    public function templateShowVars($newShowFile)
-    {
-        File::put($newShowFile, str_replace('%%formHeadingHtml%%', $this->formHeadingHtml, File::get($newShowFile)));
-        File::put($newShowFile, str_replace('%%formBodyHtmlForShowView%%', $this->formBodyHtmlForShowView, File::get($newShowFile)));
-        File::put($newShowFile, str_replace('%%crudName%%', $this->crudName, File::get($newShowFile)));
-        File::put($newShowFile, str_replace('%%crudNameSingular%%', $this->crudNameSingular, File::get($newShowFile)));
-        File::put($newShowFile, str_replace('%%crudNameCap%%', $this->crudNameCap, File::get($newShowFile)));
-        File::put($newShowFile, str_replace('%%modelName%%', $this->modelName, File::get($newShowFile)));
-        File::put($newShowFile, str_replace('%%primaryKey%%', $this->primaryKey, File::get($newShowFile)));
-        File::put($newShowFile, str_replace('%%viewName%%', $this->viewName, File::get($newShowFile)));
-        File::put($newShowFile, str_replace('%%routeGroup%%', $this->routeGroup, File::get($newShowFile)));
+        }
     }
 
     /**
@@ -405,7 +363,7 @@ class CrudViewCommand extends Command
      * @param  string $item
      * @param  string $field
      *
-     * @return void
+     * @return string
      */
     protected function wrapField($item, $field)
     {

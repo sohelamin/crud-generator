@@ -16,6 +16,13 @@ abstract class TestCase extends Orchestra\Testbench\TestCase
             'custom_template' => false,
             'path' => base_path('resources/crud-generator/'),
             'view_columns_number' => 3,
+            'dynamic_view_template' => [
+                'index' => ['formHeadingHtml', 'formBodyHtml', 'crudName', 'crudNameCap', 'modelName', 'viewName', 'routeGroup', 'primaryKey'],
+                'form'  => ['formFieldsHtml'],
+                'create' => ['crudName', 'crudNameCap', 'modelName', 'viewName', 'routeGroup', 'viewTemplateDir'],
+                'edit' => ['crudName', 'crudNameSingular', 'crudNameCap', 'modelName', 'viewName', 'routeGroup', 'primaryKey', 'viewTemplateDir'],
+                'show' => ['formHeadingHtml', 'formBodyHtml', 'crudName', 'crudNameCap', 'modelName', 'viewName', 'routeGroup', 'primaryKey']
+            ]
         ]);
     }
 
