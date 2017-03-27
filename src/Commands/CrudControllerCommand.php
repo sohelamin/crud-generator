@@ -94,6 +94,8 @@ class CrudControllerCommand extends GeneratorCommand
         $modelName = $this->option('model-name');
         $modelNamespace = $this->option('model-namespace');
         $routeGroup = ($this->option('route-group')) ? $this->option('route-group') . '/' : '';
+        $routePrefix = ($this->option('route-group')) ? $this->option('route-group') : '';
+        $routePrefixCap = ucfirst($routePrefix);
         $perPage = intval($this->option('pagination'));
         $viewName = snake_case($this->option('crud-name'), '-');
         $fields = $this->option('fields');
@@ -159,6 +161,8 @@ EOD;
             ->replaceModelName($stub, $modelName)
             ->replaceModelNamespace($stub, $modelNamespace)
             ->replaceRouteGroup($stub, $routeGroup)
+            ->replaceRoutePrefix($stub, $routePrefix)
+            ->replaceRoutePrefixCap($stub, $routePrefixCap)
             ->replaceValidationRules($stub, $validationRules)
             ->replacePaginationNumber($stub, $perPage)
             ->replaceFileSnippet($stub, $fileSnippet)
@@ -255,7 +259,7 @@ EOD;
      * Replace the modelName for the given stub.
      *
      * @param  string  $stub
-     * @param  string  $modelName
+     * @param  string  $modelNamespace
      *
      * @return $this
      */
@@ -263,6 +267,40 @@ EOD;
     {
         $stub = str_replace(
             '{{modelNamespace}}', $modelNamespace, $stub
+        );
+
+        return $this;
+    }
+
+    /**
+     * Replace the routePrefix for the given stub.
+     *
+     * @param  string  $stub
+     * @param  string  $routePrefix
+     *
+     * @return $this
+     */
+    protected function replaceRoutePrefix(&$stub, $routePrefix)
+    {
+        $stub = str_replace(
+            '{{routePrefix}}', $routePrefix, $stub
+        );
+
+        return $this;
+    }
+
+    /**
+     * Replace the routePrefixCap for the given stub.
+     *
+     * @param  string  $stub
+     * @param  string  $routePrefixCap
+     *
+     * @return $this
+     */
+    protected function replaceRoutePrefixCap(&$stub, $routePrefixCap)
+    {
+        $stub = str_replace(
+            '{{routePrefixCap}}', $routePrefixCap, $stub
         );
 
         return $this;
