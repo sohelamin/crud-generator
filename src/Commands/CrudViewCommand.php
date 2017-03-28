@@ -85,7 +85,10 @@ class CrudViewCommand extends Command
         'crudNameSingular',
         'primaryKey',
         'modelName',
+        'modelNameCap',
         'viewName',
+        'routePrefix',
+        'routePrefixCap',
         'routeGroup',
         'formHeadingHtml',
         'formBodyHtml'];
@@ -154,11 +157,32 @@ class CrudViewCommand extends Command
     protected $modelName = '';
 
     /**
+     * Name of the Model with first letter in capital
+     *
+     * @var string
+     */
+    protected $modelNameCap = '';
+
+    /**
      * Name of the View Dir.
      *
      * @var string
      */
     protected $viewName = '';
+
+    /**
+     * Prefix of the route
+     *
+     * @var string
+     */
+    protected $routePrefix = '';
+
+    /**
+     * Prefix of the route with first letter in capital letter
+     *
+     * @var string
+     */
+    protected $routePrefixCap = '';
 
     /**
      * Name or prefix of the Route Group.
@@ -225,8 +249,11 @@ class CrudViewCommand extends Command
         $this->crudNameCap = ucwords($this->crudName);
         $this->crudNameSingular = str_singular($this->crudName);
         $this->modelName = str_singular($this->argument('name'));
+        $this->modelNameCap = ucfirst($this->modelName);
         $this->primaryKey = $this->option('pk');
         $this->routeGroup = ($this->option('route-group')) ? $this->option('route-group') . '/' : $this->option('route-group');
+        $this->routePrefix = ($this->option('route-group')) ? $this->option('route-group') : '';
+        $this->routePrefixCap = ucfirst($this->routePrefix);
         $this->viewName = snake_case($this->argument('name'), '-');
 
         $viewDirectory = config('view.paths')[0] . '/';
@@ -310,8 +337,8 @@ class CrudViewCommand extends Command
         return [
             'index'   =>   ['formHeadingHtml', 'formBodyHtml', 'crudName', 'crudNameCap', 'modelName', 'viewName', 'routeGroup', 'primaryKey'],
             'form'    =>   ['formFieldsHtml'],
-            'create'  =>   ['crudName', 'crudNameCap', 'modelName', 'viewName', 'routeGroup', 'viewTemplateDir'],
-            'edit'    =>   ['crudName', 'crudNameSingular', 'crudNameCap', 'modelName', 'viewName', 'routeGroup', 'primaryKey', 'viewTemplateDir'],
+            'create'  =>   ['crudName', 'crudNameCap', 'modelName', 'modelNameCap', 'viewName', 'routeGroup', 'viewTemplateDir'],
+            'edit'    =>   ['crudName', 'crudNameSingular', 'crudNameCap', 'modelNameCap', 'modelName', 'viewName', 'routeGroup', 'primaryKey', 'viewTemplateDir'],
             'show'    =>   ['formHeadingHtml', 'formBodyHtml', 'crudName', 'crudNameCap', 'modelName', 'viewName', 'routeGroup', 'primaryKey']
         ];
     }
