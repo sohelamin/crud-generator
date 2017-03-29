@@ -160,6 +160,7 @@ EOD;
             ->replaceCrudNameSingular($stub, $crudNameSingular)
             ->replaceModelName($stub, $modelName)
             ->replaceModelNamespace($stub, $modelNamespace)
+            ->replaceModelNamespaceSegments($stub, $modelNamespace)
             ->replaceRouteGroup($stub, $routeGroup)
             ->replaceRoutePrefix($stub, $routePrefix)
             ->replaceRoutePrefixCap($stub, $routePrefixCap)
@@ -256,7 +257,7 @@ EOD;
     }
 
     /**
-     * Replace the modelName for the given stub.
+     * Replace the modelNamespace for the given stub.
      *
      * @param  string  $stub
      * @param  string  $modelNamespace
@@ -268,6 +269,33 @@ EOD;
         $stub = str_replace(
             '{{modelNamespace}}', $modelNamespace, $stub
         );
+
+
+        return $this;
+    }
+
+    /**
+     * Replace the modelNamespace segments for the given stub
+     *
+     * @param $stub
+     * @param $modelNamespace
+     *
+     * @return $this
+     */
+    protected function replaceModelNamespaceSegments(&$stub, $modelNamespace)
+    {
+        $modelSegments = explode('\\', $modelNamespace);
+        foreach($modelSegments as $key => $segment)
+        {
+            $stub = str_replace(
+                '{{modelNamespace[' . $key . ']}}', $segment, $stub
+            );
+        }
+
+        $stub = preg_replace(
+            '{{modelNamespace\[\d*\]}}', '', $stub
+        );
+
 
         return $this;
     }
