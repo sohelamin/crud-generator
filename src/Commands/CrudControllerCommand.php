@@ -124,13 +124,15 @@ class CrudControllerCommand extends GeneratorCommand
 
         $snippet = <<<EOD
         if (\$request->hasFile('{{fieldName}}')) {
-            \$uploadPath = public_path('/uploads/');
-        
-            \$extension = \$request->file('{{fieldName}}')->getClientOriginalExtension();
-            \$fileName = rand(11111, 99999) . '.' . \$extension;
-        
-            \$request->file('{{fieldName}}')->move(\$uploadPath, \$fileName);
-            \$requestData['{{fieldName}}'] = \$fileName;
+            foreach(\$request['{{fieldName}}'] as \$file){
+                \$uploadPath = public_path('/uploads/{{fieldName}}');
+            
+                \$extension = \$file->getClientOriginalExtension();
+                \$fileName = rand(11111, 99999) . '.' . \$extension;
+            
+                \$file->move(\$uploadPath, \$fileName);
+                \$requestData['{{fieldName}}'] = \$fileName;
+            }
         }
 EOD;
 
