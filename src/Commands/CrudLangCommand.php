@@ -96,7 +96,7 @@ class CrudLangCommand extends Command
             }
 
             $langFile = $this->viewDirectoryPath . 'lang.stub';
-            $newLangFile = $path . $this->crudName . '.php';
+            $newLangFile = $path . lcfirst($this->crudName) . '.php';
             if (!File::copy($langFile, $newLangFile)) {
                 echo "failed to copy $langFile...\n";
             } else {
