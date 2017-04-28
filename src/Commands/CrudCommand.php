@@ -83,6 +83,10 @@ class CrudCommand extends Command
 
         $foreignKeys = $this->option('foreign-keys');
 
+        if ($this->option('fields_from_file')) {
+            $foreignKeys = $this->processJSONForeignKeys($this->option('fields_from_file'));
+        }
+
         $fieldsArray = explode(';', $fields);
         $fillableArray = [];
 
@@ -166,5 +170,37 @@ class CrudCommand extends Command
         $fieldsString = rtrim($fieldsString, ';');
 
         return $fieldsString;
+    }
+
+    /**
+     * Process the JSON Foreign keys.
+     *
+     * @param  string $file
+     *
+     * @return string
+     */
+    protected function processJSONForeignKeys($file)
+    {
+        $json = File::get($file);
+        $fields = json_decode($json);
+
+        $foreignKeysString = '';
+        foreach ($fields->foreign_keys as $foreign_key) {
+            $foreignKeysString .= $foreign_key->column . '#' . $foreign_key->references . '#' . $foreign_key->on;
+
+            if (property_exists($foreign_key, 'onDelete')) {
+                $foreignKeysString .= '#' . $foreign_key->onDelete;
+            }
+
+            if (property_exists($foreign_key, 'onUpdate')) {
+                $foreignKeysString .= '#' . $foreign_key->onUpdate;
+            }
+
+            $foreignKeysString .= ',';
+        }
+
+        $foreignKeysString = rtrim($foreignKeysString, ',');
+
+        return $foreignKeysString;
     }
 }
