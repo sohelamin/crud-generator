@@ -14,6 +14,7 @@ class CrudViewCommand extends Command
      */
     protected $signature = 'crud:view
                             {name : The name of the Crud.}
+                            {--custom-data= : Some additonnal values to use in the crud.}
                             {--fields= : The fields name for the form.}
                             {--view-path= : The name of the view path.}
                             {--route-group= : Prefix of the route group.}
@@ -85,10 +86,14 @@ class CrudViewCommand extends Command
         'crudNameSingular',
         'primaryKey',
         'modelName',
+        'modelNameCap',
         'viewName',
+        'routePrefix',
+        'routePrefixCap',
         'routeGroup',
         'formHeadingHtml',
-        'formBodyHtml'];
+        'formBodyHtml',
+        'viewTemplateDir'];
 
     /**
      * Form's fields.
@@ -154,11 +159,32 @@ class CrudViewCommand extends Command
     protected $modelName = '';
 
     /**
+     * Name of the Model with first letter in capital
+     *
+     * @var string
+     */
+    protected $modelNameCap = '';
+
+    /**
      * Name of the View Dir.
      *
      * @var string
      */
     protected $viewName = '';
+
+    /**
+     * Prefix of the route
+     *
+     * @var string
+     */
+    protected $routePrefix = '';
+
+    /**
+     * Prefix of the route with first letter in capital letter
+     *
+     * @var string
+     */
+    protected $routePrefixCap = '';
 
     /**
      * Name or prefix of the Route Group.
@@ -189,6 +215,13 @@ class CrudViewCommand extends Command
     protected $formBodyHtmlForShowView = '';
 
     /**
+     * User defined values
+     *
+     * @var array
+     */
+    protected $customData = [];
+
+    /**
      * Template directory where views are generated
      *
      * @var string
@@ -196,9 +229,15 @@ class CrudViewCommand extends Command
     protected $viewTemplateDir = '';
 
     /**
+     * Delimiter used for replacing values
+     *
+     * @var array
+     */
+    protected $delimiter;
+
+    /**
      * Create a new command instance.
      *
-     * @return void
      */
     public function __construct()
     {
@@ -211,6 +250,8 @@ class CrudViewCommand extends Command
         if (config('crudgenerator.view_columns_number')) {
             $this->defaultColumnsToShow = config('crudgenerator.view_columns_number');
         }
+
+        $this->delimiter = config('crudgenerator.custom_delimiter') ? config('crudgenerator.custom_delimiter') : ['%%', '%%'];
     }
 
     /**
@@ -225,8 +266,12 @@ class CrudViewCommand extends Command
         $this->crudNameCap = ucwords($this->crudName);
         $this->crudNameSingular = str_singular($this->crudName);
         $this->modelName = str_singular($this->argument('name'));
+        $this->modelNameCap = ucfirst($this->modelName);
+        $this->customData = $this->option('custom-data');
         $this->primaryKey = $this->option('pk');
         $this->routeGroup = ($this->option('route-group')) ? $this->option('route-group') . '/' : $this->option('route-group');
+        $this->routePrefix = ($this->option('route-group')) ? $this->option('route-group') : '';
+        $this->routePrefixCap = ucfirst($this->routePrefix);
         $this->viewName = snake_case($this->argument('name'), '-');
 
         $viewDirectory = config('view.paths')[0] . '/';
@@ -310,8 +355,8 @@ class CrudViewCommand extends Command
         return [
             'index'   =>   ['formHeadingHtml', 'formBodyHtml', 'crudName', 'crudNameCap', 'modelName', 'viewName', 'routeGroup', 'primaryKey'],
             'form'    =>   ['formFieldsHtml'],
-            'create'  =>   ['crudName', 'crudNameCap', 'modelName', 'viewName', 'routeGroup', 'viewTemplateDir'],
-            'edit'    =>   ['crudName', 'crudNameSingular', 'crudNameCap', 'modelName', 'viewName', 'routeGroup', 'primaryKey', 'viewTemplateDir'],
+            'create'  =>   ['crudName', 'crudNameCap', 'modelName', 'modelNameCap', 'viewName', 'routeGroup', 'viewTemplateDir'],
+            'edit'    =>   ['crudName', 'crudNameSingular', 'crudNameCap', 'modelNameCap', 'modelName', 'viewName', 'routeGroup', 'primaryKey', 'viewTemplateDir'],
             'show'    =>   ['formHeadingHtml', 'formBodyHtml', 'crudName', 'crudNameCap', 'modelName', 'viewName', 'routeGroup', 'primaryKey']
         ];
     }
@@ -333,6 +378,7 @@ class CrudViewCommand extends Command
                 echo "failed to copy $file...\n";
             } else {
                 $this->templateVars($newFile, $vars);
+                $this->userDefinedVars($newFile);
             }
         }
     }
@@ -345,16 +391,39 @@ class CrudViewCommand extends Command
      */
     protected function templateVars($file, $vars)
     {
-        $delimiter = config('crudgenerator.custom_delimiter') ? config('crudgenerator.custom_delimiter') : ['%%', '%%'];
+        $start =  $this->delimiter[0];
+        $end   =  $this->delimiter[1];
 
         foreach($vars as $var)
         {
+            $replace = $start . $var . $end;
             if(in_array($var, $this->vars))
             {
-                File::put($file, str_replace($delimiter[0] . $var . $delimiter[1], $this->$var, File::get($file)));
+                File::put($file, str_replace($replace, $this->$var, File::get($file)));
             }
-
         }
+    }
+
+    /**
+     * Update custom values between delimiter  with real values
+     *
+     * @param $file
+     */
+    protected function userDefinedVars($file)
+    {
+        $start =  $this->delimiter[0];
+        $end   =  $this->delimiter[1];
+
+        if($this->customData !== null)
+        {
+            $customVars = explode(';', $this->customData);
+            foreach($customVars as $rawVar)
+            {
+                $arrayVar = explode('=', $rawVar);
+                File::put($file, str_replace($start . $arrayVar[0] . $end, $arrayVar[1], File::get($file)));
+            }
+        }
+
     }
 
     /**

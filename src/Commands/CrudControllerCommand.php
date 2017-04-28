@@ -123,15 +123,17 @@ class CrudControllerCommand extends GeneratorCommand
         }
 
         $snippet = <<<EOD
-if (\$request->hasFile('{{fieldName}}')) {
-    \$uploadPath = public_path('/uploads/');
-
-    \$extension = \$request->file('{{fieldName}}')->getClientOriginalExtension();
-    \$fileName = rand(11111, 99999) . '.' . \$extension;
-
-    \$request->file('{{fieldName}}')->move(\$uploadPath, \$fileName);
-    \$requestData['{{fieldName}}'] = \$fileName;
-}
+        if (\$request->hasFile('{{fieldName}}')) {
+            foreach(\$request['{{fieldName}}'] as \$file){
+                \$uploadPath = public_path('/uploads/{{fieldName}}');
+            
+                \$extension = \$file->getClientOriginalExtension();
+                \$fileName = rand(11111, 99999) . '.' . \$extension;
+            
+                \$file->move(\$uploadPath, \$fileName);
+                \$requestData['{{fieldName}}'] = \$fileName;
+            }
+        }
 EOD;
 
         $fieldsArray = explode(';', $fields);
@@ -160,6 +162,7 @@ EOD;
             ->replaceCrudNameSingular($stub, $crudNameSingular)
             ->replaceModelName($stub, $modelName)
             ->replaceModelNamespace($stub, $modelNamespace)
+            ->replaceModelNamespaceSegments($stub, $modelNamespace)
             ->replaceRouteGroup($stub, $routeGroup)
             ->replaceRoutePrefix($stub, $routePrefix)
             ->replaceRoutePrefixCap($stub, $routePrefixCap)
@@ -256,7 +259,7 @@ EOD;
     }
 
     /**
-     * Replace the modelName for the given stub.
+     * Replace the modelNamespace for the given stub.
      *
      * @param  string  $stub
      * @param  string  $modelNamespace
@@ -268,6 +271,33 @@ EOD;
         $stub = str_replace(
             '{{modelNamespace}}', $modelNamespace, $stub
         );
+
+
+        return $this;
+    }
+
+    /**
+     * Replace the modelNamespace segments for the given stub
+     *
+     * @param $stub
+     * @param $modelNamespace
+     *
+     * @return $this
+     */
+    protected function replaceModelNamespaceSegments(&$stub, $modelNamespace)
+    {
+        $modelSegments = explode('\\', $modelNamespace);
+        foreach($modelSegments as $key => $segment)
+        {
+            $stub = str_replace(
+                '{{modelNamespace[' . $key . ']}}', $segment, $stub
+            );
+        }
+
+        $stub = preg_replace(
+            '{{modelNamespace\[\d*\]}}', '', $stub
+        );
+
 
         return $this;
     }

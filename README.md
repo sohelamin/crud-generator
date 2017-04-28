@@ -123,6 +123,20 @@ For controller:
 ```
 php artisan crud:controller PostsController --crud-name=posts --model-name=Post --view-path="directory" --route-group=admin
 ```
+Options:
+
+| Option    | Description |
+| ---       | ---     |
+| `--crud-name` | The name of the crud. e.g. ```--crud-name="post"``` |
+| `--model-name` | The name of the model. e.g. ```--model-name="Post"``` |
+| `--model-namespace` | The namespace of the model. e.g. ```--model-namespace="Custom\Namespace\Post"``` |
+| `--controller-namespace` | The namespace of the controller. e.g. ```--controller-namespace="Http\Controllers\Client"``` |
+| `--view-path` | The name of the view path |
+| `--fields` | Fields name for the form & migration. e.g. ```--fields="title#string; content#text; category#select#options=technology,tips,health; user_id#integer#unsigned"``` |
+| `--validations` | Validation rules for the form "col_name#rules_set" e.g. ```"title#min:10|max:30|required"``` - See https://laravel.com/docs/master/validation#available-validation-rules |
+| `--route-group` | Prefix of the route group |
+| `--pagination` | The amount of models per page for index pages |
+| `--force` | Overwrite already existing controller. |
 
 For model:
 
@@ -212,6 +226,9 @@ You can customize the generator's stub files/templates to achieve your need.
     'custom_template' => true,
     ```
 3. From the directory **resources/crud-generator/** you can modify or customize the stub files.
+
+
+4. On **config/crudgenerator.php** you can add new stubs and choose which values are passed 
 
 ### Screencast
 
