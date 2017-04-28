@@ -71,7 +71,7 @@ php artisan crud:generate Posts --fields="title#string; content#text; category#s
 
 ```json
 {
-   "fields": [
+    "fields": [
         {
             "name": "title",
             "type": "string"
@@ -84,8 +84,20 @@ php artisan crud:generate Posts --fields="title#string; content#text; category#s
             "name": "category",
             "type": "select",
             "options": ["technology", "tips", "health"]
+        },
+        {
+            "name": "user_id",
+            "type": "integer#unsigned"
         }
-   ]
+    ],
+    "foreign_keys": [
+        {
+            "column": "user_id",
+            "references": "id",
+            "on": "users",
+            "onDelete": "cascade"
+        }
+    ]
 }
 ```
 
