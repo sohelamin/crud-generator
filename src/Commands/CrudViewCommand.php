@@ -93,7 +93,9 @@ class CrudViewCommand extends Command
         'routeGroup',
         'formHeadingHtml',
         'formBodyHtml',
-        'viewTemplateDir'];
+        'viewTemplateDir',
+        'formBodyHtmlForShowView',
+    ];
 
     /**
      * Form's fields.
@@ -353,11 +355,11 @@ class CrudViewCommand extends Command
     private function defaultTemplating()
     {
         return [
-            'index'   =>   ['formHeadingHtml', 'formBodyHtml', 'crudName', 'crudNameCap', 'modelName', 'viewName', 'routeGroup', 'primaryKey'],
-            'form'    =>   ['formFieldsHtml'],
-            'create'  =>   ['crudName', 'crudNameCap', 'modelName', 'modelNameCap', 'viewName', 'routeGroup', 'viewTemplateDir'],
-            'edit'    =>   ['crudName', 'crudNameSingular', 'crudNameCap', 'modelNameCap', 'modelName', 'viewName', 'routeGroup', 'primaryKey', 'viewTemplateDir'],
-            'show'    =>   ['formHeadingHtml', 'formBodyHtml', 'crudName', 'crudNameCap', 'modelName', 'viewName', 'routeGroup', 'primaryKey']
+            'index' => ['formHeadingHtml', 'formBodyHtml', 'crudName', 'crudNameCap', 'modelName', 'viewName', 'routeGroup', 'primaryKey'],
+            'form' => ['formFieldsHtml'],
+            'create' => ['crudName', 'crudNameCap', 'modelName', 'modelNameCap', 'viewName', 'routeGroup', 'viewTemplateDir'],
+            'edit' => ['crudName', 'crudNameSingular', 'crudNameCap', 'modelNameCap', 'modelName', 'viewName', 'routeGroup', 'primaryKey', 'viewTemplateDir'],
+            'show' => ['formHeadingHtml', 'formBodyHtml', 'formBodyHtmlForShowView', 'crudName', 'crudNameSingular', 'crudNameCap', 'modelName', 'viewName', 'routeGroup', 'primaryKey'],
         ];
     }
 
@@ -370,8 +372,7 @@ class CrudViewCommand extends Command
     {
         $dynamicViewTemplate = config('crudgenerator.dynamic_view_template') ? config('crudgenerator.dynamic_view_template') : $this->defaultTemplating();
 
-        foreach($dynamicViewTemplate as $name => $vars)
-        {
+        foreach ($dynamicViewTemplate as $name => $vars) {
             $file = $this->viewDirectoryPath . $name . '.blade.stub';
             $newFile = $path . $name . '.blade.php';
             if (!File::copy($file, $newFile)) {
@@ -391,14 +392,12 @@ class CrudViewCommand extends Command
      */
     protected function templateVars($file, $vars)
     {
-        $start =  $this->delimiter[0];
-        $end   =  $this->delimiter[1];
+        $start = $this->delimiter[0];
+        $end = $this->delimiter[1];
 
-        foreach($vars as $var)
-        {
+        foreach ($vars as $var) {
             $replace = $start . $var . $end;
-            if(in_array($var, $this->vars))
-            {
+            if (in_array($var, $this->vars)) {
                 File::put($file, str_replace($replace, $this->$var, File::get($file)));
             }
         }
@@ -411,14 +410,12 @@ class CrudViewCommand extends Command
      */
     protected function userDefinedVars($file)
     {
-        $start =  $this->delimiter[0];
-        $end   =  $this->delimiter[1];
+        $start = $this->delimiter[0];
+        $end = $this->delimiter[1];
 
-        if($this->customData !== null)
-        {
+        if ($this->customData !== null) {
             $customVars = explode(';', $this->customData);
-            foreach($customVars as $rawVar)
-            {
+            foreach ($customVars as $rawVar) {
                 $arrayVar = explode('=', $rawVar);
                 File::put($file, str_replace($start . $arrayVar[0] . $end, $arrayVar[1], File::get($file)));
             }
