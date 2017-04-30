@@ -10,11 +10,11 @@
     PHP >= 5.5.9
 
 ## Installation
-Open your terminal(CLI), go to the root directory of your Laravel project, then follow the following procedure. 
+Open your terminal(CLI), go to the root directory of your Laravel project, then follow the following procedure.
 
 1. Run
     ```
-    composer require appzcoder/crud-generator --dev 
+    composer require appzcoder/crud-generator --dev
     ```
 
 2. Since the package is only use in local developmnet, add the provider in app/Providers/AppServiceProvider.php.
@@ -118,9 +118,9 @@ Options:
 | `--model-namespace` | The namespace that the model will be placed in - directories will be created |
 | `--route-group` | Prefix of the route group |
 | `--pagination` | The amount of models per page for index pages |
-| `--indexes` | The fields to add an index to. append "#unique" to a field name to add a unique index. Create composite fields by separating fieldnames with a pipe (```--indexes="title,field1|field2#unique"``` will create normal index on title, and unique composite on fld1 and fld2) |
+| `--indexes` | The fields to add an index to. append "#unique" to a field name to add a unique index. Create composite fields by separating fieldnames with a pipe (``` --indexes="title,field1|field2#unique" ``` will create normal index on title, and unique composite on fld1 and fld2) |
 | `--foreign-keys` | Any foreign keys for the table. e.g. ```--foreign-keys="user_id#id#users#cascade"``` where user_id is the column name, id is the name of the field on the foreign table, users is the name of the foreign table, and cascade is the operation 'ON DELETE' together with 'ON UPDATE' |
-| `--validations` | Validation rules for the form "col_name#rules_set" e.g. ```"title#min:10|max:30|required"``` - See https://laravel.com/docs/master/validation#available-validation-rules |
+| `--validations` | Validation rules for the form "col_name#rules_set" e.g. ``` "title#min:10|max:30|required" ``` - See https://laravel.com/docs/master/validation#available-validation-rules |
 | `--relationships` | The relationships for the model. e.g. ```--relationships="comments#hasMany#App\Comment"``` in the format |
 | `--localize` | Allow to localize. e.g. localize=yes  |
 | `--locales`  | Locales language type. e.g. locals=en |
@@ -135,7 +135,7 @@ For controller:
 ```
 php artisan crud:controller PostsController --crud-name=posts --model-name=Post --view-path="directory" --route-group=admin
 ```
-Options:
+Controller's Options:
 
 | Option    | Description |
 | ---       | ---     |
@@ -145,7 +145,7 @@ Options:
 | `--controller-namespace` | The namespace of the controller. e.g. ```--controller-namespace="Http\Controllers\Client"``` |
 | `--view-path` | The name of the view path |
 | `--fields` | Fields name for the form & migration. e.g. ```--fields="title#string; content#text; category#select#options=technology,tips,health; user_id#integer#unsigned"``` |
-| `--validations` | Validation rules for the form "col_name#rules_set" e.g. ```"title#min:10|max:30|required"``` - See https://laravel.com/docs/master/validation#available-validation-rules |
+| `--validations` | Validation rules for the form "col_name#rules_set" e.g. ``` "title#min:10|max:30|required" ``` - See https://laravel.com/docs/master/validation#available-validation-rules |
 | `--route-group` | Prefix of the route group |
 | `--pagination` | The amount of models per page for index pages |
 | `--force` | Overwrite already existing controller. |
@@ -240,7 +240,7 @@ You can customize the generator's stub files/templates to achieve your need.
 3. From the directory **resources/crud-generator/** you can modify or customize the stub files.
 
 
-4. On **config/crudgenerator.php** you can add new stubs and choose which values are passed 
+4. On **config/crudgenerator.php** you can add new stubs and choose which values are passed
 
 ### Screencast
 
