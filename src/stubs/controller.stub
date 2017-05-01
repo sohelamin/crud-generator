@@ -22,8 +22,7 @@ class DummyClass extends Controller
         $perPage = {{pagination}};
 
         if (!empty($keyword)) {
-            ${{crudName}} = {{modelName}}::{{whereSnippet}}
-                ->paginate($perPage);
+            ${{crudName}} = {{modelName}}::{{whereSnippet}}paginate($perPage);
         } else {
             ${{crudName}} = {{modelName}}::paginate($perPage);
         }

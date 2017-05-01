@@ -70,8 +70,7 @@ class CrudControllerCommand extends GeneratorCommand
      */
     protected function alreadyExists($rawName)
     {
-        if($this->option('force'))
-        {
+        if ($this->option('force')) {
             return false;
         }
         return $this->files->exists($this->getPath($this->qualifyClass($rawName)));
@@ -126,10 +125,10 @@ class CrudControllerCommand extends GeneratorCommand
         if (\$request->hasFile('{{fieldName}}')) {
             foreach(\$request['{{fieldName}}'] as \$file){
                 \$uploadPath = public_path('/uploads/{{fieldName}}');
-            
+
                 \$extension = \$file->getClientOriginalExtension();
                 \$fileName = rand(11111, 99999) . '.' . \$extension;
-            
+
                 \$file->move(\$uploadPath, \$fileName);
                 \$requestData['{{fieldName}}'] = \$fileName;
             }
@@ -153,6 +152,8 @@ EOD;
 
                 $whereSnippet .= ($index == 0) ? "where('$fieldName', 'LIKE', \"%\$keyword%\")" . "\n\t\t\t\t" : "->orWhere('$fieldName', 'LIKE', \"%\$keyword%\")" . "\n\t\t\t\t";
             }
+
+            $whereSnippet .= "->";
         }
 
         return $this->replaceNamespace($stub, $name)
@@ -272,7 +273,6 @@ EOD;
             '{{modelNamespace}}', $modelNamespace, $stub
         );
 
-
         return $this;
     }
 
@@ -287,8 +287,7 @@ EOD;
     protected function replaceModelNamespaceSegments(&$stub, $modelNamespace)
     {
         $modelSegments = explode('\\', $modelNamespace);
-        foreach($modelSegments as $key => $segment)
-        {
+        foreach ($modelSegments as $key => $segment) {
             $stub = str_replace(
                 '{{modelNamespace[' . $key . ']}}', $segment, $stub
             );
@@ -297,7 +296,6 @@ EOD;
         $stub = preg_replace(
             '{{modelNamespace\[\d*\]}}', '', $stub
         );
-
 
         return $this;
     }
