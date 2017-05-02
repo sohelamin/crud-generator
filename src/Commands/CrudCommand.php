@@ -184,6 +184,10 @@ class CrudCommand extends Command
         $json = File::get($file);
         $fields = json_decode($json);
 
+        if (! property_exists($fields, 'foreign_keys')) {
+            return '';
+        }
+
         $foreignKeysString = '';
         foreach ($fields->foreign_keys as $foreign_key) {
             $foreignKeysString .= $foreign_key->column . '#' . $foreign_key->references . '#' . $foreign_key->on;
