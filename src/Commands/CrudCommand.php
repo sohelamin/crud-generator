@@ -184,7 +184,7 @@ class CrudCommand extends Command
         $json = File::get($file);
         $fields = json_decode($json);
 
-        if (property_exists($fields, 'foreign_keys')) {
+        if (! property_exists($fields, 'foreign_keys')) {
             return '';
         }
 
