@@ -108,7 +108,7 @@ php artisan crud:generate Posts --fields="title#string; content#text; category#s
     "validations": [
         {
             "field": "title",
-            "rules": ["required", "max:10"]
+            "rules": "required|max:10"
         }
     ]
 }

@@ -258,7 +258,7 @@ class CrudCommand extends Command
 
         $validationsString = '';
         foreach ($fields->validations as $validation) {
-            $validationsString .= $validation->field . '#' . implode(',', $validation->rules) . ';';
+            $validationsString .= $validation->field . '#' . $validation->rules . ';';
         }
 
         $validationsString = rtrim($validationsString, ';');
