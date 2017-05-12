@@ -103,8 +103,14 @@ class CrudCommand extends Command
 
         $indexes = $this->option('indexes');
         $relationships = $this->option('relationships');
+        if ($this->option('fields_from_file')) {
+            $relationships = $this->processJSONRelationships($this->option('fields_from_file'));
+        }
 
         $validations = trim($this->option('validations'));
+        if ($this->option('fields_from_file')) {
+            $validations = $this->processJSONValidations($this->option('fields_from_file'));
+        }
 
         $this->call('crud:controller', ['name' => $controllerNamespace . $name . 'Controller', '--crud-name' => $name, '--model-name' => $modelName, '--model-namespace' => $modelNamespace, '--view-path' => $viewPath, '--route-group' => $routeGroup, '--pagination' => $perPage, '--fields' => $fields, '--validations' => $validations]);
         $this->call('crud:model', ['name' => $modelNamespace . $modelName, '--fillable' => $fillable, '--table' => $tableName, '--pk' => $primaryKey, '--relationships' => $relationships]);
@@ -206,5 +212,57 @@ class CrudCommand extends Command
         $foreignKeysString = rtrim($foreignKeysString, ',');
 
         return $foreignKeysString;
+    }
+
+    /**
+     * Process the JSON Relationships.
+     *
+     * @param  string $file
+     *
+     * @return string
+     */
+    protected function processJSONRelationships($file)
+    {
+        $json = File::get($file);
+        $fields = json_decode($json);
+
+        if (!property_exists($fields, 'relationships')) {
+            return '';
+        }
+
+        $relationsString = '';
+        foreach ($fields->relationships as $relation) {
+            $relationsString .= $relation->name . '#' . $relation->type . '#' . $relation->class . ';';
+        }
+
+        $relationsString = rtrim($relationsString, ';');
+
+        return $relationsString;
+    }
+
+    /**
+     * Process the JSON Validations.
+     *
+     * @param  string $file
+     *
+     * @return string
+     */
+    protected function processJSONValidations($file)
+    {
+        $json = File::get($file);
+        $fields = json_decode($json);
+
+        if (!property_exists($fields, 'validations')) {
+            return '';
+        }
+
+        $validationsString = '';
+        foreach ($fields->validations as $validation) {
+            $validationsString .= $validation->field . '#' . $validation->rules . ';';
+        }
+
+        $validationsString = rtrim($validationsString, ';');
+
+        return $validationsString;
     }
 }

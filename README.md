@@ -97,6 +97,19 @@ php artisan crud:generate Posts --fields="title#string; content#text; category#s
             "on": "users",
             "onDelete": "cascade"
         }
+    ],
+    "relationships": [
+        {
+            "name": "user",
+            "type": "belongsTo",
+            "class": "App\\User"
+        }
+    ],
+    "validations": [
+        {
+            "field": "title",
+            "rules": "required|max:10"
+        }
     ]
 }
 ```
