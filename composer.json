@@ -31,5 +31,12 @@
         "classmap": [
             "tests"
         ]
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Appzcoder\\CrudGenerator\\CrudGeneratorServiceProvider"
+            ]
+        }
     }
 }
