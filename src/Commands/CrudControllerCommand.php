@@ -73,7 +73,7 @@ class CrudControllerCommand extends GeneratorCommand
         if ($this->option('force')) {
             return false;
         }
-        return $this->files->exists($this->getPath($this->qualifyClass($rawName)));
+        return return parent::alreadyExists($rawName);
     }
 
     /**
