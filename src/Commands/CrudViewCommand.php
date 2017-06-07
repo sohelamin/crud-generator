@@ -297,15 +297,14 @@ class CrudViewCommand extends Command
         $validations = $this->option('validations');
 
         if ($fields) {
-            $x = 0;
-            foreach ($fieldsArray as $item) {
-                $itemArray = explode('#', $item);
+            foreach ($fieldsArray as $fieldIndex => $field) {
+                $itemArray = explode('#', $field);
 
-                $this->formFields[$x]['name'] = trim($itemArray[0]);
-                $this->formFields[$x]['type'] = trim($itemArray[1]);
-                $this->formFields[$x]['required'] = preg_match('/' . $itemArray[0] . '/', $validations) ? true : false;
+                $this->formFields[$fieldIndex]['name'] = trim($itemArray[0]);
+                $this->formFields[$fieldIndex]['type'] = trim($itemArray[1]);
+                $this->formFields[$fieldIndex]['required'] = preg_match('/' . $itemArray[0] . '/', $validations) ? true : false;
 
-                if ($this->formFields[$x]['type'] == 'select' && isset($itemArray[2])) {
+                if ($this->formFields[$fieldIndex]['type'] == 'select' && isset($itemArray[2])) {
                     $options = trim($itemArray[2]);
                     $options = str_replace('options=', '', $options);
                     $optionsArray = explode(',', $options);
@@ -313,10 +312,8 @@ class CrudViewCommand extends Command
                     $commaSeparetedString = implode("', '", $optionsArray);
                     $options = "['" . $commaSeparetedString . "']";
 
-                    $this->formFields[$x]['options'] = $options;
+                    $this->formFields[$fieldIndex]['options'] = $options;
                 }
-
-                $x++;
             }
         }
 
