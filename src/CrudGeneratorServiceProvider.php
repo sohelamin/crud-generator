@@ -5,7 +5,7 @@ namespace Appzcoder\CrudGenerator;
 use Illuminate\Support\ServiceProvider;
 
 /**
- * Провайдер генераторов CRUD
+ * CRUD generators provider
  */
 class CrudGeneratorServiceProvider extends ServiceProvider
 {
