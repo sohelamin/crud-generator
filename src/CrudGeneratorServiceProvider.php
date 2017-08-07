@@ -4,6 +4,9 @@ namespace Appzcoder\CrudGenerator;
 
 use Illuminate\Support\ServiceProvider;
 
+/**
+ * Провайдер генераторов CRUD
+ */
 class CrudGeneratorServiceProvider extends ServiceProvider
 {
     /**
@@ -15,8 +18,6 @@ class CrudGeneratorServiceProvider extends ServiceProvider
 
     /**
      * Perform post-registration booting of services.
-     *
-     * @return void
      */
     public function boot()
     {
@@ -31,8 +32,6 @@ class CrudGeneratorServiceProvider extends ServiceProvider
 
     /**
      * Register the service provider.
-     *
-     * @return void
      */
     public function register()
     {
@@ -45,5 +44,4 @@ class CrudGeneratorServiceProvider extends ServiceProvider
             'Appzcoder\CrudGenerator\Commands\CrudLangCommand'
         );
     }
-
 }
