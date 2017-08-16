@@ -161,7 +161,7 @@ class CrudCommand extends Command
      */
     protected function processJSONFields($file)
     {
-        $json = File::get($file);
+        $json = File::get(base_path($file));
         $fields = json_decode($json);
 
         $fieldsString = '';
