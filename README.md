@@ -13,10 +13,12 @@
 Open your terminal(CLI), go to the root directory of your Laravel project, then follow the following procedure.
 
 For Laravel >= 5.5 you need to follow these steps
+---
 
 1. Run
     ```
     composer require appzcoder/crud-generator --dev
+    composer require laravelcollective/html
     ```
 
 2. Publish vendor files of this package.
@@ -25,6 +27,7 @@ For Laravel >= 5.5 you need to follow these steps
     ```
 
 For Laravel < 5.5 you need to follow these steps
+---
 
 1. Run
     ```
