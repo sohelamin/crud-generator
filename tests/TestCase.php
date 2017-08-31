@@ -18,10 +18,10 @@ abstract class TestCase extends Orchestra\Testbench\TestCase
             'view_columns_number' => 3,
             'dynamic_view_template' => [
                 'index' => ['formHeadingHtml', 'formBodyHtml', 'crudName', 'crudNameCap', 'modelName', 'viewName', 'routeGroup', 'primaryKey'],
-                'form'  => ['formFieldsHtml'],
-                'create' => ['crudName', 'crudNameCap', 'modelName', 'viewName', 'routeGroup', 'viewTemplateDir'],
-                'edit' => ['crudName', 'crudNameSingular', 'crudNameCap', 'modelName', 'viewName', 'routeGroup', 'primaryKey', 'viewTemplateDir'],
-                'show' => ['formHeadingHtml', 'formBodyHtml', 'crudName', 'crudNameCap', 'modelName', 'viewName', 'routeGroup', 'primaryKey']
+                'form' => ['formFieldsHtml'],
+                'create' => ['crudName', 'crudNameCap', 'modelName', 'modelNameCap', 'viewName', 'routeGroup', 'viewTemplateDir'],
+                'edit' => ['crudName', 'crudNameSingular', 'crudNameCap', 'modelNameCap', 'modelName', 'viewName', 'routeGroup', 'primaryKey', 'viewTemplateDir'],
+                'show' => ['formHeadingHtml', 'formBodyHtml', 'formBodyHtmlForShowView', 'crudName', 'crudNameSingular', 'crudNameCap', 'modelName', 'viewName', 'routeGroup', 'primaryKey'],
             ]
         ]);
     }
@@ -48,7 +48,7 @@ abstract class TestCase extends Orchestra\Testbench\TestCase
             return new \Illuminate\Console\Application($app, $app['events'], $app->version());
         });
 
-        $app->singleton('\Illuminate\Contracts\Console\Kernel', Kernel::class);
+        $app->singleton('Illuminate\Contracts\Console\Kernel', Kernel::class);
     }
 
     public function consoleOutput()
