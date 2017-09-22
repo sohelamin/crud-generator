@@ -1,0 +1,1 @@
+{!! Form::textarea('%%itemName%%', null, ['class' => 'form-control'%%required%%]) !!}

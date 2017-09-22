@@ -469,6 +469,8 @@ class CrudViewCommand extends Command
                 return $this->createInputField($item);
             case 'radio':
                 return $this->createRadioField($item);
+            case 'textarea':
+                return $this->createTextareaField($item);
             case 'select':
             case 'enum':
                 return $this->createSelectField($item);
@@ -554,6 +556,28 @@ class CrudViewCommand extends Command
         $markup = File::get($this->viewDirectoryPath . 'form-fields/radio-field.blade.stub');
 
         return $this->wrapField($item, sprintf($markup, $item['name']));
+    }
+
+    /**
+     * Create a textarea field using the form helper.
+     *
+     * @param  array $item
+     *
+     * @return string
+     */
+    protected function createTextareaField($item)
+    {
+        $required = ($item['required'] === true) ? ", 'required' => 'required'" : "";
+
+        $markup = File::get($this->viewDirectoryPath . 'form-fields/textarea-field.blade.stub');
+        $markup = str_replace('%%required%%', $required, $markup);
+        $markup = str_replace('%%fieldType%%', $this->typeLookup[$item['type']], $markup);
+        $markup = str_replace('%%itemName%%', $item['name'], $markup);
+
+        return $this->wrapField(
+            $item,
+            $markup
+        );
     }
 
     /**
