@@ -1,0 +1,5 @@
+<select name="%%itemName%%" class="form-control" id="%%itemName%%" %%required%%>
+    @foreach ($options as $optionKey => $optionValue)
+        <option value="{{ $optionKey }}">{{ $optionValue }}</option>
+    @endforeach
+</select>

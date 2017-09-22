@@ -1,0 +1,6 @@
+<div class="checkbox">
+    <label><input name="{{ %1$s }}" type="checkbox" value="1"> Yes</label>
+</div>
+<div class="checkbox">
+    <label><input name="{{ %1$s }}" type="checkbox" value="0" checked> No</label>
+</div>

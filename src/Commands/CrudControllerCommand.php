@@ -184,9 +184,7 @@ EOD;
      */
     protected function replaceViewName(&$stub, $viewName)
     {
-        $stub = str_replace(
-            '{{viewName}}', $viewName, $stub
-        );
+        $stub = str_replace('{{viewName}}', $viewName, $stub);
 
         return $this;
     }
@@ -201,9 +199,7 @@ EOD;
      */
     protected function replaceViewPath(&$stub, $viewPath)
     {
-        $stub = str_replace(
-            '{{viewPath}}', $viewPath, $stub
-        );
+        $stub = str_replace('{{viewPath}}', $viewPath, $stub);
 
         return $this;
     }
@@ -218,9 +214,7 @@ EOD;
      */
     protected function replaceCrudName(&$stub, $crudName)
     {
-        $stub = str_replace(
-            '{{crudName}}', $crudName, $stub
-        );
+        $stub = str_replace('{{crudName}}', $crudName, $stub);
 
         return $this;
     }
@@ -235,9 +229,7 @@ EOD;
      */
     protected function replaceCrudNameSingular(&$stub, $crudNameSingular)
     {
-        $stub = str_replace(
-            '{{crudNameSingular}}', $crudNameSingular, $stub
-        );
+        $stub = str_replace('{{crudNameSingular}}', $crudNameSingular, $stub);
 
         return $this;
     }
@@ -252,9 +244,7 @@ EOD;
      */
     protected function replaceModelName(&$stub, $modelName)
     {
-        $stub = str_replace(
-            '{{modelName}}', $modelName, $stub
-        );
+        $stub = str_replace('{{modelName}}', $modelName, $stub);
 
         return $this;
     }
@@ -269,9 +259,7 @@ EOD;
      */
     protected function replaceModelNamespace(&$stub, $modelNamespace)
     {
-        $stub = str_replace(
-            '{{modelNamespace}}', $modelNamespace, $stub
-        );
+        $stub = str_replace('{{modelNamespace}}', $modelNamespace, $stub);
 
         return $this;
     }
@@ -288,14 +276,10 @@ EOD;
     {
         $modelSegments = explode('\\', $modelNamespace);
         foreach ($modelSegments as $key => $segment) {
-            $stub = str_replace(
-                '{{modelNamespace[' . $key . ']}}', $segment, $stub
-            );
+            $stub = str_replace('{{modelNamespace[' . $key . ']}}', $segment, $stub);
         }
 
-        $stub = preg_replace(
-            '{{modelNamespace\[\d*\]}}', '', $stub
-        );
+        $stub = preg_replace('{{modelNamespace\[\d*\]}}', '', $stub);
 
         return $this;
     }
@@ -310,9 +294,7 @@ EOD;
      */
     protected function replaceRoutePrefix(&$stub, $routePrefix)
     {
-        $stub = str_replace(
-            '{{routePrefix}}', $routePrefix, $stub
-        );
+        $stub = str_replace('{{routePrefix}}', $routePrefix, $stub);
 
         return $this;
     }
@@ -327,9 +309,7 @@ EOD;
      */
     protected function replaceRoutePrefixCap(&$stub, $routePrefixCap)
     {
-        $stub = str_replace(
-            '{{routePrefixCap}}', $routePrefixCap, $stub
-        );
+        $stub = str_replace('{{routePrefixCap}}', $routePrefixCap, $stub);
 
         return $this;
     }
@@ -344,9 +324,7 @@ EOD;
      */
     protected function replaceRouteGroup(&$stub, $routeGroup)
     {
-        $stub = str_replace(
-            '{{routeGroup}}', $routeGroup, $stub
-        );
+        $stub = str_replace('{{routeGroup}}', $routeGroup, $stub);
 
         return $this;
     }
@@ -361,9 +339,7 @@ EOD;
      */
     protected function replaceValidationRules(&$stub, $validationRules)
     {
-        $stub = str_replace(
-            '{{validationRules}}', $validationRules, $stub
-        );
+        $stub = str_replace('{{validationRules}}', $validationRules, $stub);
 
         return $this;
     }
@@ -378,9 +354,7 @@ EOD;
      */
     protected function replacePaginationNumber(&$stub, $perPage)
     {
-        $stub = str_replace(
-            '{{pagination}}', $perPage, $stub
-        );
+        $stub = str_replace('{{pagination}}', $perPage, $stub);
 
         return $this;
     }
@@ -395,9 +369,7 @@ EOD;
      */
     protected function replaceFileSnippet(&$stub, $fileSnippet)
     {
-        $stub = str_replace(
-            '{{fileSnippet}}', $fileSnippet, $stub
-        );
+        $stub = str_replace('{{fileSnippet}}', $fileSnippet, $stub);
 
         return $this;
     }
@@ -412,9 +384,7 @@ EOD;
      */
     protected function replaceWhereSnippet(&$stub, $whereSnippet)
     {
-        $stub = str_replace(
-            '{{whereSnippet}}', $whereSnippet, $stub
-        );
+        $stub = str_replace('{{whereSnippet}}', $whereSnippet, $stub);
 
         return $this;
     }

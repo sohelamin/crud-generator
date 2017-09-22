@@ -246,14 +246,16 @@ class CrudViewCommand extends Command
         parent::__construct();
 
         $this->viewDirectoryPath = config('crudgenerator.custom_template')
-        ? config('crudgenerator.path')
-        : __DIR__ . '/../stubs/';
+            ? config('crudgenerator.path') . 'views/html/'
+            : __DIR__ . '/../stubs/views/html/';
 
         if (config('crudgenerator.view_columns_number')) {
             $this->defaultColumnsToShow = config('crudgenerator.view_columns_number');
         }
 
-        $this->delimiter = config('crudgenerator.custom_delimiter') ? config('crudgenerator.custom_delimiter') : ['%%', '%%'];
+        $this->delimiter = config('crudgenerator.custom_delimiter')
+            ? config('crudgenerator.custom_delimiter')
+            : ['%%', '%%'];
     }
 
     /**
@@ -271,7 +273,9 @@ class CrudViewCommand extends Command
         $this->modelNameCap = ucfirst($this->modelName);
         $this->customData = $this->option('custom-data');
         $this->primaryKey = $this->option('pk');
-        $this->routeGroup = ($this->option('route-group')) ? $this->option('route-group') . '/' : $this->option('route-group');
+        $this->routeGroup = ($this->option('route-group'))
+            ? $this->option('route-group') . '/'
+            : $this->option('route-group');
         $this->routePrefix = ($this->option('route-group')) ? $this->option('route-group') : '';
         $this->routePrefixCap = ucfirst($this->routePrefix);
         $this->viewName = snake_case($this->argument('name'), '-');
@@ -283,7 +287,10 @@ class CrudViewCommand extends Command
         } else {
             $path = $viewDirectory . $this->viewName . '/';
         }
-        $this->viewTemplateDir = isset($this->userViewPath) ? $this->userViewPath . '.' . $this->viewName : $this->viewName;
+
+        $this->viewTemplateDir = isset($this->userViewPath)
+            ? $this->userViewPath . '.' . $this->viewName
+            : $this->viewName;
 
         if (!File::isDirectory($path)) {
             File::makeDirectory($path, 0755, true);
@@ -370,7 +377,9 @@ class CrudViewCommand extends Command
      */
     protected function templateStubs($path)
     {
-        $dynamicViewTemplate = config('crudgenerator.dynamic_view_template') ? config('crudgenerator.dynamic_view_template') : $this->defaultTemplating();
+        $dynamicViewTemplate = config('crudgenerator.dynamic_view_template')
+            ? config('crudgenerator.dynamic_view_template')
+            : $this->defaultTemplating();
 
         foreach ($dynamicViewTemplate as $name => $vars) {
             $file = $this->viewDirectoryPath . $name . '.blade.stub';
@@ -420,7 +429,6 @@ class CrudViewCommand extends Command
                 File::put($file, str_replace($start . $arrayVar[0] . $end, $arrayVar[1], File::get($file)));
             }
         }
-
     }
 
     /**

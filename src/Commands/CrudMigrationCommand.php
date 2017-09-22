@@ -205,7 +205,6 @@ class CrudMigrationCommand extends GeneratorCommand
             }
 
             $schemaFields .= ";\n" . $tabIndent . $tabIndent . $tabIndent;
-
         }
 
         $primaryKey = $this->option('pk');
@@ -233,9 +232,7 @@ class CrudMigrationCommand extends GeneratorCommand
      */
     protected function replaceSchemaUp(&$stub, $schemaUp)
     {
-        $stub = str_replace(
-            '{{schema_up}}', $schemaUp, $stub
-        );
+        $stub = str_replace('{{schema_up}}', $schemaUp, $stub);
 
         return $this;
     }
@@ -250,9 +247,7 @@ class CrudMigrationCommand extends GeneratorCommand
      */
     protected function replaceSchemaDown(&$stub, $schemaDown)
     {
-        $stub = str_replace(
-            '{{schema_down}}', $schemaDown, $stub
-        );
+        $stub = str_replace('{{schema_down}}', $schemaDown, $stub);
 
         return $this;
     }

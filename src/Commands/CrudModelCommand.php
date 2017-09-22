@@ -80,7 +80,6 @@ class CrudModelCommand extends GeneratorCommand
     */
     protected \$primaryKey = '$primaryKey';
 EOD;
-
         }
 
         $ret = $this->replaceNamespace($stub, $name)
@@ -129,9 +128,7 @@ EOD;
      */
     protected function replaceTable(&$stub, $table)
     {
-        $stub = str_replace(
-            '{{table}}', $table, $stub
-        );
+        $stub = str_replace('{{table}}', $table, $stub);
 
         return $this;
     }
@@ -146,9 +143,7 @@ EOD;
      */
     protected function replaceFillable(&$stub, $fillable)
     {
-        $stub = str_replace(
-            '{{fillable}}', $fillable, $stub
-        );
+        $stub = str_replace('{{fillable}}', $fillable, $stub);
 
         return $this;
     }
@@ -163,9 +158,7 @@ EOD;
      */
     protected function replacePrimaryKey(&$stub, $primaryKey)
     {
-        $stub = str_replace(
-            '{{primaryKey}}', $primaryKey, $stub
-        );
+        $stub = str_replace('{{primaryKey}}', $primaryKey, $stub);
 
         return $this;
     }
