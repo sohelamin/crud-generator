@@ -20,6 +20,7 @@ class CrudViewCommand extends Command
                             {--route-group= : Prefix of the route group.}
                             {--pk=id : The name of the primary key.}
                             {--validations= : Validation details for the fields.}
+                            {--former-helper=html : Helper for generating the form.}
                             {--localize=no : Localize the view? yes|no.}';
 
     /**
@@ -245,10 +246,6 @@ class CrudViewCommand extends Command
     {
         parent::__construct();
 
-        $this->viewDirectoryPath = config('crudgenerator.custom_template')
-            ? config('crudgenerator.path') . 'views/html/'
-            : __DIR__ . '/../stubs/views/html/';
-
         if (config('crudgenerator.view_columns_number')) {
             $this->defaultColumnsToShow = config('crudgenerator.view_columns_number');
         }
@@ -265,6 +262,12 @@ class CrudViewCommand extends Command
      */
     public function handle()
     {
+        $formHelper = $this->option('former-helper');
+        $this->viewDirectoryPath = config('crudgenerator.custom_template')
+            ? config('crudgenerator.path') . 'views/' . $formHelper . '/'
+            : __DIR__ . '/../stubs/views/' . $formHelper . '/';
+
+
         $this->crudName = strtolower($this->argument('name'));
         $this->varName = lcfirst($this->argument('name'));
         $this->crudNameCap = ucwords($this->crudName);
@@ -488,12 +491,16 @@ class CrudViewCommand extends Command
      */
     protected function createFormField($item)
     {
+        $start = $this->delimiter[0];
+        $end = $this->delimiter[1];
+
         $required = ($item['required'] === true) ? ", 'required' => 'required'" : "";
 
         $markup = File::get($this->viewDirectoryPath . 'form-fields/form-field.blade.stub');
-        $markup = str_replace('%%required%%', $required, $markup);
-        $markup = str_replace('%%fieldType%%', $this->typeLookup[$item['type']], $markup);
-        $markup = str_replace('%%itemName%%', $item['name'], $markup);
+        $markup = str_replace($start . 'required' . $end, $required, $markup);
+        $markup = str_replace($start . 'fieldType' . $end, $this->typeLookup[$item['type']], $markup);
+        $markup = str_replace($start . 'itemName' . $end, $item['name'], $markup);
+        $markup = str_replace($start . 'crudNameSingular' . $end, $this->crudNameSingular, $markup);
 
         return $this->wrapField(
             $item,
@@ -510,11 +517,15 @@ class CrudViewCommand extends Command
      */
     protected function createPasswordField($item)
     {
+        $start = $this->delimiter[0];
+        $end = $this->delimiter[1];
+
         $required = ($item['required'] === true) ? ", 'required' => 'required'" : "";
 
         $markup = File::get($this->viewDirectoryPath . 'form-fields/password-field.blade.stub');
-        $markup = str_replace('%%required%%', $required, $markup);
-        $markup = str_replace('%%itemName%%', $item['name'], $markup);
+        $markup = str_replace($start . 'required' . $end, $required, $markup);
+        $markup = str_replace($start . 'itemName' . $end, $item['name'], $markup);
+        $markup = str_replace($start . 'crudNameSingular' . $end, $this->crudNameSingular, $markup);
 
         return $this->wrapField(
             $item,
@@ -531,12 +542,16 @@ class CrudViewCommand extends Command
      */
     protected function createInputField($item)
     {
+        $start = $this->delimiter[0];
+        $end = $this->delimiter[1];
+
         $required = ($item['required'] === true) ? ", 'required' => 'required'" : "";
 
         $markup = File::get($this->viewDirectoryPath . 'form-fields/input-field.blade.stub');
-        $markup = str_replace('%%required%%', $required, $markup);
-        $markup = str_replace('%%fieldType%%', $this->typeLookup[$item['type']], $markup);
-        $markup = str_replace('%%itemName%%', $item['name'], $markup);
+        $markup = str_replace($start . 'required' . $end, $required, $markup);
+        $markup = str_replace($start . 'fieldType' . $end, $this->typeLookup[$item['type']], $markup);
+        $markup = str_replace($start . 'itemName' . $end, $item['name'], $markup);
+        $markup = str_replace($start . 'crudNameSingular' . $end, $this->crudNameSingular, $markup);
 
         return $this->wrapField(
             $item,
@@ -553,7 +568,11 @@ class CrudViewCommand extends Command
      */
     protected function createRadioField($item)
     {
+        $start = $this->delimiter[0];
+        $end = $this->delimiter[1];
+
         $markup = File::get($this->viewDirectoryPath . 'form-fields/radio-field.blade.stub');
+        $markup = str_replace($start . 'crudNameSingular' . $end, $this->crudNameSingular, $markup);
 
         return $this->wrapField($item, sprintf($markup, $item['name']));
     }
@@ -567,12 +586,16 @@ class CrudViewCommand extends Command
      */
     protected function createTextareaField($item)
     {
+        $start = $this->delimiter[0];
+        $end = $this->delimiter[1];
+
         $required = ($item['required'] === true) ? ", 'required' => 'required'" : "";
 
         $markup = File::get($this->viewDirectoryPath . 'form-fields/textarea-field.blade.stub');
-        $markup = str_replace('%%required%%', $required, $markup);
-        $markup = str_replace('%%fieldType%%', $this->typeLookup[$item['type']], $markup);
-        $markup = str_replace('%%itemName%%', $item['name'], $markup);
+        $markup = str_replace($start . 'required' . $end, $required, $markup);
+        $markup = str_replace($start . 'fieldType' . $end, $this->typeLookup[$item['type']], $markup);
+        $markup = str_replace($start . 'itemName' . $end, $item['name'], $markup);
+        $markup = str_replace($start . 'crudNameSingular' . $end, $this->crudNameSingular, $markup);
 
         return $this->wrapField(
             $item,
@@ -589,12 +612,16 @@ class CrudViewCommand extends Command
      */
     protected function createSelectField($item)
     {
+        $start = $this->delimiter[0];
+        $end = $this->delimiter[1];
+
         $required = ($item['required'] === true) ? ", 'required' => 'required'" : "";
 
         $markup = File::get($this->viewDirectoryPath . 'form-fields/select-field.blade.stub');
-        $markup = str_replace('%%required%%', $required, $markup);
-        $markup = str_replace('%%options%%', $item['options'], $markup);
-        $markup = str_replace('%%itemName%%', $item['name'], $markup);
+        $markup = str_replace($start . 'required' . $end, $required, $markup);
+        $markup = str_replace($start . 'options' . $end, $item['options'], $markup);
+        $markup = str_replace($start . 'itemName' . $end, $item['name'], $markup);
+        $markup = str_replace($start . 'crudNameSingular' . $end, $this->crudNameSingular, $markup);
 
         return $this->wrapField(
             $item,

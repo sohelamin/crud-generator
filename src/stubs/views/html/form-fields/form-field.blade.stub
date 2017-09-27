@@ -1,1 +1,1 @@
-<input class="form-control" name="%%itemName%%" type="%%fieldType%%" id="%%itemName%%" %%required%%>
+<input class="form-control" name="%%itemName%%" type="%%fieldType%%" id="%%itemName%%" value="{{ $%%crudNameSingular%%->%%itemName or ''}}" %%required%%>

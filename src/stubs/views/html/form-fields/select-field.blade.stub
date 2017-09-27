@@ -1,5 +1,5 @@
 <select name="%%itemName%%" class="form-control" id="%%itemName%%" %%required%%>
     @foreach (%%options%% as $optionKey => $optionValue)
-        <option value="{{ $optionKey }}">{{ $optionValue }}</option>
+        <option value="{{ $optionKey }}" {{ (isset($%%crudNameSingular%%->%%itemName%%) && $%%crudNameSingular%%->%%itemName%% == $optionKey) ? 'selected' : ''}}>{{ $optionValue }}</option>
     @endforeach
 </select>

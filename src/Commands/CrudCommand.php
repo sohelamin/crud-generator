@@ -27,6 +27,7 @@ class CrudCommand extends Command
                             {--route=yes : Include Crud route to routes.php? yes|no.}
                             {--route-group= : Prefix of the route group.}
                             {--view-path= : The name of the view path.}
+                            {--former-helper=html : Helper for generating the form.}
                             {--localize=no : Allow to localize? yes|no.}
                             {--locales=en : Locales language type.}';
 
