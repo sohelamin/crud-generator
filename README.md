@@ -5,21 +5,19 @@
 [![Latest Stable Version](https://poser.pugx.org/appzcoder/crud-generator/v/stable.svg)](https://packagist.org/packages/appzcoder/crud-generator)
 [![License](https://poser.pugx.org/appzcoder/crud-generator/license.svg)](https://packagist.org/packages/appzcoder/crud-generator)
 
-### Requirements
+## Requirements
     Laravel >=5.1
     PHP >= 5.5.9
 
 ## Installation
----
-    ```
-    composer require appzcoder/crud-generator --dev
-    ```
+```
+composer require appzcoder/crud-generator --dev
+```
 
 ## Documentation
----
+Go through to the [detailed documentation](doc#readme)
 
-
-### Screencast
+## Screencast
 
 [![Screencast](http://img.youtube.com/vi/831-PFBsYfw/0.jpg)](http://www.youtube.com/watch?v=831-PFBsYfw)
 
@@ -29,7 +27,7 @@
 
 [Sohel Amin](http://www.sohelamin.com) :email: [Hire Me](mailto:sohelamincse@gmail.com)
 
-### License
+## License
 
 This project is licensed under the MIT License - see the [License File](https://github.com/appzcoder/crud-generator/blob/develop/LICENSE) for details
 
