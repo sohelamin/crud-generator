@@ -494,7 +494,7 @@ class CrudViewCommand extends Command
         $start = $this->delimiter[0];
         $end = $this->delimiter[1];
 
-        $required = ($item['required'] === true) ? ", 'required' => 'required'" : "";
+        $required = $item['required'] ? 'required' : '';
 
         $markup = File::get($this->viewDirectoryPath . 'form-fields/form-field.blade.stub');
         $markup = str_replace($start . 'required' . $end, $required, $markup);
@@ -520,7 +520,7 @@ class CrudViewCommand extends Command
         $start = $this->delimiter[0];
         $end = $this->delimiter[1];
 
-        $required = ($item['required'] === true) ? ", 'required' => 'required'" : "";
+        $required = $item['required'] ? 'required' : '';
 
         $markup = File::get($this->viewDirectoryPath . 'form-fields/password-field.blade.stub');
         $markup = str_replace($start . 'required' . $end, $required, $markup);
@@ -545,7 +545,7 @@ class CrudViewCommand extends Command
         $start = $this->delimiter[0];
         $end = $this->delimiter[1];
 
-        $required = ($item['required'] === true) ? ", 'required' => 'required'" : "";
+        $required = $item['required'] ? 'required' : '';
 
         $markup = File::get($this->viewDirectoryPath . 'form-fields/input-field.blade.stub');
         $markup = str_replace($start . 'required' . $end, $required, $markup);
@@ -589,7 +589,7 @@ class CrudViewCommand extends Command
         $start = $this->delimiter[0];
         $end = $this->delimiter[1];
 
-        $required = ($item['required'] === true) ? ", 'required' => 'required'" : "";
+        $required = $item['required'] ? 'required' : '';
 
         $markup = File::get($this->viewDirectoryPath . 'form-fields/textarea-field.blade.stub');
         $markup = str_replace($start . 'required' . $end, $required, $markup);
@@ -615,7 +615,7 @@ class CrudViewCommand extends Command
         $start = $this->delimiter[0];
         $end = $this->delimiter[1];
 
-        $required = ($item['required'] === true) ? ", 'required' => 'required'" : "";
+        $required = $item['required'] ? 'required' : '';
 
         $markup = File::get($this->viewDirectoryPath . 'form-fields/select-field.blade.stub');
         $markup = str_replace($start . 'required' . $end, $required, $markup);
