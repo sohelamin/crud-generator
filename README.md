@@ -281,3 +281,8 @@ You can customize the generator's stub files/templates to achieve your need.
 ## Author
 
 [Sohel Amin](http://www.sohelamin.com) :email: [Hire Me](mailto:sohelamincse@gmail.com)
+
+### License
+
+This project is licensed under the MIT License - see the [License File](https://github.com/appzcoder/crud-generator/blob/develop/LICENSE) for details
+
