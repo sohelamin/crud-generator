@@ -4,7 +4,7 @@
 
 
 ```
-php artisan crud:generate Posts --fields="title#string; content#text; category#select#options=technology,tips,health" --view-path=admin --controller-namespace=Admin --route-group=admin
+php artisan crud:generate Posts --fields='title#string; content#text; category#select#options={"technology": "Technology", "tips": "Tips", "health": "Health"}' --view-path=admin --controller-namespace=Admin --route-group=admin
 ```
 
 #### Crud fields from a JSON file:
@@ -23,7 +23,11 @@ php artisan crud:generate Posts --fields="title#string; content#text; category#s
         {
             "name": "category",
             "type": "select",
-            "options": ["technology", "tips", "health"]
+            "options": {
+                "technology": "Technology",
+                "tips": "Tips",
+                "health": "Health"
+            }
         },
         {
             "name": "user_id",
@@ -65,20 +69,6 @@ For controller:
 ```
 php artisan crud:controller PostsController --crud-name=posts --model-name=Post --view-path="directory" --route-group=admin
 ```
-Controller's Options:
-
-| Option    | Description |
-| ---       | ---     |
-| `--crud-name` | The name of the crud. e.g. ```--crud-name="post"``` |
-| `--model-name` | The name of the model. e.g. ```--model-name="Post"``` |
-| `--model-namespace` | The namespace of the model. e.g. ```--model-namespace="Custom\Namespace\Post"``` |
-| `--controller-namespace` | The namespace of the controller. e.g. ```--controller-namespace="Http\Controllers\Client"``` |
-| `--view-path` | The name of the view path |
-| `--fields` | Fields name for the form & migration. e.g. ```--fields="title#string; content#text; category#select#options=technology,tips,health; user_id#integer#unsigned"``` |
-| `--validations` | Validation rules for the form "col_name#rules_set" e.g. ``` "title#min:10|max:30|required" ``` - See https://laravel.com/docs/master/validation#available-validation-rules |
-| `--route-group` | Prefix of the route group |
-| `--pagination` | The amount of models per page for index pages |
-| `--force` | Overwrite already existing controller. |
 
 For model:
 

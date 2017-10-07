@@ -25,9 +25,8 @@ Go through to the [detailed documentation](doc#readme)
 
 ## Author
 
-[Sohel Amin](http://www.sohelamin.com) :email: [Hire Me](mailto:sohelamincse@gmail.com)
+[Sohel Amin](http://sohelamin.com) :email: [Email Me](mailto:sohelamincse@gmail.com)
 
 ## License
 
-This project is licensed under the MIT License - see the [License File](https://github.com/appzcoder/crud-generator/blob/develop/LICENSE) for details
-
+This project is licensed under the MIT License - see the [License File](LICENSE) for details

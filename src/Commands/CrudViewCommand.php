@@ -318,10 +318,6 @@ class CrudViewCommand extends Command
                 if ($this->formFields[$x]['type'] == 'select' && isset($itemArray[2])) {
                     $options = trim($itemArray[2]);
                     $options = str_replace('options=', '', $options);
-                    $optionsArray = explode(',', $options);
-
-                    $commaSeparetedString = implode("', '", $optionsArray);
-                    $options = "['" . $commaSeparetedString . "']";
 
                     $this->formFields[$x]['options'] = $options;
                 }
