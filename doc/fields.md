@@ -1,7 +1,9 @@
 ## Supported Fields
+
 You can use any of the fields from the list.
 
 ### Form Field Types:
+
 * text
 * textarea
 * password
@@ -15,6 +17,7 @@ You can use any of the fields from the list.
 * file
 
 ### Migration Field Types:
+
 * string
 * char
 * varchar

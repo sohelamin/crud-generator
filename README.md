@@ -6,8 +6,8 @@
 [![License](https://poser.pugx.org/appzcoder/crud-generator/license.svg)](https://packagist.org/packages/appzcoder/crud-generator)
 
 ## Requirements
-    Laravel >=5.1
-    PHP >= 5.5.9
+    Laravel >=5.3
+    PHP >= 5.6.4
 
 ## Installation
 ```

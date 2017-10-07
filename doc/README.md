@@ -5,8 +5,8 @@ This documentation will guide you to generate your stuffs for your application. 
 ## Getting Started
 
 1. [Installation](installation.md)
-2. [Usage](usage.md)
-3. [Fields](fields.md)
-4. [Options](options.md)
-5. [Configuration](configuration.md)
+2. [Configuration](configuration.md)
+3. [Usage](usage.md)
+4. [Fields](fields.md)
+5. [Options](options.md)
 6. [Templates](templates.md)

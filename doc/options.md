@@ -1,5 +1,7 @@
 ## Options
 
+### CRUD Options:
+
 | Option    | Description |
 | ---       | ---     |
 | `--fields` | Fields name for the form & migration. e.g. ```--fields="title#string; content#text; category#select#options=technology,tips,health; user_id#integer#unsigned"``` |
@@ -19,7 +21,7 @@
 | `--locales`  | Locales language type. e.g. locals=en |
 
 
-Controller's Options:
+### Controller Options:
 
 | Option    | Description |
 | ---       | ---     |

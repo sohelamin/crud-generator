@@ -1,4 +1,5 @@
 ## Custom Templates
+
 The package allows user to extensively customize or use own templates.
 
 For this, you need to follow these things:
