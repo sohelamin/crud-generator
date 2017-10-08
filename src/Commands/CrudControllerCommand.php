@@ -18,8 +18,8 @@ class CrudControllerCommand extends GeneratorCommand
                             {--model-namespace= : The namespace of the Model.}
                             {--controller-namespace= : Namespace of the controller.}
                             {--view-path= : The name of the view path.}
-                            {--fields= : Fields name for the form & migration.}
-                            {--validations= : Validation details for the fields.}
+                            {--fields= : Field names for the form & migration.}
+                            {--validations= : Validation rules for the fields.}
                             {--route-group= : Prefix of the route group.}
                             {--pagination=25 : The amount of models per page for index pages.}
                             {--force : Overwrite already existing controller.}';

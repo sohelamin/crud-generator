@@ -14,9 +14,9 @@ class CrudCommand extends Command
      */
     protected $signature = 'crud:generate
                             {name : The name of the Crud.}
-                            {--fields= : Fields name for the form & migration.}
+                            {--fields= : Field names for the form & migration.}
                             {--fields_from_file= : Fields from a json file.}
-                            {--validations= : Validation details for the fields.}
+                            {--validations= : Validation rules for the fields.}
                             {--controller-namespace= : Namespace of the controller.}
                             {--model-namespace= : Namespace of the model inside "app" dir.}
                             {--pk=id : The name of the primary key.}
@@ -27,7 +27,7 @@ class CrudCommand extends Command
                             {--route=yes : Include Crud route to routes.php? yes|no.}
                             {--route-group= : Prefix of the route group.}
                             {--view-path= : The name of the view path.}
-                            {--former-helper=html : Helper for generating the form.}
+                            {--form-helper=html : Helper for generating the form.}
                             {--localize=no : Allow to localize? yes|no.}
                             {--locales=en : Locales language type.}';
 
@@ -113,10 +113,12 @@ class CrudCommand extends Command
             $validations = $this->processJSONValidations($this->option('fields_from_file'));
         }
 
+        $formHelper = $this->option('form-helper');
+
         $this->call('crud:controller', ['name' => $controllerNamespace . $name . 'Controller', '--crud-name' => $name, '--model-name' => $modelName, '--model-namespace' => $modelNamespace, '--view-path' => $viewPath, '--route-group' => $routeGroup, '--pagination' => $perPage, '--fields' => $fields, '--validations' => $validations]);
         $this->call('crud:model', ['name' => $modelNamespace . $modelName, '--fillable' => $fillable, '--table' => $tableName, '--pk' => $primaryKey, '--relationships' => $relationships]);
         $this->call('crud:migration', ['name' => $migrationName, '--schema' => $fields, '--pk' => $primaryKey, '--indexes' => $indexes, '--foreign-keys' => $foreignKeys]);
-        $this->call('crud:view', ['name' => $name, '--fields' => $fields, '--validations' => $validations, '--view-path' => $viewPath, '--route-group' => $routeGroup, '--localize' => $localize, '--pk' => $primaryKey]);
+        $this->call('crud:view', ['name' => $name, '--fields' => $fields, '--validations' => $validations, '--view-path' => $viewPath, '--route-group' => $routeGroup, '--localize' => $localize, '--pk' => $primaryKey, '--form-helper' => $formHelper]);
         if ($localize == 'yes') {
             $this->call('crud:lang', ['name' => $name, '--fields' => $fields, '--locales' => $locales]);
         }

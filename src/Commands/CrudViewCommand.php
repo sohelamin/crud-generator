@@ -14,13 +14,13 @@ class CrudViewCommand extends Command
      */
     protected $signature = 'crud:view
                             {name : The name of the Crud.}
-                            {--custom-data= : Some additonnal values to use in the crud.}
-                            {--fields= : The fields name for the form.}
+                            {--fields= : The field names for the form.}
                             {--view-path= : The name of the view path.}
                             {--route-group= : Prefix of the route group.}
                             {--pk=id : The name of the primary key.}
-                            {--validations= : Validation details for the fields.}
-                            {--former-helper=html : Helper for generating the form.}
+                            {--validations= : Validation rules for the fields.}
+                            {--form-helper=html : Helper for the form.}
+                            {--custom-data= : Some additional values to use in the crud.}
                             {--localize=no : Localize the view? yes|no.}';
 
     /**
@@ -262,7 +262,7 @@ class CrudViewCommand extends Command
      */
     public function handle()
     {
-        $formHelper = $this->option('former-helper');
+        $formHelper = $this->option('form-helper');
         $this->viewDirectoryPath = config('crudgenerator.custom_template')
             ? config('crudgenerator.path') . 'views/' . $formHelper . '/'
             : __DIR__ . '/../stubs/views/' . $formHelper . '/';
@@ -412,7 +412,7 @@ class CrudViewCommand extends Command
     }
 
     /**
-     * Update custom values between delimiter  with real values
+     * Update custom values between delimiter with real values
      *
      * @param $file
      */

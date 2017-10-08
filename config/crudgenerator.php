@@ -20,6 +20,11 @@ return [
      */
     'view_columns_number' => 3,
 
+    /**
+     * Delimiter for template vars
+     */
+    'custom_delimiter' => ['##', '##'],
+
     /*
     |--------------------------------------------------------------------------
     | Dynamic templating
@@ -49,7 +54,6 @@ return [
     |
     |
      */
-    //'custom_delimiter' => ['#!', '!#'],
     'dynamic_view_template' => [
         'index' => ['formHeadingHtml', 'formBodyHtml', 'crudName', 'crudNameCap', 'modelName', 'viewName', 'routeGroup', 'primaryKey'],
         'form' => ['formFieldsHtml'],

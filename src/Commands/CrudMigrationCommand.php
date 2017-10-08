@@ -14,7 +14,7 @@ class CrudMigrationCommand extends GeneratorCommand
     protected $signature = 'crud:migration
                             {name : The name of the migration.}
                             {--schema= : The name of the schema.}
-                            {--indexes= : The fields to add an index too.}
+                            {--indexes= : The fields to add an index to.}
                             {--foreign-keys= : Foreign keys.}
                             {--pk=id : The name of the primary key.}';
 

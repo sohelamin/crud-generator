@@ -4,7 +4,16 @@ To get started, you should add the `appzcoder/crud-generator` Composer dependenc
 ```
 composer require appzcoder/crud-generator --dev
 ```
-Once the package is installed, you should register the `Appzcoder\CrudGenerator\CrudGeneratorServiceProvider` service provider. Normally, Laravel 5.5+ will register the service provider automatically. If you're using an older verson of Laravel (<5.5) then just manually add the provider to `app/Providers/AppServiceProvider.php` file.
+Once the package is installed, you should register the `Appzcoder\CrudGenerator\CrudGeneratorServiceProvider` service provider. Normally, Laravel 5.5+ will register the service provider automatically.
+
+After that, publish its assets using the `vendor:publish` Artisan command:
+```
+php artisan vendor:publish --provider="Appzcoder\CrudGenerator\CrudGeneratorServiceProvider"
+```
+
+### Laravel older 5.5
+
+If you're using an older verson of Laravel (<5.5) then just manually add the provider to `app/Providers/AppServiceProvider.php` file.
 
 ```php
 public function register()
@@ -15,16 +24,6 @@ public function register()
 }
 ```
 
-After that, publish its assets using the `vendor:publish` Artisan command:
-```
-php artisan vendor:publish --provider="Appzcoder\CrudGenerator\CrudGeneratorServiceProvider"
-```
-
-If you want to use `laravelcollective/html` form helper package for your CRUD's form then just install it.
-```
-composer require laravelcollective/html
-```
-
-Check the [docs](https://laravelcollective.com/docs/master/html) for the details of `laravelcollective/html`.
+And since, we're using `laravelcollective/html` as dependency you should add its service provider as well. Check the [docs](https://laravelcollective.com/docs/master/html) for details.
 
 [&larr; Back to index](README.md)
