@@ -23,7 +23,7 @@ return [
     /**
      * Delimiter for template vars
      */
-    'custom_delimiter' => ['##', '##'],
+    'custom_delimiter' => ['%%', '%%'],
 
     /*
     |--------------------------------------------------------------------------
