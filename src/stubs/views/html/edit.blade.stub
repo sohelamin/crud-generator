@@ -22,7 +22,7 @@
                         @endif
 
                         <form method="POST" action="{{ url('/%%routeGroup%%%%viewName%%/' . $%%crudNameSingular%%->%%primaryKey%%) }}" accept-charset="UTF-8" class="form-horizontal" enctype="multipart/form-data">
-                            <input name="_method" type="hidden" value="PATCH">
+                            {{ method_field('PATCH') }}
                             {{ csrf_field() }}
 
                             @include ('%%viewTemplateDir%%.form', ['submitButtonText' => 'Update'])
