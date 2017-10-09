@@ -1,6 +1,6 @@
 ## Usage
 
-### CRUD Command:
+### CRUD Command
 
 ```
 php artisan crud:generate Posts --fields='title#string; content#text; category#select#options={"technology": "Technology", "tips": "Tips", "health": "Health"}' --view-path=admin --controller-namespace=Admin --route-group=admin --form-helper=html
@@ -61,7 +61,7 @@ php artisan crud:generate Posts --fields='title#string; content#text; category#s
 php artisan crud:generate Posts --fields_from_file="/path/to/fields.json" --view-path=admin --controller-namespace=Admin --route-group=admin --form-helper=html
 ```
 
-### Other Commands:
+### Other Commands
 
 For controller:
 
@@ -102,13 +102,13 @@ Route::resource('posts', 'PostsController');
 
 ### API Commands
 
-For Api Crud
+For api crud:
 
 ```
 php artisan crud:api Posts --fields='title#string; content#text' --controller-namespace=Api
 ```
 
-For api controller
+For api controller:
 
 ```
 php artisan crud:api-controller Api\\PostsController --crud-name=posts --model-name=Post

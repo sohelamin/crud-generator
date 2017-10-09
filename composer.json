@@ -1,12 +1,13 @@
 {
     "name": "appzcoder/crud-generator",
     "license": "MIT",
-    "description": "Laravel 5 CRUD Generator",
+    "description": "Laravel CRUD Generator",
     "keywords": [
         "laravel",
         "crud",
         "crud generator",
-        "laravel crud generator"
+        "laravel crud generator",
+        "api generator"
     ],
     "authors": [
         {
