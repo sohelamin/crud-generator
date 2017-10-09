@@ -19,7 +19,7 @@ class DummyClass extends Controller
     {
         ${{crudName}} = {{modelName}}::paginate({{pagination}});
 
-        return ${{crudName}}
+        return ${{crudName}};
     }
 
     /**
@@ -34,7 +34,7 @@ class DummyClass extends Controller
         {{validationRules}}
         ${{crudNameSingular}} = {{modelName}}::create($request->all());
 
-        return ${{crudNameSingular}};
+        return response()->json(${{crudNameSingular}}, 201);
     }
 
     /**
@@ -65,7 +65,7 @@ class DummyClass extends Controller
         ${{crudNameSingular}} = {{modelName}}::findOrFail($id);
         ${{crudNameSingular}}->update($request->all());
 
-        return ${{crudNameSingular}};
+        return response()->json(${{crudNameSingular}}, 200);
     }
 
     /**
@@ -79,6 +79,6 @@ class DummyClass extends Controller
     {
         {{modelName}}::destroy($id);
 
-        return 204;
+        return response()->json(null, 204);
     }
 }

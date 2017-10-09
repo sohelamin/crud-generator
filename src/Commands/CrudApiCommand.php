@@ -12,7 +12,7 @@ class CrudApiCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'crud:generate
+    protected $signature = 'crud:api
                             {name : The name of the Crud.}
                             {--fields= : Field names for the form & migration.}
                             {--fields_from_file= : Fields from a json file.}
@@ -32,7 +32,7 @@ class CrudApiCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Generate Crud including controller, model, views & migrations.';
+    protected $description = 'Generate api crud including controller, model & migrations.';
 
     /** @var string  */
     protected $routeName = '';
@@ -105,7 +105,7 @@ class CrudApiCommand extends Command
             $validations = $this->processJSONValidations($this->option('fields_from_file'));
         }
 
-        $this->call('crud:apicontroller', ['name' => $controllerNamespace . $name . 'Controller', '--crud-name' => $name, '--model-name' => $modelName, '--model-namespace' => $modelNamespace, '--pagination' => $perPage, '--validations' => $validations]);
+        $this->call('crud:api-controller', ['name' => $controllerNamespace . $name . 'Controller', '--crud-name' => $name, '--model-name' => $modelName, '--model-namespace' => $modelNamespace, '--pagination' => $perPage, '--validations' => $validations]);
         $this->call('crud:model', ['name' => $modelNamespace . $modelName, '--fillable' => $fillable, '--table' => $tableName, '--pk' => $primaryKey, '--relationships' => $relationships]);
         $this->call('crud:migration', ['name' => $migrationName, '--schema' => $fields, '--pk' => $primaryKey, '--indexes' => $indexes, '--foreign-keys' => $foreignKeys]);
 

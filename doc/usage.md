@@ -100,4 +100,18 @@ If you chose not to add the crud route in automatically (see above), you will ne
 Route::resource('posts', 'PostsController');
 ```
 
+### API Commands
+
+For Api Crud
+
+```
+php artisan crud:api Posts --fields='title#string; content#text' --controller-namespace=Api
+```
+
+For api controller
+
+```
+php artisan crud:api-controller Api\\PostsController --crud-name=posts --model-name=Post
+```
+
 [&larr; Back to index](README.md)
