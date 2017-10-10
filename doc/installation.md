@@ -24,6 +24,21 @@ public function register()
 }
 ```
 
-And since, we're using `laravelcollective/html` as dependency you should add its service provider as well. Check the [docs](https://laravelcollective.com/docs/master/html) for details.
+And since, we're using `laravelcollective/html` as dependency you should add its service provider in the `config/app.php` file. Check the [docs](https://laravelcollective.com/docs/master/html) for details.
+
+```php
+'providers' => [
+    //...
+
+    Collective\Html\HtmlServiceProvider::class,
+],
+
+'aliases' => [
+    //...
+
+    'Form' => Collective\Html\FormFacade::class,
+    'HTML' => Collective\Html\HtmlFacade::class,
+],
+```
 
 [&larr; Back to index](README.md)
