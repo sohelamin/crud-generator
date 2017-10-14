@@ -7,7 +7,6 @@ use DummyRootNamespaceHttp\Controllers\Controller;
 
 use DummyRootNamespace{{modelNamespace}}{{modelName}};
 use Illuminate\Http\Request;
-use Session;
 
 class DummyClass extends Controller
 {
