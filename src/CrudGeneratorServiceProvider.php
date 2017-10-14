@@ -4,6 +4,15 @@ namespace Appzcoder\CrudGenerator;
 
 use Illuminate\Support\ServiceProvider;
 
+use Appzcoder\CrudGenerator\Commands\CrudCommand;
+use Appzcoder\CrudGenerator\Commands\CrudControllerCommand;
+use Appzcoder\CrudGenerator\Commands\CrudModelCommand;
+use Appzcoder\CrudGenerator\Commands\CrudMigrationCommand;
+use Appzcoder\CrudGenerator\Commands\CrudViewCommand;
+use Appzcoder\CrudGenerator\Commands\CrudLangCommand;
+use Appzcoder\CrudGenerator\Commands\CrudApiCommand;
+use Appzcoder\CrudGenerator\Commands\CrudApiControllerCommand;
+
 class CrudGeneratorServiceProvider extends ServiceProvider
 {
     /**
@@ -47,14 +56,14 @@ class CrudGeneratorServiceProvider extends ServiceProvider
     public function register()
     {
         $this->commands(
-            'Appzcoder\CrudGenerator\Commands\CrudCommand',
-            'Appzcoder\CrudGenerator\Commands\CrudControllerCommand',
-            'Appzcoder\CrudGenerator\Commands\CrudModelCommand',
-            'Appzcoder\CrudGenerator\Commands\CrudMigrationCommand',
-            'Appzcoder\CrudGenerator\Commands\CrudViewCommand',
-            'Appzcoder\CrudGenerator\Commands\CrudLangCommand',
-            'Appzcoder\CrudGenerator\Commands\CrudApiCommand',
-            'Appzcoder\CrudGenerator\Commands\CrudApiControllerCommand'
+            CrudCommand::class,
+            CrudControllerCommand::class,
+            CrudModelCommand::class,
+            CrudMigrationCommand::class,
+            CrudViewCommand::class,
+            CrudLangCommand::class,
+            CrudApiCommand::class,
+            CrudApiControllerCommand::class
         );
     }
 }

@@ -7,7 +7,6 @@ use DummyRootNamespaceHttp\Controllers\Controller;
 
 use DummyRootNamespace{{modelNamespace}}{{modelName}};
 use Illuminate\Http\Request;
-use Session;
 
 class DummyClass extends Controller
 {
@@ -16,16 +15,16 @@ class DummyClass extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function index(Request $request)
+    public function index({{modelName}} ${{crudName}})
     {
-        $keyword = $request->get('search');
+        $keyword = request('search');
         $perPage = {{pagination}};
 
         if (!empty($keyword)) {
-            ${{crudName}} = {{modelName}}::{{whereSnippet}}paginate($perPage);
-        } else {
-            ${{crudName}} = {{modelName}}::paginate($perPage);
+            ${{crudName}} = ${{crudName}}{{whereSnippet}};
         }
+        
+        ${{crudName}} = ${{crudName}}->paginate($perPage);
 
         return view('{{viewPath}}{{viewName}}.index', compact('{{crudName}}'));
     }
@@ -54,9 +53,7 @@ class DummyClass extends Controller
         {{fileSnippet}}
         {{modelName}}::create($requestData);
 
-        Session::flash('flash_message', '{{modelName}} added!');
-
-        return redirect('{{routeGroup}}{{viewName}}');
+        return redirect('{{routeGroup}}{{viewName}}')->with('success_message', '{{modelName}} added!');
     }
 
     /**
@@ -66,10 +63,8 @@ class DummyClass extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function show($id)
+    public function show({{modelName}} ${{crudNameSingular}})
     {
-        ${{crudNameSingular}} = {{modelName}}::findOrFail($id);
-
         return view('{{viewPath}}{{viewName}}.show', compact('{{crudNameSingular}}'));
     }
 
@@ -80,10 +75,8 @@ class DummyClass extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function edit($id)
+    public function edit({{modelName}} ${{crudNameSingular}})
     {
-        ${{crudNameSingular}} = {{modelName}}::findOrFail($id);
-
         return view('{{viewPath}}{{viewName}}.edit', compact('{{crudNameSingular}}'));
     }
 
@@ -95,17 +88,14 @@ class DummyClass extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function update($id, Request $request)
+    public function update({{modelName}} ${{crudNameSingular}}, Request $request)
     {
         {{validationRules}}
         $requestData = $request->all();
         {{fileSnippet}}
-        ${{crudNameSingular}} = {{modelName}}::findOrFail($id);
         ${{crudNameSingular}}->update($requestData);
 
-        Session::flash('flash_message', '{{modelName}} updated!');
-
-        return redirect('{{routeGroup}}{{viewName}}');
+        return redirect('{{routeGroup}}{{viewName}}')->with('success_message', '{{modelName}} updated!');
     }
 
     /**
@@ -115,12 +105,10 @@ class DummyClass extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function destroy($id)
+    public function destroy({{modelName}} ${{crudNameSingular}})
     {
-        {{modelName}}::destroy($id);
+        ${{crudNameSingular}}->delete();
 
-        Session::flash('flash_message', '{{modelName}} deleted!');
-
-        return redirect('{{routeGroup}}{{viewName}}');
+        return redirect('{{routeGroup}}{{viewName}}')->with('success_message', '{{modelName}} deleted!');
     }
 }
