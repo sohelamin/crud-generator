@@ -107,9 +107,9 @@ class DummyClass extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function destroy($id)
+    public function destroy({{modelName}} ${{crudNameSingular}})
     {
-        {{modelName}}::destroy($id);
+        ${{crudNameSingular}}->delete();
 
         return redirect('{{routeGroup}}{{viewName}}')->with('success_message', '{{modelName}} deleted!');
     }
