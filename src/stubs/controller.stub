@@ -88,12 +88,11 @@ class DummyClass extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function update($id, Request $request)
+    public function update({{modelName}} ${{crudNameSingular}}, Request $request)
     {
         {{validationRules}}
         $requestData = $request->all();
         {{fileSnippet}}
-        ${{crudNameSingular}} = {{modelName}}::findOrFail($id);
         ${{crudNameSingular}}->update($requestData);
 
         return redirect('{{routeGroup}}{{viewName}}')->with('success_message', '{{modelName}} updated!');
