@@ -111,8 +111,6 @@ class DummyClass extends Controller
     {
         {{modelName}}::destroy($id);
 
-        Session::flash('flash_message', '{{modelName}} deleted!');
-
-        return redirect('{{routeGroup}}{{viewName}}');
+        return redirect('{{routeGroup}}{{viewName}}')->with('success_message', '{{modelName}} deleted!');
     }
 }
