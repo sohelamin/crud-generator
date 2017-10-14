@@ -54,9 +54,7 @@ class DummyClass extends Controller
         {{fileSnippet}}
         {{modelName}}::create($requestData);
 
-        Session::flash('flash_message', '{{modelName}} added!');
-
-        return redirect('{{routeGroup}}{{viewName}}');
+        return redirect('{{routeGroup}}{{viewName}}')->with('success_message', '{{modelName}} added!');
     }
 
     /**
@@ -103,9 +101,7 @@ class DummyClass extends Controller
         ${{crudNameSingular}} = {{modelName}}::findOrFail($id);
         ${{crudNameSingular}}->update($requestData);
 
-        Session::flash('flash_message', '{{modelName}} updated!');
-
-        return redirect('{{routeGroup}}{{viewName}}');
+        return redirect('{{routeGroup}}{{viewName}}')->with('success_message', '{{modelName}} updated!');
     }
 
     /**
