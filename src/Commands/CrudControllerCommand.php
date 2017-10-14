@@ -140,6 +140,7 @@ EOD;
         $whereSnippet = '';
 
         if ($fields) {
+            $whereSnippet = '->';
             $x = 0;
             foreach ($fieldsArray as $index => $item) {
                 $itemArray = explode('#', $item);

@@ -21,7 +21,7 @@ class DummyClass extends Controller
         $perPage = {{pagination}};
 
         if (!empty($keyword)) {
-            ${{crudName}} = ${{crudName}}->{{whereSnippet}};
+            ${{crudName}} = ${{crudName}}{{whereSnippet}};
         }
         
         ${{crudName}} = ${{crudName}}->paginate($perPage);
