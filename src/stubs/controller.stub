@@ -66,10 +66,8 @@ class DummyClass extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function show($id)
+    public function show({{modelName}} ${{crudNameSingular}})
     {
-        ${{crudNameSingular}} = {{modelName}}::findOrFail($id);
-
         return view('{{viewPath}}{{viewName}}.show', compact('{{crudNameSingular}}'));
     }
 
