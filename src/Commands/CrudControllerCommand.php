@@ -150,7 +150,7 @@ EOD;
 
                 $fieldName = trim($itemArray[0]);
 
-                $whereSnippet .= ($index == 0) ? "where('$fieldName', 'LIKE', \"%\$keyword%\")" . "\n\t\t\t\t" : "->orWhere('$fieldName', 'LIKE', \"%\$keyword%\")" . "\n\t\t\t\t";
+                $whereSnippet .= ($index == 0) ? "where('$fieldName', 'LIKE', \"%\$keyword%\")" . "\n                " : "->orWhere('$fieldName', 'LIKE', \"%\$keyword%\")" . "\n                ";
             }
 
             $whereSnippet .= "->";
