@@ -78,10 +78,8 @@ class DummyClass extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function edit($id)
+    public function edit({{modelName}} ${{crudNameSingular}})
     {
-        ${{crudNameSingular}} = {{modelName}}::findOrFail($id);
-
         return view('{{viewPath}}{{viewName}}.edit', compact('{{crudNameSingular}}'));
     }
 
