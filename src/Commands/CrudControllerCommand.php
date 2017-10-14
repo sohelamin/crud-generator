@@ -150,10 +150,13 @@ EOD;
 
                 $fieldName = trim($itemArray[0]);
 
-                $whereSnippet .= ($index == 0) ? "where('$fieldName', 'LIKE', \"%\$keyword%\")" . "\n                " : "->orWhere('$fieldName', 'LIKE', \"%\$keyword%\")" . "\n                ";
+                $whereSnippet .= ($index == 0) ? "where('$fieldName', 'LIKE', \"%\$keyword%\")" : "\n                ->orWhere('$fieldName', 'LIKE', \"%\$keyword%\")";
             }
 
-            $whereSnippet .= "->";
+            if(++$index < count($fieldsArray))
+            {
+                $whereSnippet .= "\n                ->";
+            }
         }
 
         return $this->replaceNamespace($stub, $name)
