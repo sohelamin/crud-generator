@@ -53,7 +53,7 @@ class DummyClass extends Controller
         {{fileSnippet}}
         {{modelName}}::create($requestData);
 
-        return redirect('{{routeGroup}}{{viewName}}')->with('success_message', '{{modelName}} added!');
+        return redirect('{{routeGroup}}{{viewName}}')->with('flash_message', '{{modelName}} added!');
     }
 
     /**
@@ -87,12 +87,12 @@ class DummyClass extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $id
      * @param \Illuminate\Http\Request $request
+     * @param  int  $id
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function update($id, Request $request)
+    public function update(Request $request, $id)
     {
         {{validationRules}}
         $requestData = $request->all();
@@ -100,7 +100,7 @@ class DummyClass extends Controller
         ${{crudNameSingular}} = {{modelName}}::findOrFail($id);
         ${{crudNameSingular}}->update($requestData);
 
-        return redirect('{{routeGroup}}{{viewName}}')->with('success_message', '{{modelName}} updated!');
+        return redirect('{{routeGroup}}{{viewName}}')->with('flash_message', '{{modelName}} updated!');
     }
 
     /**
@@ -114,6 +114,6 @@ class DummyClass extends Controller
     {
         {{modelName}}::destroy($id);
 
-        return redirect('{{routeGroup}}{{viewName}}')->with('success_message', '{{modelName}} deleted!');
+        return redirect('{{routeGroup}}{{viewName}}')->with('flash_message', '{{modelName}} deleted!');
     }
 }

@@ -54,12 +54,12 @@ class DummyClass extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $id
      * @param \Illuminate\Http\Request $request
+     * @param  int  $id
      *
      * @return \Illuminate\Http\Response
      */
-    public function update($id, Request $request)
+    public function update(Request $request, $id)
     {
         {{validationRules}}
         ${{crudNameSingular}} = {{modelName}}::findOrFail($id);
