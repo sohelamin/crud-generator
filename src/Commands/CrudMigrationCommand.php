@@ -211,7 +211,7 @@ class CrudMigrationCommand extends GeneratorCommand
         $primaryKey = $this->option('pk');
 
         $schemaUp =
-            "Schema::create('" . $tableName . "', function(Blueprint \$table) {
+            "Schema::create('" . $tableName . "', function (Blueprint \$table) {
             \$table->increments('" . $primaryKey . "');
             " . $schemaFields . "\$table->timestamps();
         });";
