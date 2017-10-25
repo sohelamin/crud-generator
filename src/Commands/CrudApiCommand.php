@@ -157,7 +157,7 @@ class CrudApiCommand extends Command
         $fieldsString = '';
         foreach ($fields->fields as $field) {
             if ($field->type == 'select') {
-                $fieldsString .= $field->name . '#' . $field->type . '#options=' . implode(',', $field->options) . ';';
+                $fieldsString .= $field->name . '#' . $field->type . '#options=' . json_encode($field->options) . ';';
             } else {
                 $fieldsString .= $field->name . '#' . $field->type . ';';
             }
