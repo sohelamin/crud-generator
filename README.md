@@ -21,7 +21,7 @@ Go through to the [detailed documentation](doc#readme)
 
 ## Screencast
 
-[![Screencast](http://img.youtube.com/vi/831-PFBsYfw/0.jpg)](http://www.youtube.com/watch?v=831-PFBsYfw)
+[![Screencast](http://img.youtube.com/vi/831-PFBsYfw/0.jpg)](https://www.youtube.com/watch?v=K2G3kMQtY5Y)
 
 #### If you're still looking for easier one then try this [Admin Panel](https://github.com/appzcoder/laravel-admin)
 
