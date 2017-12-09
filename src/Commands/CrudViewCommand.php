@@ -473,6 +473,8 @@ class CrudViewCommand extends Command
             case 'select':
             case 'enum':
                 return $this->createSelectField($item);
+            case 'file':
+                return $this->createFileField($item);
             default: // text
                 return $this->createFormField($item);
         }
@@ -616,6 +618,31 @@ class CrudViewCommand extends Command
         $markup = File::get($this->viewDirectoryPath . 'form-fields/select-field.blade.stub');
         $markup = str_replace($start . 'required' . $end, $required, $markup);
         $markup = str_replace($start . 'options' . $end, $item['options'], $markup);
+        $markup = str_replace($start . 'itemName' . $end, $item['name'], $markup);
+        $markup = str_replace($start . 'crudNameSingular' . $end, $this->crudNameSingular, $markup);
+
+        return $this->wrapField(
+            $item,
+            $markup
+        );
+    }
+
+    /**
+     * Create a file field using the form helper.
+     *
+     * @param  array $item
+     *
+     * @return string
+     */
+    protected function createFileField($item)
+    {
+        $start = $this->delimiter[0];
+        $end = $this->delimiter[1];
+
+        $required = $item['required'] ? 'required' : '';
+
+        $markup = File::get($this->viewDirectoryPath . 'form-fields/file-field.blade.stub');
+        $markup = str_replace($start . 'required' . $end, $required, $markup);
         $markup = str_replace($start . 'itemName' . $end, $item['name'], $markup);
         $markup = str_replace($start . 'crudNameSingular' . $end, $this->crudNameSingular, $markup);
 
