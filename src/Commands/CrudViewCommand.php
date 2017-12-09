@@ -332,18 +332,19 @@ class CrudViewCommand extends Command
 
         $i = 0;
         foreach ($this->formFields as $key => $value) {
-            if ($i == $this->defaultColumnsToShow) {
-                break;
-            }
-
             $field = $value['name'];
             $label = ucwords(str_replace('_', ' ', $field));
             if ($this->option('localize') == 'yes') {
                 $label = '{{ trans(\'' . $this->crudName . '.' . $field . '\') }}';
             }
+            $this->formBodyHtmlForShowView .= '<tr><th> ' . $label . ' </th><td> {{ $%%crudNameSingular%%->' . $field . ' }} </td></tr>';
+
+            if ($i >= $this->defaultColumnsToShow) {
+                continue;
+            }
+
             $this->formHeadingHtml .= '<th>' . $label . '</th>';
             $this->formBodyHtml .= '<td>{{ $item->' . $field . ' }}</td>';
-            $this->formBodyHtmlForShowView .= '<tr><th> ' . $label . ' </th><td> {{ $%%crudNameSingular%%->' . $field . ' }} </td></tr>';
 
             $i++;
         }
