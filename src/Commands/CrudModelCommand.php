@@ -16,7 +16,8 @@ class CrudModelCommand extends GeneratorCommand
                             {--table= : The name of the table.}
                             {--fillable= : The names of the fillable columns.}
                             {--relationships= : The relationships for the model}
-                            {--pk=id : The name of the primary key.}';
+                            {--pk=id : The name of the primary key.}
+                            {--soft-deletes : Include soft deletes fields.}';
 
     /**
      * The console command description.
@@ -85,7 +86,8 @@ EOD;
         $ret = $this->replaceNamespace($stub, $name)
             ->replaceTable($stub, $table)
             ->replaceFillable($stub, $fillable)
-            ->replacePrimaryKey($stub, $primaryKey);
+            ->replacePrimaryKey($stub, $primaryKey)
+            ->replaceSoftDelete($stub, $this->option('soft-deletes'));
 
         foreach ($relationships as $rel) {
             // relationshipname#relationshiptype#args_separated_by_pipes
@@ -159,6 +161,27 @@ EOD;
     protected function replacePrimaryKey(&$stub, $primaryKey)
     {
         $stub = str_replace('{{primaryKey}}', $primaryKey, $stub);
+
+        return $this;
+    }
+
+    /**
+     * Replace the (optional) soft deletes part for the given stub.
+     *
+     * @param  string  $stub
+     * @param  boolean  $replaceSoftDelete
+     *
+     * @return $this
+     */
+    protected function replaceSoftDelete(&$stub, $replaceSoftDelete = false)
+    {
+        if ($replaceSoftDelete) {
+            $stub = str_replace('{{softDeletes}}', "use SoftDeletes;\n    ", $stub);
+            $stub = str_replace('{{useSoftDeletes}}', "use Illuminate\Database\Eloquent\SoftDeletes;\n", $stub);
+        } else {
+            $stub = str_replace('{{softDeletes}}', '', $stub);
+            $stub = str_replace('{{useSoftDeletes}}', '', $stub);
+        }
 
         return $this;
     }

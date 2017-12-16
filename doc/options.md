@@ -20,6 +20,7 @@
 | `--form-helper` | Helper for the form. eg. `--form-helper=html`, `--form-helper=laravelcollective` |
 | `--localize` | Allow to localize. e.g. localize=yes  |
 | `--locales`  | Locales language type. e.g. locals=en |
+| `--soft-deletes` | Include soft deletes fields |
 
 
 ### Controller Options:
@@ -58,6 +59,7 @@
 | `--fillable` | The name of the view path |
 | `--relationships` | The relationships for the model. e.g. `--relationships="comments#hasMany#App\Comment"` in the format |
 | `--pk` | The name of the primary key |
+| `--soft-deletes` | Include soft deletes fields |
 
 ### Migration Options:
 
@@ -67,6 +69,7 @@
 | `--indexes` | The fields to add an index to. append "#unique" to a field name to add a unique index. Create composite fields by separating fieldnames with a pipe (` --indexes="title,field1|field2#unique" ` will create normal index on title, and unique composite on fld1 and fld2) |
 | `--foreign-keys` | Any foreign keys for the table. e.g. `--foreign-keys="user_id#id#users#cascade"` where user_id is the column name, id is the name of the field on the foreign table, users is the name of the foreign table, and cascade is the operation 'ON DELETE' together with 'ON UPDATE' |
 | `--pk` | The name of the primary key |
+| `--soft-deletes` | Include soft deletes fields |
 
 ### Lang Options:
 
