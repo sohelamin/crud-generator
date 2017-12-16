@@ -25,7 +25,8 @@ class CrudApiCommand extends Command
                             {--foreign-keys= : The foreign keys for the table.}
                             {--relationships= : The relationships for the model.}
                             {--route=yes : Include Crud route to routes.php? yes|no.}
-                            {--route-group= : Prefix of the route group.}';
+                            {--route-group= : Prefix of the route group.}
+                            {--soft-deletes=no : Include soft deletes fields.}';
 
     /**
      * The console command description.
@@ -105,9 +106,11 @@ class CrudApiCommand extends Command
             $validations = $this->processJSONValidations($this->option('fields_from_file'));
         }
 
+        $softDeletes = $this->option('soft-deletes');
+
         $this->call('crud:api-controller', ['name' => $controllerNamespace . $name . 'Controller', '--crud-name' => $name, '--model-name' => $modelName, '--model-namespace' => $modelNamespace, '--pagination' => $perPage, '--validations' => $validations]);
-        $this->call('crud:model', ['name' => $modelNamespace . $modelName, '--fillable' => $fillable, '--table' => $tableName, '--pk' => $primaryKey, '--relationships' => $relationships]);
-        $this->call('crud:migration', ['name' => $migrationName, '--schema' => $fields, '--pk' => $primaryKey, '--indexes' => $indexes, '--foreign-keys' => $foreignKeys]);
+        $this->call('crud:model', ['name' => $modelNamespace . $modelName, '--fillable' => $fillable, '--table' => $tableName, '--pk' => $primaryKey, '--relationships' => $relationships, '--soft-deletes' => $softDeletes]);
+        $this->call('crud:migration', ['name' => $migrationName, '--schema' => $fields, '--pk' => $primaryKey, '--indexes' => $indexes, '--foreign-keys' => $foreignKeys, '--soft-deletes' => $softDeletes]);
 
         // For optimizing the class loader
         $this->callSilent('optimize');

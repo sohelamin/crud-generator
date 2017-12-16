@@ -17,7 +17,7 @@ class CrudModelCommand extends GeneratorCommand
                             {--fillable= : The names of the fillable columns.}
                             {--relationships= : The relationships for the model}
                             {--pk=id : The name of the primary key.}
-                            {--soft-deletes : Include soft deletes fields.}';
+                            {--soft-deletes=no : Include soft deletes fields.}';
 
     /**
      * The console command description.
@@ -71,6 +71,7 @@ class CrudModelCommand extends GeneratorCommand
         $fillable = $this->option('fillable');
         $primaryKey = $this->option('pk');
         $relationships = trim($this->option('relationships')) != '' ? explode(',', trim($this->option('relationships'))) : [];
+        $softDeletes = $this->option('soft-deletes');
 
         if (!empty($primaryKey)) {
             $primaryKey = <<<EOD
@@ -87,7 +88,7 @@ EOD;
             ->replaceTable($stub, $table)
             ->replaceFillable($stub, $fillable)
             ->replacePrimaryKey($stub, $primaryKey)
-            ->replaceSoftDelete($stub, $this->option('soft-deletes'));
+            ->replaceSoftDelete($stub, $softDeletes);
 
         foreach ($relationships as $rel) {
             // relationshipname#relationshiptype#args_separated_by_pipes
@@ -169,13 +170,13 @@ EOD;
      * Replace the (optional) soft deletes part for the given stub.
      *
      * @param  string  $stub
-     * @param  boolean  $replaceSoftDelete
+     * @param  string  $replaceSoftDelete
      *
      * @return $this
      */
-    protected function replaceSoftDelete(&$stub, $replaceSoftDelete = false)
+    protected function replaceSoftDelete(&$stub, $replaceSoftDelete)
     {
-        if ($replaceSoftDelete) {
+        if ($replaceSoftDelete == 'yes') {
             $stub = str_replace('{{softDeletes}}', "use SoftDeletes;\n    ", $stub);
             $stub = str_replace('{{useSoftDeletes}}', "use Illuminate\Database\Eloquent\SoftDeletes;\n", $stub);
         } else {

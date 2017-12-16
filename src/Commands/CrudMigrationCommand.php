@@ -17,7 +17,7 @@ class CrudMigrationCommand extends GeneratorCommand
                             {--indexes= : The fields to add an index to.}
                             {--foreign-keys= : Foreign keys.}
                             {--pk=id : The name of the primary key.}
-                            {--soft-deletes : Include soft deletes fields.}';
+                            {--soft-deletes=no : Include soft deletes fields.}';
 
     /**
      * The console command description.
@@ -209,17 +209,18 @@ class CrudMigrationCommand extends GeneratorCommand
         }
 
         $primaryKey = $this->option('pk');
+        $softDeletes = $this->option('soft-deletes');
 
-        $softDeletes = '';
-        if ($this->option('soft-deletes')) {
-            $softDeletes = "\$table->softDeletes();\n" . $tabIndent . $tabIndent . $tabIndent;
+        $softDeletesSnippets = '';
+        if ($softDeletes == 'yes') {
+            $softDeletesSnippets = "\$table->softDeletes();\n" . $tabIndent . $tabIndent . $tabIndent;
         }
 
         $schemaUp =
             "Schema::create('" . $tableName . "', function (Blueprint \$table) {
             \$table->increments('" . $primaryKey . "');
             \$table->timestamps();\n" . $tabIndent . $tabIndent . $tabIndent .
-            $softDeletes .
+            $softDeletesSnippets .
             $schemaFields .
         "});";
 
