@@ -84,12 +84,23 @@ class CrudApiCommand extends Command
             $foreignKeys = $this->processJSONForeignKeys($this->option('fields_from_file'));
         }
 
+        $validations = trim($this->option('validations'));
+        if ($this->option('fields_from_file')) {
+            $validations = $this->processJSONValidations($this->option('fields_from_file'));
+        }
+
         $fieldsArray = explode(';', $fields);
         $fillableArray = [];
 
         foreach ($fieldsArray as $item) {
             $spareParts = explode('#', trim($item));
             $fillableArray[] = $spareParts[0];
+            $modifier = !empty($spareParts[2]) ? $spareParts[2] : 'nullable';
+
+            // Process migration fields
+            $migrationFields .= $spareParts[0] . '#' . $spareParts[1];
+            $migrationFields .= '#' . $modifier;
+            $migrationFields .= ';';
         }
 
         $commaSeparetedString = implode("', '", $fillableArray);
@@ -101,16 +112,11 @@ class CrudApiCommand extends Command
             $relationships = $this->processJSONRelationships($this->option('fields_from_file'));
         }
 
-        $validations = trim($this->option('validations'));
-        if ($this->option('fields_from_file')) {
-            $validations = $this->processJSONValidations($this->option('fields_from_file'));
-        }
-
         $softDeletes = $this->option('soft-deletes');
 
         $this->call('crud:api-controller', ['name' => $controllerNamespace . $name . 'Controller', '--crud-name' => $name, '--model-name' => $modelName, '--model-namespace' => $modelNamespace, '--pagination' => $perPage, '--validations' => $validations]);
         $this->call('crud:model', ['name' => $modelNamespace . $modelName, '--fillable' => $fillable, '--table' => $tableName, '--pk' => $primaryKey, '--relationships' => $relationships, '--soft-deletes' => $softDeletes]);
-        $this->call('crud:migration', ['name' => $migrationName, '--schema' => $fields, '--pk' => $primaryKey, '--indexes' => $indexes, '--foreign-keys' => $foreignKeys, '--soft-deletes' => $softDeletes]);
+        $this->call('crud:migration', ['name' => $migrationName, '--schema' => $migrationFields, '--pk' => $primaryKey, '--indexes' => $indexes, '--foreign-keys' => $foreignKeys, '--soft-deletes' => $softDeletes]);
 
         // For optimizing the class loader
         $this->callSilent('optimize');
