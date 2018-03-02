@@ -91,6 +91,7 @@ class CrudApiCommand extends Command
 
         $fieldsArray = explode(';', $fields);
         $fillableArray = [];
+        $migrationFields = '';
 
         foreach ($fieldsArray as $item) {
             $spareParts = explode('#', trim($item));
