@@ -120,7 +120,9 @@ class CrudApiCommand extends Command
         $this->call('crud:migration', ['name' => $migrationName, '--schema' => $migrationFields, '--pk' => $primaryKey, '--indexes' => $indexes, '--foreign-keys' => $foreignKeys, '--soft-deletes' => $softDeletes]);
 
         // For optimizing the class loader
-        $this->callSilent('optimize');
+        if (\App::VERSION() < '5.6') {
+            $this->callSilent('optimize');
+        }
 
         // Updating the Http/routes.php file
         $routeFile = app_path('Http/routes.php');

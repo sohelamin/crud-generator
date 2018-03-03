@@ -131,8 +131,11 @@ class CrudCommand extends Command
         if ($localize == 'yes') {
             $this->call('crud:lang', ['name' => $name, '--fields' => $fields, '--locales' => $locales]);
         }
+
         // For optimizing the class loader
-        $this->callSilent('optimize');
+        if (\App::VERSION() < '5.6') {
+            $this->callSilent('optimize');
+        }
 
         // Updating the Http/routes.php file
         $routeFile = app_path('Http/routes.php');
