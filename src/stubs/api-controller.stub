@@ -17,7 +17,7 @@ class DummyClass extends Controller
      */
     public function index(Request $request)
     {
-        ${{crudName}} = {{modelName}}::paginate({{pagination}});
+        ${{crudName}} = {{modelName}}::latest()->paginate({{pagination}});
 
         return ${{crudName}};
     }
