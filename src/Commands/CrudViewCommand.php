@@ -67,6 +67,7 @@ class CrudViewCommand extends Command
         'datetime' => 'datetime-local',
         'timestamp' => 'datetime-local',
         'time' => 'time',
+        'radio' => 'radio',
         'boolean' => 'radio',
         'enum' => 'select',
         'select' => 'select',
@@ -568,9 +569,13 @@ class CrudViewCommand extends Command
         $end = $this->delimiter[1];
 
         $markup = File::get($this->viewDirectoryPath . 'form-fields/radio-field.blade.stub');
+        $markup = str_replace($start . 'itemName' . $end, $item['name'], $markup);
         $markup = str_replace($start . 'crudNameSingular' . $end, $this->crudNameSingular, $markup);
 
-        return $this->wrapField($item, sprintf($markup, $item['name']));
+        return $this->wrapField(
+            $item,
+            $markup
+        );
     }
 
     /**
