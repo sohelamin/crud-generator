@@ -70,7 +70,7 @@ class CrudModelCommand extends GeneratorCommand
         $table = $this->option('table') ?: $this->argument('name');
         $fillable = $this->option('fillable');
         $primaryKey = $this->option('pk');
-        $relationships = trim($this->option('relationships')) != '' ? explode(',', trim($this->option('relationships'))) : [];
+        $relationships = trim($this->option('relationships')) != '' ? explode(';', trim($this->option('relationships'))) : [];
         $softDeletes = $this->option('soft-deletes');
 
         if (!empty($primaryKey)) {
