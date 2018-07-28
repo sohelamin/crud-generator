@@ -24,7 +24,7 @@
                         <form method="POST" action="{{ url('/%%routeGroup%%%%viewName%%') }}" accept-charset="UTF-8" class="form-horizontal" enctype="multipart/form-data">
                             {{ csrf_field() }}
 
-                            @include ('%%viewTemplateDir%%.form')
+                            @include ('%%viewTemplateDir%%.form', ['formMode' => 'create'])
 
                         </form>
 

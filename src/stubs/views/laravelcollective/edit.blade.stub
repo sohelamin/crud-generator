@@ -28,7 +28,7 @@
                             'files' => true
                         ]) !!}
 
-                        @include ('%%viewTemplateDir%%.form', ['submitButtonText' => 'Update'])
+                        @include ('%%viewTemplateDir%%.form', ['formMode' => 'edit'])
 
                         {!! Form::close() !!}
 
