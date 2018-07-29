@@ -181,7 +181,7 @@ class CrudCommand extends Command
 
         $fieldsString = '';
         foreach ($fields->fields as $field) {
-            if ($field->type == 'select') {
+            if ($field->type === 'select' || $field->type === 'enum') {
                 $fieldsString .= $field->name . '#' . $field->type . '#options=' . json_encode($field->options) . ';';
             } else {
                 $fieldsString .= $field->name . '#' . $field->type . ';';

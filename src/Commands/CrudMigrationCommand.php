@@ -118,6 +118,13 @@ class CrudMigrationCommand extends GeneratorCommand
                 $fieldArray = explode('#', $field);
                 $data[$x]['name'] = trim($fieldArray[0]);
                 $data[$x]['type'] = trim($fieldArray[1]);
+                if (($data[$x]['type'] === 'select'
+                    || $data[$x]['type'] === 'enum')
+                    && isset($fieldArray[2])
+                ) {
+                    $options = trim($fieldArray[2]);
+                    $data[$x]['options'] = str_replace('options=', '', $options);
+                }
 
                 $data[$x]['modifier'] = '';
 
@@ -144,7 +151,15 @@ class CrudMigrationCommand extends GeneratorCommand
             if (isset($this->typeLookup[$item['type']])) {
                 $type = $this->typeLookup[$item['type']];
 
-                $schemaFields .= "\$table->" . $type . "('" . $item['name'] . "')";
+                if ($type === 'select' || $type === 'enum') {
+                    $enumOptions = array_keys(json_decode($item['options'], true));
+                    $enumOptionsStr = implode(",", array_map(function ($string) {
+                        return '"' . $string . '"';
+                    }, $enumOptions));
+                    $schemaFields .= "\$table->" . $type . "('" . $item['name'] . "', [" . $enumOptionsStr . "])";
+                } else {
+                    $schemaFields .= "\$table->" . $type . "('" . $item['name'] . "')";
+                }
             } else {
                 $schemaFields .= "\$table->string('" . $item['name'] . "')";
             }
