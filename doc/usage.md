@@ -114,4 +114,16 @@ For api controller:
 php artisan crud:api-controller Api\\PostsController --crud-name=posts --model-name=Post
 ```
 
+### File Upload
+If you want to add file on a CRUD just mention the field type as `file` eg. ```--fields='avatar#file;```
+
+All the files will upload to `storage\app\public\uploads` directory. So you should symbolic the storage dir to public access.
+```
+php artisan storage:link
+```
+Get your uploaded file as:
+```php
+$file = Storage::disk('public')->get('uploads\filename.jpg');
+```
+
 [&larr; Back to index](README.md)
