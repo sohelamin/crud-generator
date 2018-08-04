@@ -128,7 +128,7 @@ class CrudControllerCommand extends GeneratorCommand
             \$fileName = str_random(40) . '.' . \$file->getClientOriginalExtension();
             \$destinationPath = storage_path('/app/public/uploads');
             \$file->move(\$destinationPath, \$fileName);
-            \$requestData['image'] = 'uploads/' . \$fileName;
+            \$requestData['{{fieldName}}'] = 'uploads/' . \$fileName;
         }
 EOD;
         } else {

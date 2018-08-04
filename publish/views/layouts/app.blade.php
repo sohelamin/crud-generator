@@ -34,7 +34,7 @@
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
-                        @guest
+                        @if(!Auth::check())
                             <li><a class="nav-link" href="{{ url('/login') }}">Login</a></li>
                             <li><a class="nav-link" href="{{ url('/register') }}">Register</a></li>
                         @else
@@ -55,7 +55,7 @@
                                     </form>
                                 </div>
                             </li>
-                        @endguest
+                        @endif
                     </ul>
                 </div>
             </div>
