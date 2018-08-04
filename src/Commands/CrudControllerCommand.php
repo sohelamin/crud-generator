@@ -121,11 +121,25 @@ class CrudControllerCommand extends GeneratorCommand
             $validationRules .= "\n\t\t]);";
         }
 
-        $snippet = <<<EOD
-if (\$request->hasFile('{{fieldName}}')) {
-    \$requestData['{{fieldName}}'] = \$request->file('{{fieldName}}')->store('uploads', 'public');
-}
+        if (\App::VERSION() < '5.3') {
+            $snippet = <<<EOD
+        if (\$request->hasFile('{{fieldName}}')) {
+            \$file = \$request->file('{{fieldName}}');
+            \$fileName = str_random(40) . '.' . \$file->getClientOriginalExtension();
+            \$destinationPath = storage_path('/app/public/uploads');
+            \$file->move(\$destinationPath, \$fileName);
+            \$requestData['image'] = 'uploads/' . \$fileName;
+        }
 EOD;
+        } else {
+            $snippet = <<<EOD
+        if (\$request->hasFile('{{fieldName}}')) {
+            \$requestData['{{fieldName}}'] = \$request->file('{{fieldName}}')
+                ->store('uploads', 'public');
+        }
+EOD;
+        }
+
 
         $fieldsArray = explode(';', $fields);
         $fileSnippet = '';
