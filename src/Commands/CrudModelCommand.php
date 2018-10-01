@@ -17,7 +17,8 @@ class CrudModelCommand extends GeneratorCommand
                             {--fillable= : The names of the fillable columns.}
                             {--relationships= : The relationships for the model}
                             {--pk=id : The name of the primary key.}
-                            {--soft-deletes=no : Include soft deletes fields.}';
+                            {--soft-deletes=no : Include soft deletes fields.}
+                            {--hidden= : The names of the hidden columns.}';
 
     /**
      * The console command description.
@@ -72,6 +73,7 @@ class CrudModelCommand extends GeneratorCommand
         $primaryKey = $this->option('pk');
         $relationships = trim($this->option('relationships')) != '' ? explode(';', trim($this->option('relationships'))) : [];
         $softDeletes = $this->option('soft-deletes');
+        $hidden = $this->option('hidden');
 
         if (!empty($primaryKey)) {
             $primaryKey = <<<EOD
@@ -88,7 +90,8 @@ EOD;
             ->replaceTable($stub, $table)
             ->replaceFillable($stub, $fillable)
             ->replacePrimaryKey($stub, $primaryKey)
-            ->replaceSoftDelete($stub, $softDeletes);
+            ->replaceSoftDelete($stub, $softDeletes)
+            ->replaceHidden($stub, $hidden);
 
         foreach ($relationships as $rel) {
             // relationshipname#relationshiptype#args_separated_by_pipes
@@ -217,6 +220,18 @@ EOD;
     protected function replaceRelationshipPlaceholder(&$stub)
     {
         $stub = str_replace('{{relationships}}', '', $stub);
+        return $this;
+    }
+
+    /**
+     * @param $stub
+     * @param $hidden
+     * @return $this
+     */
+    protected function replaceHidden(&$stub, $hidden) : CrudModelCommand
+    {
+        $hiddenCode = 'protected $hidden = ' . $hidden;
+        $stub = str_replace('{{hidden}}', $hiddenCode, $stub);
         return $this;
     }
 }
