@@ -29,6 +29,7 @@ class CrudGeneratorTest extends TestCase
         $this->artisan('crud:model', [
             'name' => 'Customer',
             '--fillable' => "['name', 'email']",
+            '--hidden' => "['created_at', 'deleted_at']",
         ]);
 
         $this->assertContains('Model created successfully.', $this->consoleOutput());
