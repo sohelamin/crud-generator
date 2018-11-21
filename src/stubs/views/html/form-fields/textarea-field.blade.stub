@@ -1,1 +1,1 @@
-<textarea class="form-control" rows="5" name="%%itemName%%" type="%%fieldType%%" id="%%itemName%%" %%required%%>{{ $%%crudNameSingular%%->%%itemName%% or ''}}</textarea>
+<textarea class="form-control" rows="5" name="%%itemName%%" type="%%fieldType%%" id="%%itemName%%" %%required%%>{{ $%%crudNameSingular%%->%%itemName%% ?? ''}}</textarea>
