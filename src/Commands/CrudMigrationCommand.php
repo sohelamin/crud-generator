@@ -71,7 +71,7 @@ class CrudMigrationCommand extends GeneratorCommand
     protected function getStub()
     {
         return config('crudgenerator.custom_template')
-        ? config('crudgenerator.path') . '/migration.stub'
+        ? config('crudgenerator.path') . 'migration.stub'
         : __DIR__ . '/../stubs/migration.stub';
     }
 
