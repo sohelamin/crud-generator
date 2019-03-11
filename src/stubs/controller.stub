@@ -53,7 +53,7 @@ class DummyClass extends Controller
         {{fileSnippet}}
         {{modelName}}::create($requestData);
 
-        return redirect('{{routeGroup}}{{viewName}}')->with('flash_message', '{{modelName}} added!');
+        return redirect(route('{{viewName}}.index'))->with('flash_message', '{{modelName}} added!');
     }
 
     /**
@@ -100,7 +100,7 @@ class DummyClass extends Controller
         ${{crudNameSingular}} = {{modelName}}::findOrFail($id);
         ${{crudNameSingular}}->update($requestData);
 
-        return redirect('{{routeGroup}}{{viewName}}')->with('flash_message', '{{modelName}} updated!');
+        return redirect(route('{{viewName}}.index'))->with('flash_message', '{{modelName}} updated!');
     }
 
     /**
@@ -114,6 +114,6 @@ class DummyClass extends Controller
     {
         {{modelName}}::destroy($id);
 
-        return redirect('{{routeGroup}}{{viewName}}')->with('flash_message', '{{modelName}} deleted!');
+        return redirect(route('{{viewName}}.index'))->with('flash_message', '{{modelName}} deleted!');
     }
 }
