@@ -1,5 +1,5 @@
 {
-    "name": "thegreyhatt/crud-generator",
+    "name": "thegreyhatt/laravel-crud-generator",
     "license": "MIT",
     "description": "Laravel CRUD Generator",
     "keywords": [
