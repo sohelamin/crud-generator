@@ -12,7 +12,7 @@ This Generator package provides various generators like CRUD, API, Controller, M
     Laravel >= 5.3
     PHP >= 5.6.4
 
-## Installation Process
+## Installation
 ```
 composer require thegreyhatt/laravel-crud-generator --dev
 ```
