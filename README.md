@@ -1,4 +1,5 @@
 # Laravel CRUD Generator
+(based on https://github.com/appzcoder/crud-generator credits to them)
 
 [![Build Status](https://travis-ci.org/appzcoder/crud-generator.svg)](https://travis-ci.org/appzcoder/crud-generator.svg)
 [![Total Downloads](https://poser.pugx.org/appzcoder/crud-generator/d/total.svg)](https://packagist.org/packages/appzcoder/crud-generator)
