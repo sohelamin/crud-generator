@@ -58,7 +58,7 @@ php artisan crud:generate Posts --fields='title#string; content#text; category#s
 ```
 
 ```
-php artisan crud:generate Posts --fields_from_file="/path/to/fields.json" --view-path=admin --controller-namespace=Admin --route-group=admin --form-helper=l
+php artisan crud:generate Posts --fields_from_file="/path/to/fields.json" --view-path=admin --controller-namespace=Admin --route-group=admin --form-helper=laravelcollective
 ```
 
 ### Other Commands
