@@ -2,5 +2,5 @@
 
 <div class="form-group">
     {!! Form::submit($formMode === 'edit' ? 'Update' : 'Create', ['class' => 'btn btn-primary']) !!}
-    <a href="{{ route('%%viewName%%.index') }}" class="btn btn-default" >Cancel</a>
+    <a href="{{ URL::previous() }}" class="btn btn-default" >Cancel</a>
 </div>
