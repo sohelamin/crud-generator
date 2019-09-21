@@ -4,6 +4,7 @@ namespace Appzcoder\CrudGenerator\Commands;
 
 use File;
 use Illuminate\Console\Command;
+use Illuminate\Support\Str;
 
 class CrudApiCommand extends Command
 {
@@ -59,12 +60,12 @@ class CrudApiCommand extends Command
     public function handle()
     {
         $name = $this->argument('name');
-        $modelName = str_singular($name);
-        $migrationName = str_plural(snake_case($name));
+        $modelName = Str::singular($name);
+        $migrationName = Str::plural(Str::snake($name));
         $tableName = $migrationName;
 
         $routeGroup = $this->option('route-group');
-        $this->routeName = ($routeGroup) ? $routeGroup . '/' . snake_case($name, '-') : snake_case($name, '-');
+        $this->routeName = ($routeGroup) ? $routeGroup . '/' . Str::snake($name, '-') : Str::snake($name, '-');
         $perPage = intval($this->option('pagination'));
 
         $controllerNamespace = ($this->option('controller-namespace')) ? $this->option('controller-namespace') . '\\' : '';

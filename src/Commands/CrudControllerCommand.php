@@ -3,6 +3,7 @@
 namespace Appzcoder\CrudGenerator\Commands;
 
 use Illuminate\Console\GeneratorCommand;
+use Illuminate\Support\Str;
 
 class CrudControllerCommand extends GeneratorCommand
 {
@@ -89,14 +90,14 @@ class CrudControllerCommand extends GeneratorCommand
 
         $viewPath = $this->option('view-path') ? $this->option('view-path') . '.' : '';
         $crudName = strtolower($this->option('crud-name'));
-        $crudNameSingular = str_singular($crudName);
+        $crudNameSingular = Str::singular($crudName);
         $modelName = $this->option('model-name');
         $modelNamespace = $this->option('model-namespace');
         $routeGroup = ($this->option('route-group')) ? $this->option('route-group') . '/' : '';
         $routePrefix = ($this->option('route-group')) ? $this->option('route-group') : '';
         $routePrefixCap = ucfirst($routePrefix);
         $perPage = intval($this->option('pagination'));
-        $viewName = snake_case($this->option('crud-name'), '-');
+        $viewName = Str::snake($this->option('crud-name'), '-');
         $fields = $this->option('fields');
         $validations = rtrim($this->option('validations'), ';');
 
