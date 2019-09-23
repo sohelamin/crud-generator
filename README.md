@@ -9,7 +9,7 @@
 This Generator package provides various generators like CRUD, API, Controller, Model, Migration, View for your painless development of your applications.
 
 ## Requirements
-    Laravel >= 5.3
+    Laravel >= 5.3 up to Laravel 5.8
     PHP >= 5.6.4
 
 ## Installation
