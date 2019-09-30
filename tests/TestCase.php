@@ -1,8 +1,6 @@
 <?php
 abstract class TestCase extends Orchestra\Testbench\TestCase
 {
-    protected $consoleOutput;
-
     protected function getPackageProviders($app)
     {
         return [\Appzcoder\CrudGenerator\CrudGeneratorServiceProvider::class];
@@ -26,20 +24,13 @@ abstract class TestCase extends Orchestra\Testbench\TestCase
         ]);
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
         exec('rm -rf ' . __DIR__ . '/temp/*');
         exec('rm -rf ' . app_path() . '/*');
         exec('rm -rf ' . database_path('migrations') . '/*');
-    }
-
-    public function tearDown()
-    {
-        parent::tearDown();
-
-        $this->consoleOutput = '';
     }
 
     public function resolveApplicationConsoleKernel($app)
@@ -49,10 +40,5 @@ abstract class TestCase extends Orchestra\Testbench\TestCase
         });
 
         $app->singleton('Illuminate\Contracts\Console\Kernel', Kernel::class);
-    }
-
-    public function consoleOutput()
-    {
-        return $this->consoleOutput ?: $this->consoleOutput = $this->app[Kernel::class]->output();
     }
 }

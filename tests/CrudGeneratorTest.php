@@ -17,9 +17,7 @@ class CrudGeneratorTest extends TestCase
             'name' => 'CustomersController',
             '--crud-name' => 'customers',
             '--model-name' => 'Customer',
-        ]);
-
-        $this->assertContains('Controller created successfully.', $this->consoleOutput());
+        ])->expectsOutput('Controller created successfully.');
 
         $this->assertFileExists(app_path('Http/Controllers') . '/CustomersController.php');
     }
@@ -29,9 +27,7 @@ class CrudGeneratorTest extends TestCase
         $this->artisan('crud:model', [
             'name' => 'Customer',
             '--fillable' => "['name', 'email']",
-        ]);
-
-        $this->assertContains('Model created successfully.', $this->consoleOutput());
+        ])->expectsOutput('Model created successfully.');
 
         $this->assertFileExists(app_path() . '/Customer.php');
     }
@@ -41,9 +37,7 @@ class CrudGeneratorTest extends TestCase
         $this->artisan('crud:migration', [
             'name' => 'customers',
             '--schema' => 'name#string; email#email',
-        ]);
-
-        $this->assertContains('Migration created successfully.', $this->consoleOutput());
+        ])->expectsOutput('Migration created successfully.');
     }
 
     public function testViewGenerateCommand()
@@ -51,9 +45,7 @@ class CrudGeneratorTest extends TestCase
         $this->artisan('crud:view', [
             'name' => 'customers',
             '--fields' => "title#string; body#text",
-        ]);
-
-        $this->assertContains('View created successfully.', $this->consoleOutput());
+        ])->expectsOutput('View created successfully.');
 
         $this->assertDirectoryExists(config('view.paths')[0] . '/customers');
     }
