@@ -197,13 +197,20 @@ EOD;
      */
     protected function createRelationshipFunction(&$stub, $relationshipName, $relationshipType, $argsString)
     {
-        $tabIndent = '    ';
-        $code = "public function " . $relationshipName . "()\n" . $tabIndent . "{\n" . $tabIndent . $tabIndent
-            . "return \$this->" . $relationshipType . "(" . $argsString . ");"
-            . "\n" . $tabIndent . "}";
+        $code = <<<EOD
+
+        \t/**
+        \t * Relationships.
+        \t */
+        \tpublic function $relationshipName() {
+            \treturn \$this->$relationshipType($argsString);
+        \t}
+
+        EOD;
 
         $str = '{{relationships}}';
-        $stub = str_replace($str, $code . "\n" . $tabIndent . $str, $stub);
+
+        $stub = str_replace($str, $code.$str, $stub);
 
         return $this;
     }
