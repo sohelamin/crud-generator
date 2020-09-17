@@ -133,7 +133,7 @@ class CrudApiCommand extends Command
         }
 
         if (file_exists($routeFile) && (strtolower($this->option('route')) === 'yes')) {
-            $this->controller = ($controllerNamespace != '') ? $controllerNamespace . '\\' . $name . 'Controller' : $name . 'Controller';
+            $this->controller = ($controllerNamespace != '') ? $controllerNamespace . $name . 'Controller' : $name . 'Controller';
 
             $isAdded = File::append($routeFile, "\n" . implode("\n", $this->addRoutes()));
 
