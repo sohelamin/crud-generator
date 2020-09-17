@@ -69,7 +69,7 @@ class CrudApiCommand extends Command
         $perPage = intval($this->option('pagination'));
 
         $controllerNamespace = ($this->option('controller-namespace')) ? $this->option('controller-namespace') . '\\' : '';
-        $modelNamespace = ($this->option('model-namespace')) ? trim($this->option('model-namespace')) . '\\' : '';
+        $modelNamespace = ($this->option('model-namespace')) ? trim($this->option('model-namespace')) . '\\' : 'Models\\';
 
         $fields = rtrim($this->option('fields'), ';');
 
