@@ -59,13 +59,12 @@ class DummyClass extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  {{modelName}} ${{crudNameSingular}}
      *
      * @return \Illuminate\View\View
      */
-    public function show($id)
+    public function show({{modelName}} ${{crudNameSingular}})
     {
-        ${{crudNameSingular}} = {{modelName}}::findOrFail($id);
 
         return view('{{viewPath}}{{viewName}}.show', compact('{{crudNameSingular}}'));
     }
@@ -73,14 +72,12 @@ class DummyClass extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  {{modelName}} ${{crudNameSingular}}
      *
      * @return \Illuminate\View\View
      */
-    public function edit($id)
+    public function edit({{modelName}} ${{crudNameSingular}})
     {
-        ${{crudNameSingular}} = {{modelName}}::findOrFail($id);
-
         return view('{{viewPath}}{{viewName}}.edit', compact('{{crudNameSingular}}'));
     }
 
@@ -88,16 +85,15 @@ class DummyClass extends Controller
      * Update the specified resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @param  int  $id
+     * @param  {{modelName}} ${{crudNameSingular}}
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, {{modelName}} ${{crudNameSingular}})
     {
         {{validationRules}}
         $requestData = $request->all();
         {{fileSnippet}}
-        ${{crudNameSingular}} = {{modelName}}::findOrFail($id);
         ${{crudNameSingular}}->update($requestData);
 
         return redirect('{{routeGroup}}{{viewName}}')->with('flash_message', '{{modelName}} updated!');
@@ -106,13 +102,13 @@ class DummyClass extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  {{modelName}} ${{crudNameSingular}}
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function destroy($id)
+    public function destroy({{modelName}} ${{crudNameSingular}})
     {
-        {{modelName}}::destroy($id);
+        ${{crudNameSingular}}->delete();
 
         return redirect('{{routeGroup}}{{viewName}}')->with('flash_message', '{{modelName}} deleted!');
     }
