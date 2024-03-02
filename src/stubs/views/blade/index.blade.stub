@@ -1,0 +1,59 @@
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            %%crudNameCap%%
+        </h2>
+    </x-slot>
+
+    <div class="py-12">
+        <h1 class="font-serif text-3xl font-bold underline decoration-gray-400">%%crudNameCap%%</h1>
+        @if (session()->has('message'))
+        <div class="p-3 rounded bg-green-500 text-green-100 my-2">
+            {{ session('message') }}
+        </div>
+        @endif
+
+        <div class="flex justify-end">
+            <a href="{{ url('/%%routeGroup%%%%viewName%%/create') }}"
+                class="px-4 py-2 rounded-md bg-sky-500 text-sky-100 hover:bg-sky-600">Create %%modelName%%</a>
+        </div>
+    </div>
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 bg-white border-b border-gray-200">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>#</th>%%formHeadingHtml%%<th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($%%crudName%% as $item)
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                %%formBodyHtml%%
+                                <td>
+                                    <a href="{{ url('/%%routeGroup%%%%viewName%%/' . $item->%%primaryKey%%) }}" title="View %%modelName%%"><button class="btn btn-info btn-sm"><i class="fa fa-eye" aria-hidden="true"></i> View</button></a>
+                                    <a href="{{ url('/%%routeGroup%%%%viewName%%/' . $item->%%primaryKey%% . '/edit') }}" title="Edit %%modelName%%"><button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</button></a>
+
+                                    <form method="POST" action="{{ url('/%%routeGroup%%%%viewName%%' . '/' . $item->%%primaryKey%%) }}" accept-charset="UTF-8" style="display:inline">
+                                        {{ method_field('DELETE') }}
+                                        {{ csrf_field() }}
+                                        <button type="submit" class="btn btn-danger btn-sm" title="Delete %%modelName%%" onclick="return confirm(&quot;Confirm delete?&quot;)"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+ 
+                    <div class="mt-6">
+                        {!! $%%crudName%%->appends(['search' => Request::get('search')])->render() !!}
+                    </div>
+ 
+                </div>
+            </div>
+        </div>
+    </div>
+</x-app-layout>

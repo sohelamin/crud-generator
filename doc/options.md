@@ -17,7 +17,7 @@
 | `--route` | Include Crud route to routes.php? yes or no |
 | `--route-group` | Prefix of the route group |
 | `--view-path` | The name of the view path |
-| `--form-helper` | Helper for the form. eg. `--form-helper=html`, `--form-helper=laravelcollective` |
+| `--form-helper` | Helper for the form. eg. `--form-helper=blade`, `--form-helper=custom-template` |
 | `--localize` | Allow to localize. e.g. localize=yes  |
 | `--locales`  | Locales language type. e.g. locals=en |
 | `--soft-deletes` | Include soft deletes fields. eg. `--soft-deletes=yes` |
@@ -47,7 +47,7 @@
 | `--route-group` | Prefix of the route group |
 | `--pk` | The name of the primary key |
 | `--validations` | Validation rules for the form "col_name#rules_set" e.g. ``` "title#min:10|max:30|required" ``` - See https://laravel.com/docs/master/validation#available-validation-rules |
-| `--form-helper` | Helper for the form. eg. `--form-helper=html`, `--form-helper=laravelcollective` |
+| `--form-helper` | Helper for the form. eg. `--form-helper=blade`, `--form-helper=custom-template` |
 | `--custom-data` | Some additional values to use in the crud. |
 | `--localize` | Allow to localize. e.g. localize=yes  |
 

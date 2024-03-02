@@ -1,0 +1,12 @@
+<div>
+    <label for="{{ %1$s }}" class="inline-flex items-center">
+        <input id="{{ %1$s }}" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="{{ %1$s }}" value="1" {{ (isset($%%crudNameSingular%%) && 1 == $%%crudNameSingular%%->%1$s) ? 'checked' : '' }}>
+        <span class="ms-2 text-sm text-gray-600">Yes</span>
+    </label>
+</div>
+<div>
+    <label for="{{ %1$s }}" class="inline-flex items-center">
+        <input id="{{ %1$s }}" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="{{ %1$s }}" value="0" {{ (isset($%%crudNameSingular%%) && 0 == $%%crudNameSingular%%->%1$s) ? 'checked' : '' }}>
+        <span class="ms-2 text-sm text-gray-600">No</span>
+    </label>
+</div>

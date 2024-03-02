@@ -28,7 +28,7 @@ class CrudCommand extends Command
                             {--route=yes : Include Crud route to routes.php? yes|no.}
                             {--route-group= : Prefix of the route group.}
                             {--view-path= : The name of the view path.}
-                            {--form-helper=html : Helper for generating the form.}
+                            {--form-helper=blade : Helper for generating the form.}                            
                             {--localize=no : Allow to localize? yes|no.}
                             {--locales=en : Locales language type.}
                             {--soft-deletes=no : Include soft deletes fields.}';
@@ -133,17 +133,8 @@ class CrudCommand extends Command
             $this->call('crud:lang', ['name' => $name, '--fields' => $fields, '--locales' => $locales]);
         }
 
-        // For optimizing the class loader
-        if (\App::VERSION() < '5.6') {
-            $this->callSilent('optimize');
-        }
-
         // Updating the Http/routes.php file
-        $routeFile = app_path('Http/routes.php');
-
-        if (\App::VERSION() >= '5.3') {
-            $routeFile = base_path('routes/web.php');
-        }
+        $routeFile = base_path('routes/web.php');
 
         if (file_exists($routeFile) && (strtolower($this->option('route')) === 'yes')) {
             $this->controller = ($controllerNamespace != '') ? $controllerNamespace . $name . 'Controller' : $name . 'Controller';

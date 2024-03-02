@@ -1,0 +1,5 @@
+<div>
+    <label for="%1$s" class="block font-medium text-sm text-gray-700">{{ %2$s }}</label>
+    %3$s
+    {!! $errors->first('%1$s', '<p>:message</p>') !!}
+</div>

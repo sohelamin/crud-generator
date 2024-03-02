@@ -120,17 +120,8 @@ class CrudApiCommand extends Command
         $this->call('crud:model', ['name' => $modelNamespace . $modelName, '--fillable' => $fillable, '--table' => $tableName, '--pk' => $primaryKey, '--relationships' => $relationships, '--soft-deletes' => $softDeletes]);
         $this->call('crud:migration', ['name' => $migrationName, '--schema' => $migrationFields, '--pk' => $primaryKey, '--indexes' => $indexes, '--foreign-keys' => $foreignKeys, '--soft-deletes' => $softDeletes]);
 
-        // For optimizing the class loader
-        if (\App::VERSION() < '5.6') {
-            $this->callSilent('optimize');
-        }
-
         // Updating the Http/routes.php file
-        $routeFile = app_path('Http/routes.php');
-
-        if (\App::VERSION() >= '5.3') {
-            $routeFile = base_path('routes/api.php');
-        }
+        $routeFile = base_path('routes/api.php');
 
         if (file_exists($routeFile) && (strtolower($this->option('route')) === 'yes')) {
             $this->controller = ($controllerNamespace != '') ? $controllerNamespace . $name . 'Controller' : $name . 'Controller';

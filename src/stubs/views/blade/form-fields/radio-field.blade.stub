@@ -1,0 +1,12 @@
+<div>
+    <label for="%%itemName%%" class="inline-flex items-center">
+        <input id="%%itemName%%" type="radio" class="border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="%%itemName%%" value="1" {{ (isset($%%crudNameSingular%%) && 1 == $%%crudNameSingular%%->%%itemName%%) ? 'checked' : '' }}>
+        <span class="ms-2 text-sm text-gray-600">Yes</span>
+    </label>
+</div>
+<div>
+    <label for="%%itemName%%" class="inline-flex items-center">
+        <input id="%%itemName%%" type="radio" class="border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="%%itemName%%" @if (isset($%%crudNameSingular%%)) {{ (0 == $%%crudNameSingular%%->%%itemName%%) ? 'checked' : '' }} @else {{ 'checked' }} @endif>
+        <span class="ms-2 text-sm text-gray-600">No</span>
+    </label>
+</div>

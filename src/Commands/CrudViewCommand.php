@@ -20,7 +20,7 @@ class CrudViewCommand extends Command
         {--route-group= : Prefix of the route group.}
         {--pk=id : The name of the primary key.}
         {--validations= : Validation rules for the fields.}
-        {--form-helper=html : Helper for the form.}
+        {--form-helper=blade : Helper for the form.}
         {--custom-data= : Some additional values to use in the crud.}
         {--localize=no : Localize the view? yes|no.}';
 

@@ -1,1 +1,0 @@
-<textarea class="form-control" rows="5" name="%%itemName%%" type="%%fieldType%%" id="%%itemName%%" %%required%%>{{ isset($%%crudNameSingular%%->%%itemName%%) ? $%%crudNameSingular%%->%%itemName%% : ''}}</textarea>

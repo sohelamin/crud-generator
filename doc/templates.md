@@ -21,8 +21,7 @@ To customize or change the template, you need to follow these steps:
 
 ### Form Helper
 
-You can use any form helper package for your forms. In order to do that, you just need to mention the helper package name while generating the main CRUD or views with this option `--form-helper`. This generator use plain `html` as default helper.
-Also, the `laravelcollective/html` helper is included in the core, So it will do everything for you when you just run command with the option `--form-helper=laravelcollective`.
+You can use any form template for your forms. In order to do that, you just need to mention the helper package name while generating the main CRUD or views with this option `--form-helper`. This generator use `blade` as default helper.
 
 To use the any other form helper, you need to follow these steps:
 
@@ -30,11 +29,11 @@ To use the any other form helper, you need to follow these steps:
 
 2. For use custom helper template, you should turn on `custom_template` option in the `config/crudgenerator.php` file.
 
-3. Now put your files into `resources/crud-generator/views/` directory. Suppose your helper is `myformhelper` then you should create a directory as `resources/crud-generator/views/myformhelper`. You can also copy the template files from other helper directory, then modify as yours.
+3. Now put your files into `resources/crud-generator/views/` directory. Suppose your helper is `custom-template` then you should create a directory as `resources/crud-generator/views/custom-template`. You can also copy the template files from other helper directory, then modify as yours.
 
 4. You're ready to generate the CRUD with your helper.
     ```
-    php artisan crud:generate Posts --fields='title#string; content#text; category#select#options={"technology": "Technology", "tips": "Tips", "health": "Health"}' --view-path=admin --controller-namespace=Admin --route-group=admin --form-helper=myformhelper
+    php artisan crud:generate Posts --fields='title#string; content#text; category#select#options={"technology": "Technology", "tips": "Tips", "health": "Health"}' --view-path=admin --controller-namespace=Admin --route-group=admin --form-helper=custom-template
     ```
 
 [&larr; Back to index](README.md)
