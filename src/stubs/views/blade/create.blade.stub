@@ -15,6 +15,9 @@
                             <h2 class="text-lg font-medium text-gray-900">
                                 Create %%modelName%%
                             </h2>
+                            <div class="flex justify-end mt-5">
+                                <a class="px-2 py-1 rounded-md bg-sky-500 text-sky-100 hover:bg-sky-600" href="{{ url('/%%routeGroup%%%%viewName%%') }}" title="Back">< Back</a>
+                            </div>
                         </header>
 
                         @if ($errors->any())
@@ -26,7 +29,7 @@
                         @endif
 
                         <form method="POST" action="{{ url('/%%routeGroup%%%%viewName%%') }}" class="mt-6 space-y-6" accept-charset="UTF-8" enctype="multipart/form-data">
-                            @csrf
+                            @csrf()
                             @include ('%%viewTemplateDir%%.form', ['formMode' => 'create'])
                         </form>
                     </section>

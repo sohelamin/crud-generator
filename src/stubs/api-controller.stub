@@ -2,7 +2,6 @@
 
 namespace DummyNamespace;
 
-use DummyRootNamespaceHttp\Requests;
 use DummyRootNamespaceHttp\Controllers\Controller;
 
 use DummyRootNamespace{{modelNamespace}}{{modelName}};
@@ -40,7 +39,7 @@ class DummyClass extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      *
      * @return \Illuminate\Http\Response
      */
@@ -55,7 +54,7 @@ class DummyClass extends Controller
      * Update the specified resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @param  int  $id
+     * @param int $id
      *
      * @return \Illuminate\Http\Response
      */
@@ -71,7 +70,7 @@ class DummyClass extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      *
      * @return \Illuminate\Http\Response
      */
