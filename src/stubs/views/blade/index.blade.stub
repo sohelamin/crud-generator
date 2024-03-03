@@ -20,9 +20,9 @@
                         </header>
                         </br>
 
-                        @if (session()->has('message'))
+                        @if (session()->has('flash_message'))
                         <div class="p-3 rounded bg-green-500 text-green-100 my-2">
-                            {{ session('message') }}
+                            {{ session('flash_message') }}
                         </div>
                         @endif
 
@@ -45,8 +45,8 @@
 
                                         <form method="POST" action="{{ url('/%%routeGroup%%%%viewName%%' . '/' . $item->%%primaryKey%%) }}" accept-charset="UTF-8" style="display:inline">
                                             {{ method_field('DELETE') }}
-                                            {{ csrf_field() }}
-                                            <button type="button" class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded" title="Delete %%modelName%%" onclick="return confirm(&quot;Confirm delete?&quot;)">Delete</button>
+                                            @csrf()
+                                            <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded" title="Delete %%modelName%%" onclick="return confirm(&quot;Confirm delete?&quot;)">Delete</button>
                                         </form>
                                     </td>
                                 </tr>
