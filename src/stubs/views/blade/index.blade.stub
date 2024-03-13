@@ -15,14 +15,19 @@
                                 %%crudNameCap%%
                             </h2>
                             <div class="flex justify-end mt-5">
-                                <a href="{{ url('/%%routeGroup%%%%viewName%%/create') }}" class="px-2 py-1 rounded-md bg-sky-500 text-white hover:bg-sky-600" title="Add New %%modelName%%">Add New</a>
+                                <a href="{{ route('%%crudName%%.create') }}" class="px-2 py-1 rounded-md bg-sky-500 text-white hover:bg-sky-600" title="Add New %%modelName%%">Add New</a>
                             </div>
                         </header>
                         </br>
 
                         @if (session()->has('flash_message'))
-                        <div class="p-3 rounded bg-green-500 text-green-100 my-2">
-                            {{ session('flash_message') }}
+                        <div class="text-white px-6 py-4 border-0 rounded relative mb-4 bg-emerald-500">
+                            <span class="inline-block align-middle mr-8">
+                                {{ session('flash_message') }}
+                            </span>
+                            <button class="absolute bg-transparent text-2xl font-semibold leading-none right-0 top-0 mt-4 mr-6 outline-none focus:outline-none" onclick="this.parentNode.parentNode.removeChild(this.parentNode);">
+                                <span>×</span>
+                            </button>
                         </div>
                         @endif
 
@@ -40,10 +45,10 @@
                                     <td class="px-6 py-4">{{ $loop->iteration }}</td>
                                     %%formBodyHtml%%
                                     <td class="px-6 py-4">
-                                        <a href="{{ url('/%%routeGroup%%%%viewName%%/' . $item->%%primaryKey%%) }}" title="View %%modelName%%"><button type="button" class="bg-indigo-600 hover:bg-indigo-800 text-white font-bold py-1 px-2 rounded">View</button></a>
-                                        <a href="{{ url('/%%routeGroup%%%%viewName%%/' . $item->%%primaryKey%% . '/edit') }}" title="Edit %%modelName%%"><button type="button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded">Edit</button></a>
+                                        <a href="{{ route('%%crudName%%.show', $item->%%primaryKey%%) }}" title="View %%modelName%%"><button type="button" class="bg-indigo-600 hover:bg-indigo-800 text-white font-bold py-1 px-2 rounded">View</button></a>
+                                        <a href="{{ route('%%crudName%%.edit', $item->%%primaryKey%%) }}" title="Edit %%modelName%%"><button type="button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded">Edit</button></a>
 
-                                        <form method="POST" action="{{ url('/%%routeGroup%%%%viewName%%' . '/' . $item->%%primaryKey%%) }}" accept-charset="UTF-8" style="display:inline">
+                                        <form method="POST" action="{{ route('%%crudName%%.destroy', $item->%%primaryKey%%) }}" accept-charset="UTF-8" style="display:inline">
                                             {{ method_field('DELETE') }}
                                             @csrf()
                                             <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded" title="Delete %%modelName%%" onclick="return confirm(&quot;Confirm delete?&quot;)">Delete</button>

@@ -116,7 +116,7 @@ class CrudApiCommand extends Command
 
         $softDeletes = $this->option('soft-deletes');
 
-        $this->call('crud:api-controller', ['name' => $controllerNamespace . $name . 'Controller', '--crud-name' => $name, '--model-name' => $modelName, '--model-namespace' => $modelNamespace, '--pagination' => $perPage, '--validations' => $validations]);
+        $this->call('crud:api-controller', ['name' => $controllerNamespace . $modelName . 'Controller', '--crud-name' => $name, '--model-name' => $modelName, '--model-namespace' => $modelNamespace, '--pagination' => $perPage, '--validations' => $validations]);
         $this->call('crud:model', ['name' => $modelNamespace . $modelName, '--fillable' => $fillable, '--table' => $tableName, '--pk' => $primaryKey, '--relationships' => $relationships, '--soft-deletes' => $softDeletes]);
         $this->call('crud:migration', ['name' => $migrationName, '--schema' => $migrationFields, '--pk' => $primaryKey, '--indexes' => $indexes, '--foreign-keys' => $foreignKeys, '--soft-deletes' => $softDeletes]);
 
@@ -124,7 +124,7 @@ class CrudApiCommand extends Command
         $routeFile = base_path('routes/api.php');
 
         if (file_exists($routeFile) && (strtolower($this->option('route')) === 'yes')) {
-            $this->controller = ($controllerNamespace != '') ? $controllerNamespace . $name . 'Controller' : $name . 'Controller';
+            $this->controller = ($controllerNamespace != '') ? $controllerNamespace . $modelName . 'Controller' : $modelName . 'Controller';
 
             $isAdded = File::append($routeFile, "\n" . implode("\n", $this->addRoutes()));
 
